@@ -5,10 +5,10 @@ This repo contains a prototype of active time battle (ATB), implemented largely 
 ### TODO
 
     [ ] Finite state machine for ATB
-        [ ] Create base/abstract/interface to describe generic ATB state
-            [ ] Enter
-            [ ] Tick
-            [ ] Leave
+        [x] Create base/abstract/interface to describe generic ATB state
+            [x] Enter
+            [x] Tick
+            [x] Leave
         [ ] Start menu state
             [ ] On enter
                 [ ] Play start menu enter animation
