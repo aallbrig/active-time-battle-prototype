@@ -12,10 +12,6 @@ namespace Finite_State_Machines.ActiveTimeBattle
             Controller = controller;
         }
 
-        public override void Enter()
-        {
-        }
-
         public override void Tick()
         {
             // MVP
@@ -23,12 +19,6 @@ namespace Finite_State_Machines.ActiveTimeBattle
             {
                 Controller.TransitionToState(Controller.BattleLoseState);
             }
-        }
-
-        public override IEnumerator Leave(Action callback)
-        {
-            callback?.Invoke();
-            yield break;
         }
     }
 }

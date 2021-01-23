@@ -12,11 +12,6 @@ namespace Finite_State_Machines.ActiveTimeBattle
             Controller = controller;
         }
 
-        public override void Enter()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override void Tick()
         {
             // MVP
@@ -24,12 +19,6 @@ namespace Finite_State_Machines.ActiveTimeBattle
             {
                 Controller.TransitionToState(Controller.StartMenuState);
             }
-        }
-
-        public override IEnumerator Leave(Action callback)
-        {
-            callback?.Invoke();
-            yield break;
         }
     }
 }

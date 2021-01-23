@@ -7,6 +7,8 @@ namespace Controllers
 {
     public class ActiveTimeBattleController : MonoBehaviour, IFiniteStateMachineContext<ActiveTimeBattleState>
     {
+        public PlayerBattleInputController playerBattleInputController;
+
         public StartMenuState StartMenuState;
         public BeginBattleState BeginBattleState;
         public BattleState BattleState;

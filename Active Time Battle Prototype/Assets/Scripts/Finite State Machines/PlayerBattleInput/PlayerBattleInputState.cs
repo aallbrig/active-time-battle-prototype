@@ -2,12 +2,11 @@
 using System.Collections;
 using Controllers;
 
-namespace Finite_State_Machines.ActiveTimeBattle
+namespace Finite_State_Machines.PlayerBattleInput
 {
-    public abstract class ActiveTimeBattleState : IFiniteStateMachineState<ActiveTimeBattleController>
+    public abstract class PlayerBattleInputState: IFiniteStateMachineState<PlayerBattleInputController>
     {
-        public ActiveTimeBattleController Controller { get; protected set; }
-
+        public PlayerBattleInputController Controller { get; protected set; }
         public virtual void Enter()
         {
             throw new System.NotImplementedException();

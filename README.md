@@ -66,14 +66,14 @@ This repo contains a prototype of active time battle (ATB), implemented largely 
         [ ] (optional?) Walking state
         [ ] (optional?) Running state
     [ ] Finite state machine for Player ATB Input (expects an ATB Fighter to know what actions to show)
-        [ ] Create base/abstract/interface to describe generic player input state
+        [x] Create base/abstract/interface to describe generic player input state
             [ ] Enter (show player UI)
             [ ] Leave ((optionally) hide player UI)
-        [ ] Choose action state
+        [x] Choose action state
             [ ] Present player with list of possible ATB fighter actions
                 [ ] On action click, transition to Action
-        [ ] Choose target state
-        [ ] Player waiting state
+        [x] Choose target state
+        [x] Player waiting state
     [ ] Controllers
         [ ] ATB controller (provides FSM context for ATB)
         [ ] (optional?) RTS Toon controller (provides FSM context to RTS toon) (nav mesh agent controller)

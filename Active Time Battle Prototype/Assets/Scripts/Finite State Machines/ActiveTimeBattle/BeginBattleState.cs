@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using Controllers;
+﻿using Controllers;
 using UnityEngine;
 
 namespace Finite_State_Machines.ActiveTimeBattle
@@ -12,10 +10,6 @@ namespace Finite_State_Machines.ActiveTimeBattle
             Controller = controller;
         }
 
-        public override void Enter()
-        {
-        }
-
         public override void Tick()
         {
             // MVP
@@ -23,12 +17,6 @@ namespace Finite_State_Machines.ActiveTimeBattle
             {
                 Controller.TransitionToState(Controller.BattleState);
             }
-        }
-
-        public override IEnumerator Leave(Action callback)
-        {
-            callback?.Invoke();
-            yield break;
         }
     }
 }
