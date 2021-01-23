@@ -2,7 +2,7 @@
 {
     public interface IFiniteStateMachineContext<T>
     {
-        T CurrentState { get; set; }
+        T CurrentState { get; }
         void TransitionToState(T newState);
     }
 }

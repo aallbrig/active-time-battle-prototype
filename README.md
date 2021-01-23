@@ -9,7 +9,7 @@ This repo contains a prototype of active time battle (ATB), implemented largely 
             [x] Enter
             [x] Tick
             [x] Leave
-        [ ] Start menu state
+        [x] Start menu state
             [ ] On enter
                 [ ] Play start menu enter animation
                 [ ] Title and two UI buttons are presented to user
@@ -22,7 +22,7 @@ This repo contains a prototype of active time battle (ATB), implemented largely 
                     [ ] (optional) hide from webGL based players
             [ ] On leave
                 [ ] Play start menu exit animation
-        [ ] Begin Battle state
+        [x] Begin Battle state
             [ ] On enter
                 [ ] (optional) Play "battle start" camera animation
                 [ ] Generate player enemies from list of possible enemies (ATB Fighter)
@@ -31,7 +31,7 @@ This repo contains a prototype of active time battle (ATB), implemented largely 
             [ ] On tick
                 [ ] Wait for player interaction to iterate through battle begin announcements (spacebar?)
                 [ ] After iterating through every announcement, transition to battle state
-        [ ] Battle state
+        [x] Battle state
             [ ] On enter
                 [ ] (optional) Focus camera on battle view
                 [ ] Setup player ATB input state machine
@@ -39,7 +39,7 @@ This repo contains a prototype of active time battle (ATB), implemented largely 
                 [ ] player ATB input state machine.Tick()
                 [ ] If all player ATB fighters are dead, transition to Battle lose state
                 [ ] If all player enemies are dead, transition to Battle victory state
-        [ ] Battle victory state
+        [x] Battle victory state
             [ ] On enter
                 [ ] Present battle statistics and two UI buttons
             [ ] On tick
@@ -47,7 +47,7 @@ This repo contains a prototype of active time battle (ATB), implemented largely 
                     [ ] Transition to Begin Battle state
                 [ ] Quit battle UI button
                     [ ] Transition to Start menu state
-        [ ] Battle lose state
+        [x] Battle lose state
             [ ] On enter
                 [ ] Present battle statistics and one UI buttons
             [ ] On tick
