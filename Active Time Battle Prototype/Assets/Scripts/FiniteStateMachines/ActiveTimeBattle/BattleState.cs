@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using ATBFighter;
 using Controllers;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ namespace FiniteStateMachines.ActiveTimeBattle
 {
     public class BattleState : ActiveTimeBattleState
     {
+        public static event Action<FighterController> OnBattleMeterTick;
+
         private readonly PlayerBattleInputController _playerBattleInputController;
         private IEnumerator _battleMeterTickCoroutine;
 

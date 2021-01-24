@@ -7,6 +7,5 @@ namespace EventBroker
         List<T> Subscribers { get; }
         void Subscribe(T subscriber);
         void Unsubscribe(T subscriber);
-        void Notify(T subscriber);
     }
 }

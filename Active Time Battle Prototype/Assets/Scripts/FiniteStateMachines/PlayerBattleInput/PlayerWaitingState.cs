@@ -1,4 +1,5 @@
 ﻿using Controllers;
+using UnityEngine;
 
 namespace FiniteStateMachines.PlayerBattleInput
 {
@@ -8,8 +9,17 @@ namespace FiniteStateMachines.PlayerBattleInput
 
         public override void Enter()
         {
-            // Hide player actions UI
-            // Hide player target UI
+            Controller.TogglePlayerActionsUi(false);
+            Controller.TogglePlayerTargetsUi(false);
+        }
+
+        public override void Tick()
+        {
+            // Cycle through player input states
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Controller.TransitionToState(Controller.PlayerChooseActionState);
+            }
         }
     }
 }

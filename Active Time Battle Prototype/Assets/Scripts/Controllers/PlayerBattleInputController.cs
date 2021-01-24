@@ -1,12 +1,21 @@
-﻿using FiniteStateMachines.PlayerBattleInput;
+﻿using System;
+using FiniteStateMachines.PlayerBattleInput;
+using UnityEngine;
 
 namespace Controllers
 {
     public class PlayerBattleInputController : FsmContextController<PlayerBattleInputState, PlayerBattleInputController>
     {
-        private PlayerWaitingState _playerWaitingState;
-        private PlayerChooseActionState _playerChooseActionState;
-        private PlayerSelectTargetsState _playerSelectTargetsState;
+        public GameObject PlayerActions;
+        public GameObject PlayerTargets;
+        
+        public PlayerWaitingState PlayerWaitingState;
+        public PlayerChooseActionState PlayerChooseActionState;
+        public PlayerSelectTargetsState PlayerSelectTargetsState;
+
+        public void TogglePlayerActionsUi(bool value) => ToggleUI(PlayerActions)(value);
+        public void TogglePlayerTargetsUi(bool value) => ToggleUI(PlayerTargets)(value);
+        private Action<bool> ToggleUI(GameObject targetUI) => targetUI.SetActive;
 
         private void SubscribeToEvents()
         {
@@ -22,15 +31,16 @@ namespace Controllers
 
         private void Start()
         {
-            _playerWaitingState = new PlayerWaitingState(this);
-            _playerChooseActionState = new PlayerChooseActionState(this);
-            _playerSelectTargetsState = new PlayerSelectTargetsState(this);
+            PlayerWaitingState = new PlayerWaitingState(this);
+            PlayerChooseActionState = new PlayerChooseActionState(this);
+            PlayerSelectTargetsState = new PlayerSelectTargetsState(this);
+            TransitionToState(PlayerWaitingState);
         }
 
         private void OnEnable()
         {
             SubscribeToEvents();
-            TransitionToState(_playerWaitingState);
+            TransitionToState(PlayerWaitingState);
         }
 
         private void OnDisable()
