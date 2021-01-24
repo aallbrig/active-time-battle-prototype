@@ -5,26 +5,17 @@ namespace FiniteStateMachines.ActiveTimeBattle
 {
     public abstract class ActiveTimeBattleState : IFiniteStateMachineState<ActiveTimeBattleController>
     {
-        public ActiveTimeBattleController Controller { get; protected set; }
+        public ActiveTimeBattleController Controller { get; }
 
         protected ActiveTimeBattleState(ActiveTimeBattleController controller)
         {
             Controller = controller;
         }
 
-        public virtual void Enter()
-        {
-            throw new System.NotImplementedException();
-        }
+        public virtual void Enter() {}
 
-        public virtual void Tick()
-        {
-            throw new System.NotImplementedException();
-        }
+        public virtual void Tick() {}
 
-        public virtual void Leave(Action callback)
-        {
-            callback?.Invoke();
-        }
+        public virtual void Leave(Action callback) => callback?.Invoke();
     }
 }

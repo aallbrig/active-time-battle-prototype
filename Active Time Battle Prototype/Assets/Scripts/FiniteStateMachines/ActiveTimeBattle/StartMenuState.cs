@@ -1,4 +1,5 @@
-﻿using Controllers;
+﻿using System;
+using Controllers;
 using UnityEngine;
 
 namespace FiniteStateMachines.ActiveTimeBattle
@@ -26,5 +27,17 @@ namespace FiniteStateMachines.ActiveTimeBattle
                 Controller.TransitionToState(Controller.BeginBattleState);
             }
         }
+
+        public override void Leave(Action callback)
+        {
+            GeneratePlayerCharacters();
+            base.Leave(callback);
+        }
+
+        private void GeneratePlayerCharacters()
+        {
+            // Generate player characters, based on list of player character prefabs
+        }
+
     }
 }
