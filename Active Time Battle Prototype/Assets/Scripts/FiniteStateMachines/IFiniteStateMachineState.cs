@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Finite_State_Machines
+namespace FiniteStateMachines
 {
     public interface IFiniteStateMachineState<out T>
     {

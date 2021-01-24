@@ -1,7 +1,6 @@
-﻿using System;
-using Controllers;
+﻿using Controllers;
 
-namespace Finite_State_Machines.PlayerBattleInput
+namespace FiniteStateMachines.PlayerBattleInput
 {
     public class PlayerSelectTargetsState: PlayerBattleInputState
     {

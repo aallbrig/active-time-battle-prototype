@@ -1,30 +1,42 @@
-﻿using Finite_State_Machines.PlayerBattleInput;
+﻿using FiniteStateMachines.PlayerBattleInput;
 
 namespace Controllers
 {
-    public class PlayerBattleInputController : FSMContextController<PlayerBattleInputState, PlayerBattleInputController>
+    public class PlayerBattleInputController : FsmContextController<PlayerBattleInputState, PlayerBattleInputController>
     {
-        public PlayerWaitingState PlayerWaitingState;
-        public PlayerChooseActionState PlayerChooseActionState;
-        public PlayerSelectTargetsState PlayerSelectTargetsState;
+        private PlayerWaitingState _playerWaitingState;
+        private PlayerChooseActionState _playerChooseActionState;
+        private PlayerSelectTargetsState _playerSelectTargetsState;
+
+        private void SubscribeToEvents()
+        {
+            // Subscribe to ATB events (i.e. Battle Meter Tick) to show/hide UI
+            // Subscribe to player input events
+        }
+
+        private void UnsubscribeToEvents()
+        {
+            // Unsubscribe to ATB events (i.e. Battle Meter Tick) to show/hide UI
+            // Unsubscribe to player input events
+        }
 
         private void Start()
         {
-            PlayerWaitingState = new PlayerWaitingState(this);
-            PlayerChooseActionState = new PlayerChooseActionState(this);
-            PlayerSelectTargetsState = new PlayerSelectTargetsState(this);
+            _playerWaitingState = new PlayerWaitingState(this);
+            _playerChooseActionState = new PlayerChooseActionState(this);
+            _playerSelectTargetsState = new PlayerSelectTargetsState(this);
         }
 
         private void OnEnable()
         {
-            TransitionToState(PlayerWaitingState);
+            SubscribeToEvents();
+            TransitionToState(_playerWaitingState);
         }
 
         private void OnDisable()
         {
+            UnsubscribeToEvents();
             TransitionToState(null);
         }
-
-        private void Update() => CurrentState?.Tick();
     }
 }

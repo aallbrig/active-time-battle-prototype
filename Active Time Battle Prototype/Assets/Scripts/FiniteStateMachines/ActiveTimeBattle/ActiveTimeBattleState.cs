@@ -1,13 +1,13 @@
 ﻿using System;
 using Controllers;
 
-namespace Finite_State_Machines.PlayerBattleInput
+namespace FiniteStateMachines.ActiveTimeBattle
 {
-    public abstract class PlayerBattleInputState: IFiniteStateMachineState<PlayerBattleInputController>
+    public abstract class ActiveTimeBattleState : IFiniteStateMachineState<ActiveTimeBattleController>
     {
-        public PlayerBattleInputController Controller { get; protected set; }
-        
-        protected PlayerBattleInputState(PlayerBattleInputController controller)
+        public ActiveTimeBattleController Controller { get; protected set; }
+
+        protected ActiveTimeBattleState(ActiveTimeBattleController controller)
         {
             Controller = controller;
         }

@@ -1,4 +1,4 @@
-﻿namespace Finite_State_Machines
+﻿namespace FiniteStateMachines
 {
     public interface IFiniteStateMachineContext<T>
     {

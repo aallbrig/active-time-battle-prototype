@@ -2,7 +2,7 @@
 using Controllers;
 using UnityEngine;
 
-namespace Finite_State_Machines.ActiveTimeBattle
+namespace FiniteStateMachines.ActiveTimeBattle
 {
     public class BattleState : ActiveTimeBattleState
     {

@@ -1,9 +1,9 @@
-﻿using Finite_State_Machines.ActiveTimeBattle;
+﻿using FiniteStateMachines.ActiveTimeBattle;
 
 namespace Controllers
 {
     // TODO: Make this maybe not be a god objective (i.e. move PlayerBattleInputController out?)
-    public class ActiveTimeBattleController : FSMContextController<ActiveTimeBattleState, ActiveTimeBattleController>
+    public class ActiveTimeBattleController : FsmContextController<ActiveTimeBattleState, ActiveTimeBattleController>
     {
         public PlayerBattleInputController playerBattleInputController;
 
@@ -23,7 +23,5 @@ namespace Controllers
 
             TransitionToState(StartMenuState);
         }
-
-        private void Update() => CurrentState?.Tick();
     }
 }

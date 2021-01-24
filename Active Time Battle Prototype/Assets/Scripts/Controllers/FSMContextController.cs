@@ -1,17 +1,31 @@
-﻿using Finite_State_Machines;
+﻿using System;
+using FiniteStateMachines;
 using UnityEngine;
 
 namespace Controllers
 {
-    public class FSMContextController<T, U> : MonoBehaviour, IFiniteStateMachineContext<T> where T : IFiniteStateMachineState<U>
+    public class FsmContextController<T, U> : MonoBehaviour, IFiniteStateMachineContext<T> where T : IFiniteStateMachineState<U>
     {
         public T CurrentState { get; private set; }
 
         public void TransitionToState(T newState)
         {
-            CurrentState?.Leave();
-            CurrentState = (T) newState;
-            CurrentState.Enter();
+            var stateTransitionAction = new Action(() =>
+            {
+                CurrentState = (T) newState;
+                CurrentState?.Enter();
+            });
+
+            if (CurrentState != null)
+            {
+                CurrentState.Leave(stateTransitionAction);
+            }
+            else
+            {
+                stateTransitionAction();
+            }
         }
+
+        private void Update() => CurrentState?.Tick();
     }
 }
