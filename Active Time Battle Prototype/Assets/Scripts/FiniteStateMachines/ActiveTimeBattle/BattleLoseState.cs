@@ -10,7 +10,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Enter()
         {
-            // Show battle lose screen
+            Controller.ToggleLoseScreenUI(true);
         }
 
         public override void Tick()
@@ -24,7 +24,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Leave(Action callback)
         {
-            // Hide battle lose screen
+            Controller.ToggleLoseScreenUI(false);
             base.Leave(callback);
         }
     }

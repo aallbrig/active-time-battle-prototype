@@ -1,4 +1,5 @@
 ﻿using FiniteStateMachines.ActiveTimeBattle;
+using UnityEngine;
 
 namespace Controllers
 {
@@ -6,12 +7,15 @@ namespace Controllers
     public class ActiveTimeBattleController : FsmContextController<ActiveTimeBattleState, ActiveTimeBattleController>
     {
         public PlayerBattleInputController playerBattleInputController;
+        public GameObject LoseScreenUi;
 
         public StartMenuState StartMenuState;
         public BeginBattleState BeginBattleState;
         public BattleState BattleState;
         public BattleVictoryState BattleVictoryState;
         public BattleLoseState BattleLoseState;
+
+        public void ToggleLoseScreenUI(bool value) => LoseScreenUi.SetActive(value ? true : !LoseScreenUi.activeSelf);
 
         private void Start()
         {
