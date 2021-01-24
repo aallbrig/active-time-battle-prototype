@@ -10,6 +10,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Enter()
         {
+            Controller.ToggleStartMenu(true);
             // Play start menu on enter animation
             // User is presented with start menu title
             // User is presented with start fight button
@@ -30,6 +31,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Leave(Action callback)
         {
+            Controller.ToggleStartMenu(false);
             GeneratePlayerCharacters();
             base.Leave(callback);
         }
