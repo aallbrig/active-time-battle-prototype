@@ -22,9 +22,7 @@ namespace ATBFighter
             var originRotation = _transform.rotation;
             var originTrigger = _rtsAnimator.CurrentTrigger;
 
-            var centerPoint = targets
-                .Select(target => target._transform.position)
-                .Aggregate(new Vector3(), (acc, transform) => acc += transform);
+            var centerPoint = FindCenterPoint(targets);
 
             var returnToOrigin = new Action(() =>
             {
@@ -78,9 +76,14 @@ namespace ATBFighter
             stats.currentHealth = Mathf.Clamp(stats.currentHealth + heal, 0, stats.maxHealth);
         }
 
+        private static Vector3 FindCenterPoint(IReadOnlyCollection<FighterController> targets) =>
+            targets.Select(target => target._transform.position)
+                .Aggregate(new Vector3(), (acc, position) => acc + position)
+                / targets.Count;
+
         private void Die()
         {
-            
+            Debug.Log("Blarg I " + stats.fighterName + " am dead X_X ");
         }
 
         private void Start()
