@@ -2,52 +2,31 @@
 using System.Collections.Generic;
 using ATBFighter;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
-    public class PlayerActions : MonoBehaviour
+    public class PlayerActions : ButtonUiContainer<ATBFighterAction_SO, Button>
     {
         public static event Action<ATBFighterAction_SO> OnPlayerActionButtonClick;
 
-        public Transform playerActionsContainerUi;
         public Button playerActionPrefab;
-        private List<ATBFighterAction_SO> _actions = new List<ATBFighterAction_SO>();
-        private List<Button> _buttons = new List<Button>();
 
-        public void SetActions(List<ATBFighterAction_SO> actions)
-        {
-            ResetActionButtonSpace();
-            _actions = actions;
-            GenerateActionsUi();
-        }
+        // Alias, so my mind doesn't bend/break on generic naming
+        public void SetActions(List<ATBFighterAction_SO> actions) => SetupList(actions);
 
-        private void ResetActionButtonSpace()
+        protected override Button GenerateUiElement(ATBFighterAction_SO element)
         {
-            foreach (Transform child in playerActionsContainerUi.transform)
-                Destroy(child.gameObject);
-            _buttons.ForEach(Destroy);
-            _buttons.Clear();
-            _actions.Clear();
-        }
-
-        private void GenerateActionButtonUi(ATBFighterAction_SO action)
-        {
-            var button = Instantiate(playerActionPrefab, playerActionsContainerUi);
+            var button = Instantiate(playerActionPrefab, containerTransform);
             var text = button.GetComponentInChildren<TextMeshProUGUI>();
-            text.text = action.actionName;
+            text.text = element.actionName;
             button.onClick.AddListener(() =>
             {
-                DisableActionButtons();
-                OnPlayerActionButtonClick?.Invoke(action);
+                DisableButtons();
+                OnPlayerActionButtonClick?.Invoke(element);
             });
 
-            _buttons.Add(button);
+            return button;
         }
-
-        private void GenerateActionsUi() => _actions.ForEach(GenerateActionButtonUi);
-        private void DisableActionButtons() => _buttons.ForEach(button => button.interactable = false);
-        private void EnableActionButtons() => _buttons.ForEach(button => button.interactable = true);
     }
 }

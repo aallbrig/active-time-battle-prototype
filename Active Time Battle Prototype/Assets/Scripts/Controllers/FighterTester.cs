@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ATBFighter;
-using TMPro;
 using UI;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Controllers
 {
@@ -13,6 +11,7 @@ namespace Controllers
         public FighterController fighter;
         public List<FighterController> targets;
         public PlayerActions playerActions;
+        public PlayerTargets PlayerTargets;
 
         private Vector3 FindCenterPoint(List<FighterController> targets)
         {
@@ -25,6 +24,7 @@ namespace Controllers
         {
             var actions = fighter.GetActions();
             playerActions.SetActions(actions);
+            PlayerTargets.SetTargets(targets);
         }
 
         private void OnDrawGizmos()
