@@ -1,5 +1,4 @@
-﻿using System;
-using Controllers;
+﻿using Controllers;
 using UnityEngine;
 
 namespace FiniteStateMachines.ActiveTimeBattle
@@ -12,6 +11,8 @@ namespace FiniteStateMachines.ActiveTimeBattle
         {
             GeneratePlayerEnemies();
             // (optional) play "battle begin" camera animation
+            // battle announcements
+            Controller.ToggleBattleAnnouncements(true);
         }
 
         public override void Tick()
@@ -21,11 +22,6 @@ namespace FiniteStateMachines.ActiveTimeBattle
             {
                 Controller.TransitionToState(Controller.BattleState);
             }
-        }
-
-        public override void Leave(Action callback)
-        {
-            base.Leave(callback);
         }
 
         private void GeneratePlayerEnemies()

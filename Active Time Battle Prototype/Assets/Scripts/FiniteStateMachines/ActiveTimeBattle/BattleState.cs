@@ -42,6 +42,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
             // Hide battle UI HUD
             Controller.ToggleBattleHUDUI(false);
+            Controller.ToggleBattleAnnouncements(false);
 
             base.Leave(callback);
         }

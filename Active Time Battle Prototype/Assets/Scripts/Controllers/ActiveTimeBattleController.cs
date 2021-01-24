@@ -13,7 +13,8 @@ namespace Controllers
 
         public GameObject VictoryScreenUi;
         public GameObject LoseScreenUi;
-        public GameObject BattleHUD;
+        public GameObject BattleHUDUi;
+        public GameObject BattleAnnoucementsUi;
 
         #endregion
 
@@ -25,9 +26,10 @@ namespace Controllers
 
         public void ToggleLoseScreenUI(bool value) => ToggleUI(LoseScreenUi)(value);
         public void ToggleVictoryScreenUI(bool value) => ToggleUI(VictoryScreenUi)(value);
-        public void ToggleBattleHUDUI(bool value) => ToggleUI(BattleHUD)(value);
+        public void ToggleBattleHUDUI(bool value) => ToggleUI(BattleHUDUi)(value);
+        public void ToggleBattleAnnouncements(bool value) => ToggleUI(BattleAnnoucementsUi)(value);
 
-        private Action<bool> ToggleUI(GameObject TargetUI) => TargetUI.SetActive;
+        private Action<bool> ToggleUI(GameObject targetUI) => targetUI.SetActive;
 
         private void Start()
         {
