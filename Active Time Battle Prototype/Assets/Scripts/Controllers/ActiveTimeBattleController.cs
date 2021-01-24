@@ -1,4 +1,5 @@
-﻿using FiniteStateMachines.ActiveTimeBattle;
+﻿using System;
+using FiniteStateMachines.ActiveTimeBattle;
 using UnityEngine;
 
 namespace Controllers
@@ -7,7 +8,13 @@ namespace Controllers
     public class ActiveTimeBattleController : FsmContextController<ActiveTimeBattleState, ActiveTimeBattleController>
     {
         public PlayerBattleInputController playerBattleInputController;
+
+        #region User Interface References
+
         public GameObject LoseScreenUi;
+        public GameObject BattleHUD;
+
+        #endregion
 
         public StartMenuState StartMenuState;
         public BeginBattleState BeginBattleState;
@@ -15,7 +22,9 @@ namespace Controllers
         public BattleVictoryState BattleVictoryState;
         public BattleLoseState BattleLoseState;
 
-        public void ToggleLoseScreenUI(bool value) => LoseScreenUi.SetActive(value ? true : !LoseScreenUi.activeSelf);
+        private Action<bool> ToggleUI(GameObject TargetUI) => TargetUI.SetActive;
+        public void ToggleLoseScreenUI(bool value) => ToggleUI(LoseScreenUi)(value);
+        public void ToggleBattleHUDUI(bool value) => ToggleUI(BattleHUD)(value);
 
         private void Start()
         {

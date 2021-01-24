@@ -19,7 +19,9 @@ namespace FiniteStateMachines.ActiveTimeBattle
         {
             _playerBattleInputController.gameObject.SetActive(true);
             // Show battle UI HUD
+            Controller.ToggleBattleHUDUI(true);
             // (optional) animate/set camera to battle state position
+
             _battleMeterTickCoroutine = BattleMeterTickCoroutine();
             Controller.StartCoroutine(_battleMeterTickCoroutine);
         }
@@ -39,6 +41,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
             _playerBattleInputController.gameObject.SetActive(false);
 
             // Hide battle UI HUD
+            Controller.ToggleBattleHUDUI(false);
 
             base.Leave(callback);
         }
