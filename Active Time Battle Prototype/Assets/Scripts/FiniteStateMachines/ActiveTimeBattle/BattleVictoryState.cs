@@ -11,6 +11,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
         public override void Enter()
         {
             // Show battle victory screen
+            Controller.ToggleVictoryScreenUI(true);
         }
 
         public override void Tick()
@@ -25,6 +26,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
         public override void Leave(Action callback)
         {
             // Hide battle victory screen
+            Controller.ToggleVictoryScreenUI(false);
 
             base.Leave(callback);
         }

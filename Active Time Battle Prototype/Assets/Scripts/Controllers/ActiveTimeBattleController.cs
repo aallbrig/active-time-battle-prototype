@@ -11,6 +11,7 @@ namespace Controllers
 
         #region User Interface References
 
+        public GameObject VictoryScreenUi;
         public GameObject LoseScreenUi;
         public GameObject BattleHUD;
 
@@ -22,9 +23,11 @@ namespace Controllers
         public BattleVictoryState BattleVictoryState;
         public BattleLoseState BattleLoseState;
 
-        private Action<bool> ToggleUI(GameObject TargetUI) => TargetUI.SetActive;
         public void ToggleLoseScreenUI(bool value) => ToggleUI(LoseScreenUi)(value);
+        public void ToggleVictoryScreenUI(bool value) => ToggleUI(VictoryScreenUi)(value);
         public void ToggleBattleHUDUI(bool value) => ToggleUI(BattleHUD)(value);
+
+        private Action<bool> ToggleUI(GameObject TargetUI) => TargetUI.SetActive;
 
         private void Start()
         {
