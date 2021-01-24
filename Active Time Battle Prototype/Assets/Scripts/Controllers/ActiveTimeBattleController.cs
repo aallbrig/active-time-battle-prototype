@@ -41,7 +41,8 @@ namespace Controllers
             BattleVictoryState = new BattleVictoryState(this);
             BattleLoseState = new BattleLoseState(this);
 
-            TransitionToState(StartMenuState);
+            // TransitionToState(StartMenuState);
+            TransitionToState(BattleState);
         }
     }
 }
