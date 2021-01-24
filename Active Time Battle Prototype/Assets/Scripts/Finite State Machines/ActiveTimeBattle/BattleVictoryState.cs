@@ -7,10 +7,7 @@ namespace Finite_State_Machines.ActiveTimeBattle
 {
     public class BattleVictoryState : ActiveTimeBattleState
     {
-        public BattleVictoryState(ActiveTimeBattleController controller)
-        {
-            Controller = controller;
-        }
+        public BattleVictoryState(ActiveTimeBattleController controller) : base(controller) {}
 
         public override void Tick()
         {

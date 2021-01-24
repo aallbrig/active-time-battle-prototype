@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using Controllers;
 using UnityEngine;
 
@@ -9,9 +8,8 @@ namespace Finite_State_Machines.ActiveTimeBattle
     {
         private readonly PlayerBattleInputController _playerBattleInputController;
 
-        public BattleState(ActiveTimeBattleController controller)
+        public BattleState(ActiveTimeBattleController controller) : base(controller)
         {
-            Controller = controller;
             _playerBattleInputController = controller.playerBattleInputController;
         }
 
@@ -29,10 +27,10 @@ namespace Finite_State_Machines.ActiveTimeBattle
             }
         }
 
-        public override IEnumerator Leave(Action callback)
+        public override void Leave(Action callback)
         {
             _playerBattleInputController.gameObject.SetActive(false);
-            return base.Leave(callback);
+            base.Leave(callback);
         }
     }
 }

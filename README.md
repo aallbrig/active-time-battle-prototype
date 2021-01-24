@@ -4,6 +4,9 @@ This repo contains a prototype of active time battle (ATB), implemented largely 
 
 ### TODO
 
+    [ ] User Interface
+        [ ] 
+        [ ] 
     [ ] Finite state machine for ATB
         [x] Create base/abstract/interface to describe generic ATB state
             [x] Enter

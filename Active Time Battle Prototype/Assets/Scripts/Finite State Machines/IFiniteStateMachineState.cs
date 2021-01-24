@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 
 namespace Finite_State_Machines
 {
@@ -9,6 +8,6 @@ namespace Finite_State_Machines
         
         void Enter();
         void Tick();
-        IEnumerator Leave(Action callback);
+        void Leave(Action callback = null);
     }
 }

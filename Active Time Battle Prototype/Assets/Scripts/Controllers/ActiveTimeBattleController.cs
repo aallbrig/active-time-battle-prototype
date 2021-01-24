@@ -1,11 +1,9 @@
-﻿using System;
-using Finite_State_Machines;
-using Finite_State_Machines.ActiveTimeBattle;
-using UnityEngine;
+﻿using Finite_State_Machines.ActiveTimeBattle;
 
 namespace Controllers
 {
-    public class ActiveTimeBattleController : MonoBehaviour, IFiniteStateMachineContext<ActiveTimeBattleState>
+    // TODO: Make this maybe not be a god objective (i.e. move PlayerBattleInputController out?)
+    public class ActiveTimeBattleController : FSMContextController<ActiveTimeBattleState, ActiveTimeBattleController>
     {
         public PlayerBattleInputController playerBattleInputController;
 
@@ -14,26 +12,6 @@ namespace Controllers
         public BattleState BattleState;
         public BattleVictoryState BattleVictoryState;
         public BattleLoseState BattleLoseState;
-
-        public ActiveTimeBattleState CurrentState { get; private set; }
-
-        public void TransitionToState(ActiveTimeBattleState newState)
-        {
-            var transitionState = new Action(() =>
-            {
-                CurrentState = newState;
-                CurrentState.Enter();
-            });
-
-            if (CurrentState != null)
-            {
-                StartCoroutine(CurrentState.Leave(transitionState));
-            }
-            else
-            {
-                transitionState();
-            }
-        }
 
         private void Start()
         {

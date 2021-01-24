@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections;
-using Controllers;
+﻿using Controllers;
 using UnityEngine;
 
 namespace Finite_State_Machines.ActiveTimeBattle
 {
     public class StartMenuState : ActiveTimeBattleState
     {
-        public StartMenuState(ActiveTimeBattleController controller)
-        {
-            Controller = controller;
-        }
+        public StartMenuState(ActiveTimeBattleController controller) : base(controller) {}
 
         public override void Enter()
         {

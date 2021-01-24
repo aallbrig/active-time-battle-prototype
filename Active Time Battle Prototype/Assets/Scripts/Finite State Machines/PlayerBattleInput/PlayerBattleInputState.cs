@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using Controllers;
 
 namespace Finite_State_Machines.PlayerBattleInput
@@ -7,6 +6,12 @@ namespace Finite_State_Machines.PlayerBattleInput
     public abstract class PlayerBattleInputState: IFiniteStateMachineState<PlayerBattleInputController>
     {
         public PlayerBattleInputController Controller { get; protected set; }
+        
+        protected PlayerBattleInputState(PlayerBattleInputController controller)
+        {
+            Controller = controller;
+        }
+
         public virtual void Enter()
         {
             throw new System.NotImplementedException();
@@ -17,10 +22,9 @@ namespace Finite_State_Machines.PlayerBattleInput
             throw new System.NotImplementedException();
         }
 
-        public virtual IEnumerator Leave(Action callback)
+        public virtual void Leave(Action callback)
         {
             callback?.Invoke();
-            yield break;
         }
     }
 }

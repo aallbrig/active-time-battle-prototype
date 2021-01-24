@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using Controllers;
 
 namespace Finite_State_Machines.ActiveTimeBattle
@@ -7,6 +6,11 @@ namespace Finite_State_Machines.ActiveTimeBattle
     public abstract class ActiveTimeBattleState : IFiniteStateMachineState<ActiveTimeBattleController>
     {
         public ActiveTimeBattleController Controller { get; protected set; }
+
+        protected ActiveTimeBattleState(ActiveTimeBattleController controller)
+        {
+            Controller = controller;
+        }
 
         public virtual void Enter()
         {
@@ -18,10 +22,9 @@ namespace Finite_State_Machines.ActiveTimeBattle
             throw new System.NotImplementedException();
         }
 
-        public virtual IEnumerator Leave(Action callback)
+        public virtual void Leave(Action callback)
         {
             callback?.Invoke();
-            yield break;
         }
     }
 }
