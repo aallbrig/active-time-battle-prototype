@@ -9,6 +9,7 @@ namespace ATBFighter
         public string fighterName;
         public float maxHealth;
         public float currentHealth;
+        public float currentBattleMeterValue;
         public GameObject model;
         public Animator animator;
         public List<ATBFighterAction_SO> actions;

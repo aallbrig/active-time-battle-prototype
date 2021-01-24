@@ -11,7 +11,8 @@ namespace Controllers
         public FighterController fighter;
         public List<FighterController> targets;
         public PlayerActions playerActions;
-        public PlayerTargets PlayerTargets;
+        public PlayerTargets playerTargets;
+        public PlayerFightersStats playerFightersStats;
 
         private Vector3 FindCenterPoint(List<FighterController> targets)
         {
@@ -24,7 +25,8 @@ namespace Controllers
         {
             var actions = fighter.GetActions();
             playerActions.SetActions(actions);
-            PlayerTargets.SetTargets(targets);
+            playerTargets.SetTargets(targets);
+            playerFightersStats.SetPlayerFighters(new List<FighterController> { fighter });
         }
 
         private void OnDrawGizmos()
