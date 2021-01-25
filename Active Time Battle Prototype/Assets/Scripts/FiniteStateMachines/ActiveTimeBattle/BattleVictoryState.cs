@@ -14,15 +14,6 @@ namespace FiniteStateMachines.ActiveTimeBattle
             Controller.ToggleVictoryScreenUI(true);
         }
 
-        public override void Tick()
-        {
-            // MVP
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Controller.TransitionToState(Controller.BattleLoseState);
-            }
-        }
-
         public override void Leave(Action callback)
         {
             // Hide battle victory screen

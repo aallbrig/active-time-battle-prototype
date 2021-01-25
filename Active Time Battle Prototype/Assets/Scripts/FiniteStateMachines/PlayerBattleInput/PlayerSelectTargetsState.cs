@@ -15,18 +15,14 @@ namespace FiniteStateMachines.PlayerBattleInput
 
         public override void Enter()
         {
-            Controller.playerTargets.GetComponent<PlayerTargets>().SetTargets(Controller.possibleTargets);
+            var atbController = GameObject.FindObjectOfType<ActiveTimeBattleController>();
+
+            var targets = Controller.playerInput.SelectedAction.actionType == ActionType.Healing
+                ? atbController.PlayerFighters
+                : atbController.EnemyFighters;
+
+            Controller.playerTargets.GetComponent<PlayerTargets>().SetTargets(targets);
             Controller.TogglePlayerTargetsUi(true);
         }
-
-        public override void Leave(Action callback)
-        {
-            // Controller.ActiveFighter.ResetBattleMeter();
-            // Controller.ActiveFighter = null;
-            // Controller.SelectedAction = null;
-            // Controller.Targets = null;
-            base.Leave(callback);
-        }
-
     }
 }

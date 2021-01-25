@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using ATBFighter;
 using Controllers;
@@ -13,7 +14,9 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         private readonly PlayerBattleInputController _playerBattleInputController;
         private IEnumerator _battleMeterTickCoroutine;
-        private const float CoroutineExecutionWait = 0.1f;
+        private const float CoroutineWaitInSeconds = 0.1f;
+        private bool _checkBattleConclusionCondition;
+        private List<FighterController> _fighters = new List<FighterController>();
 
         public BattleState(ActiveTimeBattleController controller) : base(controller)
         {
@@ -22,9 +25,10 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Enter()
         {
+            _fighters = _fighters.Concat(Controller.PlayerFighters).ToList();
+            _fighters = _fighters.Concat(Controller.EnemyFighters).ToList();
+
             _playerBattleInputController.gameObject.SetActive(true);
-            _playerBattleInputController.SetPlayerFighters(Controller.playerFighters);
-            _playerBattleInputController.SetEnemyFighters(Controller.enemyFighters);
 
             // Show battle UI HUD
             Controller.ToggleBattleHUDUI(true);
@@ -32,21 +36,20 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
             _battleMeterTickCoroutine = BattleMeterTickCoroutine();
             Controller.StartCoroutine(_battleMeterTickCoroutine);
+
+            _checkBattleConclusionCondition = true;
         }
 
         public override void Tick()
         {
-            var enemiesCurrentHealth =
-                Controller.enemyFighters.Aggregate(0f, (sum, fighter) => sum + fighter.stats.currentHealth);
-            var playersCurrentHealth =
-                Controller.playerFighters.Aggregate(0f, (sum, fighter) => sum + fighter.stats.currentHealth);
-
-            if (enemiesCurrentHealth <= 0) Controller.TransitionToState(Controller.BattleVictoryState);
-            else if (playersCurrentHealth <= 0) Controller.TransitionToState(Controller.BattleLoseState);
+            if (!_checkBattleConclusionCondition) return;
+            CheckForBattleConclusionCondition();
         }
 
         public override void Leave(Action callback)
         {
+            _fighters = new List<FighterController>();
+
             Controller.StopCoroutine(_battleMeterTickCoroutine);
             _playerBattleInputController.gameObject.SetActive(false);
 
@@ -57,29 +60,52 @@ namespace FiniteStateMachines.ActiveTimeBattle
             base.Leave(callback);
         }
 
+
+        private float SumHealth(List<FighterController> fighters) =>
+            fighters.Aggregate(0f, (sum, fighter) => sum + fighter.stats.currentHealth);
+
+        private void CheckForBattleConclusionCondition()
+        {
+            var enemiesCurrentHealth = SumHealth(Controller.EnemyFighters);
+            var playersCurrentHealth = SumHealth(Controller.PlayerFighters);
+
+            if (enemiesCurrentHealth <= 0)
+            {
+                _checkBattleConclusionCondition = false;
+                Controller.TransitionToState(Controller.BattleVictoryState);
+            }
+            else if (playersCurrentHealth <= 0)
+            {
+                _checkBattleConclusionCondition = false;
+                Controller.TransitionToState(Controller.BattleLoseState);
+            }
+        }
+
+        private void TickBattleMeterForFighter(FighterController fighter, float secondsSinceLastTick)
+        {
+            var battleMeterTickRateInSeconds = 1 / fighter.stats.secondsToMaxBattleMeterValue;
+            var newBattleMeterValue = Mathf.Clamp(
+                fighter.stats.currentBattleMeterValue + (battleMeterTickRateInSeconds * secondsSinceLastTick),
+                0f,
+                1f
+            );
+
+            fighter.stats.currentBattleMeterValue = newBattleMeterValue;
+            OnBattleMeterTick?.Invoke(fighter);
+    }
+
         private IEnumerator BattleMeterTickCoroutine()
         {
             while (true)
             {
                 // If ATB fighter's battle meter is >= 1.0, trigger "ATB fighter ready to act" event (consumed by player, enemy AI)
-                Controller.fighters.ForEach(fighter =>
+                _fighters.ForEach(fighter =>
                 {
-                    var battleMeterTickRate = 1 / fighter.stats.secondsToMaxBattleMeterValue;
-                    var newBattleMeterValue = Mathf.Clamp(
-                        fighter.stats.currentBattleMeterValue + battleMeterTickRate * CoroutineExecutionWait,
-                        0f,
-                        1f
-                    );
-
                     // If the fighter's battle meter is already full, no need to send more on battle meter tick events
-                    if (fighter.stats.currentBattleMeterValue != 1.0f)
-                    {
-                        fighter.stats.currentBattleMeterValue = newBattleMeterValue;
-                        OnBattleMeterTick?.Invoke(fighter);
-                    }
+                    if (fighter.stats.currentBattleMeterValue != 1.0f) TickBattleMeterForFighter(fighter, CoroutineWaitInSeconds);
                 });
-                
-                yield return new WaitForSeconds(CoroutineExecutionWait);
+
+                yield return new WaitForSeconds(CoroutineWaitInSeconds);
             }
         }
     }

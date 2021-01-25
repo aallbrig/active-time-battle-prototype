@@ -13,6 +13,8 @@ namespace Controllers
         FsmContextController<PlayerBattleInputState, PlayerBattleInputController>,
         IBattleMeterTick, IPlayerActionSelected, IPlayerTargetsSelected
     {
+        public ActiveTimeBattleController atbController;
+        
         #region Finite State Machine States
 
         public PlayerWaitingState PlayerWaitingState;
@@ -33,39 +35,20 @@ namespace Controllers
 
         #endregion
 
-        #region Player Input Data
+        #region Player Input
 
-        private struct PlayerInput
+        [Serializable]
+        public struct PlayerInput
         {
             public FighterController ActiveFighter;
             public ATBFighterAction_SO SelectedAction;
             public List<FighterController> Targets;
         }
-
-        private PlayerInput playerInput;
+        public PlayerInput playerInput;
 
         #endregion
 
         private readonly Queue<FighterController> _waitingForPlayerInputQueue = new Queue<FighterController>();
-        public List<FighterController> playerControlledFighters = new List<FighterController>();
-        public List<FighterController> enemyFighters = new List<FighterController>();
-        public List<FighterController> possibleTargets = new List<FighterController>();
-
-        public void SetPlayerFighters(List<FighterController> fighters)
-        {
-            playerControlledFighters = fighters;
-            playerFightersStats.GetComponent<PlayerFightersStats>().SetPlayerFighters(playerControlledFighters);
-        }
-
-        public void SetEnemyFighters(List<FighterController> fighters)
-        {
-            enemyFighters = fighters;
-        }
-
-        public void SetPossibleActionTargets(List<FighterController> fighters)
-        {
-            possibleTargets = fighters;
-        }
 
         private IEnumerator _queueCoroutine;
         private IEnumerator WatchQueueCoroutine()
@@ -91,14 +74,16 @@ namespace Controllers
             PlayerSelectTargetsState = new PlayerSelectTargetsState(this);
 
             TransitionToState(PlayerWaitingState);
-            
         }
 
         private void OnEnable()
         {
+            playerFightersStats.GetComponent<PlayerFightersStats>().SetPlayerFighters(atbController.PlayerFighters);
+
             EventBroker.EventBroker.Instance.Subscribe((IBattleMeterTick) this);
             EventBroker.EventBroker.Instance.Subscribe((IPlayerActionSelected) this);
             EventBroker.EventBroker.Instance.Subscribe((IPlayerTargetsSelected) this);
+
             TransitionToState(PlayerWaitingState);
             _queueCoroutine = WatchQueueCoroutine();
             StartCoroutine(_queueCoroutine);
@@ -115,7 +100,7 @@ namespace Controllers
 
         public void NotifyBattleMeterTick(FighterController fighter)
         {
-            if (playerControlledFighters.Contains(fighter))
+            if (atbController.PlayerFighters.Contains(fighter))
             {
                 if (!_waitingForPlayerInputQueue.Contains(fighter) && fighter.stats.currentBattleMeterValue >= 1.0f)
                 {
@@ -127,9 +112,6 @@ namespace Controllers
         public void NotifyPlayerActionSelected(ATBFighterAction_SO action)
         {
             playerInput.SelectedAction = action;
-            SetPossibleActionTargets(playerInput.SelectedAction.actionType == ActionType.Healing
-                ? playerControlledFighters
-                : enemyFighters);
             TransitionToState(PlayerSelectTargetsState);
         }
 
@@ -139,8 +121,8 @@ namespace Controllers
             playerInput.ActiveFighter.ExecuteAction(playerInput.SelectedAction, playerInput.Targets, () =>
             {
                 playerInput.ActiveFighter.stats.currentBattleMeterValue = 0f;
+                TransitionToState(PlayerWaitingState);
             });
-            TransitionToState(PlayerWaitingState);
         }
     }
 }

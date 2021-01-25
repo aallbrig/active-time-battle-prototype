@@ -1052,7 +1052,7 @@ MonoBehaviour:
   VictoryScreenUi: {fileID: 1789119951}
   LoseScreenUi: {fileID: 609368226}
   BattleHUDUi: {fileID: 1506937024}
-  BattleAnnoucementsUi: {fileID: 1762392906}
+  BattleAnnouncementsUi: {fileID: 1762392906}
   playerFighters: []
   enemyFighters: []
   fighters: []
@@ -1099,12 +1099,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188de10a626e428fa987e0d05aaa68ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  atbController: {fileID: 221029189}
   playerFightersStats: {fileID: 128146309}
   playerActions: {fileID: 1855225923}
   playerTargets: {fileID: 965902700}
-  playerControlledFighters: []
-  enemyFighters: []
-  possibleTargets: []
+  playerInput:
+    ActiveFighter: {fileID: 0}
+    SelectedAction: {fileID: 0}
+    Targets: []
 --- !u!4 &233476566
 Transform:
   m_ObjectHideFlags: 0
@@ -5180,6 +5182,7 @@ GameObject:
   - component: {fileID: 1762392910}
   - component: {fileID: 1762392909}
   - component: {fileID: 1762392908}
+  - component: {fileID: 1762392911}
   m_Layer: 0
   m_Name: Battle Announcements
   m_TagString: Untagged
@@ -5267,6 +5270,19 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1762392911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762392906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf5cf0773b374b489adddd883e20d4c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 196059739}
 --- !u!1 &1789119951
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class PlayerActions : ButtonUiContainer<ATBFighterAction_SO, Button>
+    public class PlayerActions : DynamicButtonContainer<ATBFighterAction_SO, Button>
     {
         public static event Action<ATBFighterAction_SO> OnPlayerActionButtonClick;
 

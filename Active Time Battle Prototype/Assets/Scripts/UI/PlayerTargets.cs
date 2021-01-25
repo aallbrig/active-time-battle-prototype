@@ -6,14 +6,21 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class PlayerTargets : ButtonUiContainer<FighterController, Button>
+    public class PlayerTargets : DynamicButtonContainer<FighterController, Button>
     {
         public static event Action<List<FighterController>> OnPlayerTargetButtonClick;
         public Button playerTargetButtonPrefab;
 
         // alias method so my mind doesn't bend/break on generic name
-        public void SetTargets(List<FighterController> targets) => SetupList(targets);
-        public void SelectAllTargets() => OnPlayerTargetButtonClick?.Invoke(_list);
+        public void SetTargets(List<FighterController> targets)
+        {
+            // _targets = targets;
+            SetupList(targets);
+        }
+
+        // public void SelectAllTargets() => OnPlayerTargetButtonClick?.Invoke(_targets);
+
+        // private List<FighterController> _targets = new List<FighterController>();
 
         protected override Button GenerateUiElement(FighterController element)
         {

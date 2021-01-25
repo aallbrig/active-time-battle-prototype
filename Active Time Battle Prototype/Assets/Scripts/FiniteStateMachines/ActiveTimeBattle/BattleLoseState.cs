@@ -1,6 +1,5 @@
 ﻿using System;
 using Controllers;
-using UnityEngine;
 
 namespace FiniteStateMachines.ActiveTimeBattle
 {
@@ -13,18 +12,10 @@ namespace FiniteStateMachines.ActiveTimeBattle
             Controller.ToggleLoseScreenUI(true);
         }
 
-        public override void Tick()
-        {
-            // MVP
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Controller.TransitionToState(Controller.StartMenuState);
-            }
-        }
-
         public override void Leave(Action callback)
         {
             Controller.ToggleLoseScreenUI(false);
+
             base.Leave(callback);
         }
     }

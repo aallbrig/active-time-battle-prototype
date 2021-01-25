@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ATBFighter;
 using EventBroker;
 using FiniteStateMachines.ActiveTimeBattle;
@@ -8,10 +9,8 @@ using UnityEngine;
 namespace Controllers
 {
     // TODO: Make this maybe not be a god objective (i.e. move PlayerBattleInputController out?)
-    public class ActiveTimeBattleController :
-        FsmContextController<ActiveTimeBattleState, ActiveTimeBattleController>,
-        IPlayerFighterCreated, IEnemyFighterCreated,
-        IContinueBattlingButtonClicked, IQuitButtonClicked, IRestartButtonClicked
+    public class ActiveTimeBattleController : FsmContextController<ActiveTimeBattleState, ActiveTimeBattleController>,
+        IPlayerFighterCreated, IEnemyFighterCreated, IContinueBattlingButtonClicked, IQuitButtonClicked, IRestartButtonClicked
     {
         public PlayerBattleInputController playerBattleInputController;
 
@@ -24,23 +23,21 @@ namespace Controllers
 
         #endregion
 
-        #region User Interface References
+        #region User Interface References and Toggles
 
+        // References
         public GameObject StartMenuUi;
         public GameObject VictoryScreenUi;
         public GameObject LoseScreenUi;
         public GameObject BattleHUDUi;
-        public GameObject BattleAnnoucementsUi;
+        public GameObject BattleAnnouncementsUi;
 
-        #endregion
-
-        #region User Interface Toggles
-
+        // Toggles
         public void ToggleStartMenu(bool value) => ToggleUI(StartMenuUi)(value);
         public void ToggleLoseScreenUI(bool value) => ToggleUI(LoseScreenUi)(value);
         public void ToggleVictoryScreenUI(bool value) => ToggleUI(VictoryScreenUi)(value);
         public void ToggleBattleHUDUI(bool value) => ToggleUI(BattleHUDUi)(value);
-        public void ToggleBattleAnnouncements(bool value) => ToggleUI(BattleAnnoucementsUi)(value);
+        public void ToggleBattleAnnouncements(bool value) => ToggleUI(BattleAnnouncementsUi)(value);
         private Action<bool> ToggleUI(GameObject targetUI) => targetUI.SetActive;
 
         #endregion
@@ -57,27 +54,64 @@ namespace Controllers
 
         #region Lists of fighters and whom they belong to
 
-        public List<FighterController> playerFighters = new List<FighterController>();
-        public List<FighterController> enemyFighters = new List<FighterController>();
-        public List<FighterController> fighters = new List<FighterController>();
+        public readonly List<FighterController> PlayerFighters = new List<FighterController>();
+        public readonly List<FighterController> EnemyFighters = new List<FighterController>();
+
+        private void ClearFighters(List<FighterController> fighters)
+        {
+            fighters.ForEach(fighter => Destroy(fighter.gameObject));
+            fighters.Clear();
+        }
+
+        #endregion
+
+        #region EventBroker Subscriptions
+
+        public void NotifyPlayerFighterCreated(FighterController fighter) => PlayerFighters.Add(fighter);
+        public void NotifyEnemyFighterCreated(FighterController fighter) => EnemyFighters.Add(fighter);
+        public void NotifyContinueBattlingButtonClick()
+        {
+            ClearFighters(EnemyFighters);
+
+            TransitionToState(BeginBattleState);
+        }
+
+        public void NotifyQuitButtonClicked()
+        {
+            ClearFighters(EnemyFighters);
+            ClearFighters(PlayerFighters);
+
+            TransitionToState(StartMenuState);
+        }
+
+        public void NotifyRestartButtonClicked()
+        {
+            ClearFighters(EnemyFighters);
+            ClearFighters(PlayerFighters);
+
+            TransitionToState(StartMenuState);
+        }
 
         #endregion
 
         private void Start()
         {
+            // Initialize states
             StartMenuState = new StartMenuState(this);
             BeginBattleState = new BeginBattleState(this);
             BattleState = new BattleState(this);
             BattleVictoryState = new BattleVictoryState(this);
             BattleLoseState = new BattleLoseState(this);
 
-            TransitionToState(StartMenuState);
-
+            // Setup subscriptions to notable events
             EventBroker.EventBroker.Instance.Subscribe((IPlayerFighterCreated) this);
             EventBroker.EventBroker.Instance.Subscribe((IEnemyFighterCreated) this);
             EventBroker.EventBroker.Instance.Subscribe((IContinueBattlingButtonClicked) this);
             EventBroker.EventBroker.Instance.Subscribe((IRestartButtonClicked) this);
             EventBroker.EventBroker.Instance.Subscribe((IQuitButtonClicked) this);
+
+            // Initial state
+            TransitionToState(StartMenuState);
         }
 
         private void Update()
@@ -87,31 +121,5 @@ namespace Controllers
             // if (playerBattleInputController.CurrentState != null) return;
             CurrentState?.Tick();
         }
-
-        public void NotifyPlayerFighterCreated(FighterController fighter)
-        {
-            fighters.Add(fighter);
-            playerFighters.Add(fighter);
-        }
-
-        public void NotifyEnemyFighterCreated(FighterController fighter)
-        {
-            fighters.Add(fighter);
-            enemyFighters.Add(fighter);
-        }
-
-        public void NotifyContinueBattlingButtonClick()
-        {
-            enemyFighters.ForEach(fighter =>
-            {
-                if (fighters.Contains(fighter)) fighters.Remove(fighter);
-            });
-            enemyFighters.Clear();
-
-            TransitionToState(BeginBattleState);
-        }
-
-        public void NotifyQuitButtonClicked() => TransitionToState(StartMenuState);
-        public void NotifyRestartButtonClicked() => TransitionToState(StartMenuState);
     }
 }

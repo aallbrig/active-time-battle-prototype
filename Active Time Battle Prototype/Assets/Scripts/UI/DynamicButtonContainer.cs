@@ -5,12 +5,11 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public abstract class ButtonUiContainer<ListItemType, ButtonType> : MonoBehaviour where ButtonType : Button
+    public abstract class DynamicButtonContainer<ListItemType, ButtonType> : MonoBehaviour where ButtonType : Button
     {
         public Transform containerTransform;
 
-        protected List<ButtonType> Buttons = new List<ButtonType>();
-        protected List<ListItemType> _list = new List<ListItemType>();
+        private List<ButtonType> _buttons = new List<ButtonType>();
 
         protected abstract ButtonType GenerateUiElement(ListItemType element);
 
@@ -18,20 +17,17 @@ namespace UI
         {
             foreach (Transform child in containerTransform.transform)
                 Destroy(child.gameObject);
-            Buttons.ForEach(Destroy);
-            Buttons.Clear();
         }
 
         protected void SetupList(List<ListItemType> list)
         {
             ClearContainer();
-            _list = list;
-            Buttons = GenerateContainerUiElements(_list);
+            _buttons = GenerateContainerUiElements(list);
         }
 
         private List<ButtonType> GenerateContainerUiElements(List<ListItemType> list) => list.Select(GenerateUiElement).ToList();
 
-        public void DisableButtons() => Buttons.ForEach(button => button.interactable = false);
-        public void EnableButtons() => Buttons.ForEach(button => button.interactable = true);
+        public void DisableButtons() => _buttons.ForEach(button => button.interactable = false);
+        public void EnableButtons() => _buttons.ForEach(button => button.interactable = true);
     }
 }

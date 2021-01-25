@@ -9,14 +9,12 @@ namespace UI
     {
         public Transform playerStatsUiContainer;
         public PlayerFighterStats playerFighterStatsPrefab;
-        private List<FighterController> _playerFighters = new List<FighterController>();
         private List<PlayerFighterStats> _playerFighterStatUiElements = new List<PlayerFighterStats>();
 
         public void SetPlayerFighters(List<FighterController> fighters)
         {
-            Reset();
-            _playerFighters = fighters;
-            _playerFighterStatUiElements = _playerFighters.Select(fighter =>
+            ClearFighterStats();
+            _playerFighterStatUiElements = fighters.Select(fighter =>
             {
                 var fighterStats = Instantiate(playerFighterStatsPrefab, playerStatsUiContainer);
                 fighterStats.SetFighter(fighter);
@@ -24,13 +22,10 @@ namespace UI
             }).ToList();
         }
 
-        private void Reset()
+        private void ClearFighterStats()
         {
             foreach (Transform child in playerStatsUiContainer.transform)
                 Destroy(child.gameObject);
-
-            _playerFighters.Clear();
-            _playerFighterStatUiElements.Clear();
         }
     }
 }
