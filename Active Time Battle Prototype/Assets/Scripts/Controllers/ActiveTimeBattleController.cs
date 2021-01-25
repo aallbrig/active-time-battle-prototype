@@ -10,8 +10,8 @@ namespace Controllers
     // TODO: Make this maybe not be a god objective (i.e. move PlayerBattleInputController out?)
     public class ActiveTimeBattleController :
         FsmContextController<ActiveTimeBattleState, ActiveTimeBattleController>,
-        IPlayerFighterCreated,
-        IEnemyFighterCreated
+        IPlayerFighterCreated, IEnemyFighterCreated,
+        IContinueBattlingButtonClicked, IQuitButtonClicked, IRestartButtonClicked
     {
         public PlayerBattleInputController playerBattleInputController;
 
@@ -34,16 +34,6 @@ namespace Controllers
 
         #endregion
 
-        #region Finite State Machine States
-
-        public StartMenuState StartMenuState;
-        public BeginBattleState BeginBattleState;
-        public BattleState BattleState;
-        public BattleVictoryState BattleVictoryState;
-        public BattleLoseState BattleLoseState;
-
-        #endregion
-
         #region User Interface Toggles
 
         public void ToggleStartMenu(bool value) => ToggleUI(StartMenuUi)(value);
@@ -55,9 +45,23 @@ namespace Controllers
 
         #endregion
 
+        #region Finite State Machine States
+
+        public StartMenuState StartMenuState;
+        public BeginBattleState BeginBattleState;
+        public BattleState BattleState;
+        public BattleVictoryState BattleVictoryState;
+        public BattleLoseState BattleLoseState;
+
+        #endregion
+
+        #region Lists of fighters and whom they belong to
+
         public List<FighterController> playerFighters = new List<FighterController>();
         public List<FighterController> enemyFighters = new List<FighterController>();
         public List<FighterController> fighters = new List<FighterController>();
+
+        #endregion
 
         private void Start()
         {
@@ -71,7 +75,10 @@ namespace Controllers
 
             EventBroker.EventBroker.Instance.Subscribe((IPlayerFighterCreated) this);
             EventBroker.EventBroker.Instance.Subscribe((IEnemyFighterCreated) this);
-       }
+            EventBroker.EventBroker.Instance.Subscribe((IContinueBattlingButtonClicked) this);
+            EventBroker.EventBroker.Instance.Subscribe((IRestartButtonClicked) this);
+            EventBroker.EventBroker.Instance.Subscribe((IQuitButtonClicked) this);
+        }
 
         private void Update()
         {
@@ -92,5 +99,19 @@ namespace Controllers
             fighters.Add(fighter);
             enemyFighters.Add(fighter);
         }
+
+        public void NotifyContinueBattlingButtonClick()
+        {
+            enemyFighters.ForEach(fighter =>
+            {
+                if (fighters.Contains(fighter)) fighters.Remove(fighter);
+            });
+            enemyFighters.Clear();
+
+            TransitionToState(BeginBattleState);
+        }
+
+        public void NotifyQuitButtonClicked() => TransitionToState(StartMenuState);
+        public void NotifyRestartButtonClicked() => TransitionToState(StartMenuState);
     }
 }

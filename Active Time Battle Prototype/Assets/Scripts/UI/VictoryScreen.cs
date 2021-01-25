@@ -33,6 +33,11 @@ namespace UI
                 DisableButtons();
                 OnContinueBattlingButtonClick?.Invoke();
             });
+            quitBattleButton.onClick.AddListener(() =>
+            {
+                DisableButtons();
+                OnQuitButtonClick?.Invoke();
+            });
         }
     }
 }

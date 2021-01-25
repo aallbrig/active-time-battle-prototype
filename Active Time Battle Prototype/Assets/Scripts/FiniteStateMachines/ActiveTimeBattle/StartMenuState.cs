@@ -29,6 +29,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
         public override void Leave(Action callback)
         {
             EventBroker.EventBroker.Instance.Unsubscribe(this);
+
             Controller.ToggleStartMenu(false);
             GeneratePlayerCharacters();
             base.Leave(callback);
