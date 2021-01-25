@@ -12,7 +12,8 @@ namespace EventBroker
         IEventBroker<IPlayerActionSelected>, IPlayerActionSelected,
         IEventBroker<IPlayerTargetsSelected>, IPlayerTargetsSelected,
         IEventBroker<IPlayerFighterCreated>, IPlayerFighterCreated,
-        IEventBroker<IEnemyFighterCreated>, IEnemyFighterCreated
+        IEventBroker<IEnemyFighterCreated>, IEnemyFighterCreated,
+        IEventBroker<IStartBattleButtonClicked>, IStartBattleButtonClicked
     {
         public static EventBroker Instance { get; private set; }
 
@@ -21,12 +22,20 @@ namespace EventBroker
         private readonly List<IPlayerTargetsSelected> _playerTargetsSelectedSubscribers = new List<IPlayerTargetsSelected>();
         private readonly List<IPlayerFighterCreated> _playerFighterCreatedSubscribers = new List<IPlayerFighterCreated>();
         private readonly List<IEnemyFighterCreated> _enemyFighterCreatedSubscribers = new List<IEnemyFighterCreated>();
+        private readonly List<IStartBattleButtonClicked> _startBattleButtonSubscribers = new List<IStartBattleButtonClicked>();
 
         List<IBattleMeterTick> IEventBroker<IBattleMeterTick>.Subscribers => _battleMeterSubscribers;
         List<IPlayerActionSelected> IEventBroker<IPlayerActionSelected>.Subscribers => _playerActionSelectedSubscribers;
         List<IPlayerTargetsSelected> IEventBroker<IPlayerTargetsSelected>.Subscribers => _playerTargetsSelectedSubscribers;
         List<IPlayerFighterCreated> IEventBroker<IPlayerFighterCreated>.Subscribers => _playerFighterCreatedSubscribers;
         List<IEnemyFighterCreated> IEventBroker<IEnemyFighterCreated>.Subscribers => _enemyFighterCreatedSubscribers;
+        List<IStartBattleButtonClicked> IEventBroker<IStartBattleButtonClicked>.Subscribers => _startBattleButtonSubscribers;
+
+
+        public void Subscribe(IStartBattleButtonClicked subscriber) => _startBattleButtonSubscribers.Add(subscriber);
+        public void Unsubscribe(IStartBattleButtonClicked subscriber) => _startBattleButtonSubscribers.Remove(subscriber);
+        public void NotifyStartBattleButtonClicked() => _startBattleButtonSubscribers.ForEach(sub => sub.NotifyStartBattleButtonClicked());
+
 
         public void Subscribe(IEnemyFighterCreated subscriber) =>
             _enemyFighterCreatedSubscribers.Add(subscriber);
@@ -70,6 +79,7 @@ namespace EventBroker
             PlayerTargets.OnPlayerTargetButtonClick += NotifyPlayerTargetsSelected;
             BattleState.OnBattleMeterTick += NotifyBattleMeterTick;
             StartMenuState.OnPlayerFighterCreated += NotifyPlayerFighterCreated;
+            StartMenu.OnStartBattleButtonClicked += NotifyStartBattleButtonClicked;
             BeginBattleState.OnEnemyFighterCreated += NotifyEnemyFighterCreated;
         }
 
@@ -78,6 +88,9 @@ namespace EventBroker
             PlayerActions.OnPlayerActionButtonClick -= NotifyPlayerActionSelected;
             PlayerTargets.OnPlayerTargetButtonClick -= NotifyPlayerTargetsSelected;
             BattleState.OnBattleMeterTick -= NotifyBattleMeterTick;
+            StartMenuState.OnPlayerFighterCreated -= NotifyPlayerFighterCreated;
+            StartMenu.OnStartBattleButtonClicked -= NotifyStartBattleButtonClicked;
+            BeginBattleState.OnEnemyFighterCreated -= NotifyEnemyFighterCreated;
         }
 
         private void Awake()

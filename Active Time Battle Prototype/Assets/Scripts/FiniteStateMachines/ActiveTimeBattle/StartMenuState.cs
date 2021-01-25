@@ -1,12 +1,13 @@
 ﻿using System;
 using ATBFighter;
 using Controllers;
+using EventBroker;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace FiniteStateMachines.ActiveTimeBattle
 {
-    public class StartMenuState : ActiveTimeBattleState
+    public class StartMenuState : ActiveTimeBattleState, IStartBattleButtonClicked
     {
         public static event Action<FighterController> OnPlayerFighterCreated; 
 
@@ -21,20 +22,13 @@ namespace FiniteStateMachines.ActiveTimeBattle
             // User is presented with quit game button
 
             // On start fight button
+            EventBroker.EventBroker.Instance.Subscribe(this);
             // On quit game button
-        }
-
-        public override void Tick()
-        {
-            // MVP
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Controller.TransitionToState(Controller.BeginBattleState);
-            }
         }
 
         public override void Leave(Action callback)
         {
+            EventBroker.EventBroker.Instance.Unsubscribe(this);
             Controller.ToggleStartMenu(false);
             GeneratePlayerCharacters();
             base.Leave(callback);
@@ -51,6 +45,11 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
                 OnPlayerFighterCreated?.Invoke(fighter.GetComponent<FighterController>());
             }
+        }
+
+        public void NotifyStartBattleButtonClicked()
+        {
+            Controller.TransitionToState(Controller.BeginBattleState);
         }
     }
 }

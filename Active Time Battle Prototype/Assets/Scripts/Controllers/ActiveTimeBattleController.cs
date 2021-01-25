@@ -68,7 +68,7 @@ namespace Controllers
             BattleLoseState = new BattleLoseState(this);
 
             TransitionToState(StartMenuState);
-            // TransitionToState(BattleState);
+
             EventBroker.EventBroker.Instance.Subscribe((IPlayerFighterCreated) this);
             EventBroker.EventBroker.Instance.Subscribe((IEnemyFighterCreated) this);
        }
@@ -77,7 +77,7 @@ namespace Controllers
         {
             // Hierarchical state machine implementation (HACK)
             // TODO: Find more elegant way of implementing HSM
-            if (playerBattleInputController.CurrentState != null) return;
+            // if (playerBattleInputController.CurrentState != null) return;
             CurrentState?.Tick();
         }
 

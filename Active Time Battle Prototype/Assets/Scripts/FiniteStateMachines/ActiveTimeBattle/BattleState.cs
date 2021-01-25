@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using ATBFighter;
 using Controllers;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         private readonly PlayerBattleInputController _playerBattleInputController;
         private IEnumerator _battleMeterTickCoroutine;
-        private const float CoroutineExecutionWait = 0.75f;
+        private const float CoroutineExecutionWait = 0.1f;
 
         public BattleState(ActiveTimeBattleController controller) : base(controller)
         {
@@ -35,11 +36,13 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Tick()
         {
-            // MVP
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Controller.TransitionToState(Controller.BattleVictoryState);
-            }
+            var enemiesCurrentHealth =
+                Controller.enemyFighters.Aggregate(0f, (sum, fighter) => sum + fighter.stats.currentHealth);
+            var playersCurrentHealth =
+                Controller.playerFighters.Aggregate(0f, (sum, fighter) => sum + fighter.stats.currentHealth);
+
+            if (enemiesCurrentHealth <= 0) Controller.TransitionToState(Controller.BattleVictoryState);
+            else if (playersCurrentHealth <= 0) Controller.TransitionToState(Controller.BattleLoseState);
         }
 
         public override void Leave(Action callback)
@@ -58,7 +61,6 @@ namespace FiniteStateMachines.ActiveTimeBattle
         {
             while (true)
             {
-                // For each ATB fighter, increment battle meter
                 // If ATB fighter's battle meter is >= 1.0, trigger "ATB fighter ready to act" event (consumed by player, enemy AI)
                 Controller.fighters.ForEach(fighter =>
                 {
@@ -69,12 +71,12 @@ namespace FiniteStateMachines.ActiveTimeBattle
                         1f
                     );
 
+                    // If the fighter's battle meter is already full, no need to send more on battle meter tick events
                     if (fighter.stats.currentBattleMeterValue != 1.0f)
                     {
                         fighter.stats.currentBattleMeterValue = newBattleMeterValue;
                         OnBattleMeterTick?.Invoke(fighter);
                     }
-
                 });
                 
                 yield return new WaitForSeconds(CoroutineExecutionWait);

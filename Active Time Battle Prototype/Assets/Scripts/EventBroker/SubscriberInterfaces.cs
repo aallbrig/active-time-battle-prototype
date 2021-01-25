@@ -27,4 +27,9 @@ namespace EventBroker
     {
         void NotifyBattleMeterTick(FighterController fighter);
     }
+
+    public interface IStartBattleButtonClicked
+    {
+        void NotifyStartBattleButtonClicked();
+    }
 }
