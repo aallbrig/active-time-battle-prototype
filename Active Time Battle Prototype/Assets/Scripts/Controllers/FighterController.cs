@@ -16,7 +16,7 @@ namespace ATBFighter
 
         public List<ATBFighterAction_SO> GetActions() => stats.actions;
 
-        public void ExecuteAction(ATBFighterAction_SO action, List<FighterController> targets)
+        public void ExecuteAction(ATBFighterAction_SO action, List<FighterController> targets, Action callback = null)
         {
             var originPosition = transform.position;
             var originRotation = transform.rotation;
@@ -31,6 +31,7 @@ namespace ATBFighter
                 {
                     transform.rotation = originRotation;
                     _rtsAnimator.UpdateAnimationTrigger(originTrigger);
+                    callback?.Invoke();
                 });
             });
             

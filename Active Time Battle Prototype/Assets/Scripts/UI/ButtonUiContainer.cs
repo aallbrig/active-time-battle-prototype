@@ -20,7 +20,6 @@ namespace UI
                 Destroy(child.gameObject);
             Buttons.ForEach(Destroy);
             Buttons.Clear();
-            _list.Clear();
         }
 
         protected void SetupList(List<ListItemType> list)

@@ -37,12 +37,13 @@ namespace Controllers
 
         private struct PlayerInput
         {
-            public FighterController activeFighter;
-            public ATBFighterAction_SO selectedAction;
-            public List<FighterController> targets;
+            public FighterController ActiveFighter;
+            public ATBFighterAction_SO SelectedAction;
+            public List<FighterController> Targets;
         }
 
         private PlayerInput playerInput;
+
         #endregion
 
         private readonly Queue<FighterController> _waitingForPlayerInputQueue = new Queue<FighterController>();
@@ -52,20 +53,17 @@ namespace Controllers
 
         public void SetPlayerFighters(List<FighterController> fighters)
         {
-            playerControlledFighters.Clear();
             playerControlledFighters = fighters;
             playerFightersStats.GetComponent<PlayerFightersStats>().SetPlayerFighters(playerControlledFighters);
         }
 
         public void SetEnemyFighters(List<FighterController> fighters)
         {
-            enemyFighters.Clear();
             enemyFighters = fighters;
         }
 
         public void SetPossibleActionTargets(List<FighterController> fighters)
         {
-            possibleTargets.Clear();
             possibleTargets = fighters;
         }
 
@@ -76,18 +74,14 @@ namespace Controllers
             {
                 if (_waitingForPlayerInputQueue.Count > 0 && CurrentState == PlayerWaitingState)
                 {
-                    playerInput.activeFighter = _waitingForPlayerInputQueue.Dequeue();
-                    playerActions.GetComponent<PlayerActions>().SetActions(playerInput.activeFighter.GetActions());
+                    playerInput.ActiveFighter = _waitingForPlayerInputQueue.Dequeue();
+                    var actions = playerInput.ActiveFighter.GetActions();
+                    playerActions.GetComponent<PlayerActions>().SetActions(actions);
                     TransitionToState(PlayerChooseActionState);
                 }
 
                 yield return new WaitForSeconds(0.25f);
             }
-        }
-
-        private void ResetPlayerInput()
-        {
-            playerInput = new PlayerInput();
         }
 
         private void Start()
@@ -123,7 +117,7 @@ namespace Controllers
         {
             if (playerControlledFighters.Contains(fighter))
             {
-                if (fighter != playerInput.activeFighter && !_waitingForPlayerInputQueue.Contains(fighter) && fighter.stats.currentBattleMeterValue >= 1.0f)
+                if (!_waitingForPlayerInputQueue.Contains(fighter) && fighter.stats.currentBattleMeterValue >= 1.0f)
                 {
                     _waitingForPlayerInputQueue.Enqueue(fighter);
                 }
@@ -132,8 +126,8 @@ namespace Controllers
 
         public void NotifyPlayerActionSelected(ATBFighterAction_SO action)
         {
-            playerInput.selectedAction = action;
-            SetPossibleActionTargets(playerInput.selectedAction.actionType == ActionType.Healing
+            playerInput.SelectedAction = action;
+            SetPossibleActionTargets(playerInput.SelectedAction.actionType == ActionType.Healing
                 ? playerControlledFighters
                 : enemyFighters);
             TransitionToState(PlayerSelectTargetsState);
@@ -141,9 +135,11 @@ namespace Controllers
 
         public void NotifyPlayerTargetsSelected(List<FighterController> targets)
         {
-            playerInput.targets = targets;
-            playerInput.activeFighter.ExecuteAction(playerInput.selectedAction, playerInput.targets);
-            ResetPlayerInput();
+            playerInput.Targets = targets;
+            playerInput.ActiveFighter.ExecuteAction(playerInput.SelectedAction, playerInput.Targets, () =>
+            {
+                playerInput.ActiveFighter.stats.currentBattleMeterValue = 0f;
+            });
             TransitionToState(PlayerWaitingState);
         }
     }

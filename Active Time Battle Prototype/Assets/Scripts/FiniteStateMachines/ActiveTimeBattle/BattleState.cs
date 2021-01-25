@@ -69,9 +69,12 @@ namespace FiniteStateMachines.ActiveTimeBattle
                         1f
                     );
 
-                    fighter.stats.currentBattleMeterValue = newBattleMeterValue;
+                    if (fighter.stats.currentBattleMeterValue != 1.0f)
+                    {
+                        fighter.stats.currentBattleMeterValue = newBattleMeterValue;
+                        OnBattleMeterTick?.Invoke(fighter);
+                    }
 
-                    OnBattleMeterTick?.Invoke(fighter);
                 });
                 
                 yield return new WaitForSeconds(CoroutineExecutionWait);
