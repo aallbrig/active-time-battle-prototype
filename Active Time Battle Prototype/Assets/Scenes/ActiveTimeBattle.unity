@@ -1814,6 +1814,7 @@ GameObject:
   - component: {fileID: 609368230}
   - component: {fileID: 609368229}
   - component: {fileID: 609368228}
+  - component: {fileID: 609368231}
   m_Layer: 0
   m_Name: Lose Screen
   m_TagString: Untagged
@@ -1903,6 +1904,19 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &609368231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609368226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 213ce7a879f9413da10bddda2bba4a40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restartButton: {fileID: 1975987122}
 --- !u!1 &640010081
 GameObject:
   m_ObjectHideFlags: 0
@@ -5265,6 +5279,7 @@ GameObject:
   - component: {fileID: 1789119955}
   - component: {fileID: 1789119954}
   - component: {fileID: 1789119953}
+  - component: {fileID: 1789119956}
   m_Layer: 0
   m_Name: Victory Screen
   m_TagString: Untagged
@@ -5352,6 +5367,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1789119956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789119951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 368957bcbfd54627af409afb28609882, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  continueBattlingButton: {fileID: 2035170092}
+  quitBattleButton: {fileID: 537201181}
 --- !u!1 &1808408117
 GameObject:
   m_ObjectHideFlags: 0
