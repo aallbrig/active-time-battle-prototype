@@ -1,13 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
+using ATBFighter;
+using EventBroker;
 using FiniteStateMachines.ActiveTimeBattle;
 using UnityEngine;
 
 namespace Controllers
 {
     // TODO: Make this maybe not be a god objective (i.e. move PlayerBattleInputController out?)
-    public class ActiveTimeBattleController : FsmContextController<ActiveTimeBattleState, ActiveTimeBattleController>
+    public class ActiveTimeBattleController :
+        FsmContextController<ActiveTimeBattleState, ActiveTimeBattleController>,
+        IPlayerFighterCreated,
+        IEnemyFighterCreated
     {
         public PlayerBattleInputController playerBattleInputController;
+
+        #region Pool of player/enemy fighter prefabs and spawn points
+
+        public List<FighterController> playerFighterPrefabs = new List<FighterController>();
+        public List<Transform> playerSpawnPositions = new List<Transform>();
+        public List<FighterController> enemyFighterPrefabs = new List<FighterController>();
+        public List<Transform> enemySpawnPositions = new List<Transform>();
+
+        #endregion
 
         #region User Interface References
 
@@ -40,6 +55,10 @@ namespace Controllers
 
         #endregion
 
+        public List<FighterController> playerFighters = new List<FighterController>();
+        public List<FighterController> enemyFighters = new List<FighterController>();
+        public List<FighterController> fighters = new List<FighterController>();
+
         private void Start()
         {
             StartMenuState = new StartMenuState(this);
@@ -48,16 +67,30 @@ namespace Controllers
             BattleVictoryState = new BattleVictoryState(this);
             BattleLoseState = new BattleLoseState(this);
 
-            // TransitionToState(StartMenuState);
-            TransitionToState(BeginBattleState);
-        }
+            TransitionToState(StartMenuState);
+            // TransitionToState(BattleState);
+            EventBroker.EventBroker.Instance.Subscribe((IPlayerFighterCreated) this);
+            EventBroker.EventBroker.Instance.Subscribe((IEnemyFighterCreated) this);
+       }
 
         private void Update()
         {
             // Hierarchical state machine implementation (HACK)
             // TODO: Find more elegant way of implementing HSM
             if (playerBattleInputController.CurrentState != null) return;
-            CurrentState.Tick();
+            CurrentState?.Tick();
+        }
+
+        public void NotifyPlayerFighterCreated(FighterController fighter)
+        {
+            fighters.Add(fighter);
+            playerFighters.Add(fighter);
+        }
+
+        public void NotifyEnemyFighterCreated(FighterController fighter)
+        {
+            fighters.Add(fighter);
+            enemyFighters.Add(fighter);
         }
     }
 }

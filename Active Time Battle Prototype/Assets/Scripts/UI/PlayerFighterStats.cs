@@ -1,11 +1,12 @@
 ﻿using ATBFighter;
+using EventBroker;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
-    public class PlayerFighterStats : MonoBehaviour
+    public class PlayerFighterStats : MonoBehaviour, IBattleMeterTick
     {
         public TextMeshProUGUI FighterName;
         public TextMeshProUGUI FighterHealth;
@@ -30,6 +31,16 @@ namespace UI
             FighterHealth.text = currentHealth + " / " + maxHealth;
 
             BattleMeter.value = _fighter.stats.currentBattleMeterValue;
+        }
+
+        private void Start()
+        {
+            EventBroker.EventBroker.Instance.Subscribe(this);
+        }
+
+        public void NotifyBattleMeterTick(FighterController fighter)
+        {
+            if (fighter == _fighter) UpdateUiElements();
         }
     }
 }

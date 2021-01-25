@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fighterName: Human Light Infantry
   maxHealth: 100
-  currentHealth: 10
-  model: {fileID: 0}
-  animator: {fileID: 0}
+  currentHealth: 90
+  currentBattleMeterValue: 1
+  secondsToMaxBattleMeterValue: 4.5
   actions:
+  - {fileID: 11400000, guid: 6f518d4079bfca54fbd1c77fa04c2f9a, type: 2}
   - {fileID: 11400000, guid: 6f518d4079bfca54fbd1c77fa04c2f9a, type: 2}

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using ATBFighter;
 using Controllers;
+using EventBroker;
+using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,21 +15,18 @@ namespace FiniteStateMachines.PlayerBattleInput
 
         public override void Enter()
         {
-            // Find all valid player enemy targets
-            // populate targets UI
-            // show possible targets UI
+            Controller.playerTargets.GetComponent<PlayerTargets>().SetTargets(Controller.possibleTargets);
             Controller.TogglePlayerTargetsUi(true);
         }
 
-        public override void Tick()
+        public override void Leave(Action callback)
         {
-            // Cycle through player input states
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Controller.TransitionToState(Controller.PlayerWaitingState);
-                // 25% change to exit this FSM
-                // Controller.TransitionToState(Random.Range(0f, 1f) > 0.75f ? Controller.PlayerWaitingState : null);
-            }
+            // Controller.ActiveFighter.ResetBattleMeter();
+            // Controller.ActiveFighter = null;
+            // Controller.SelectedAction = null;
+            // Controller.Targets = null;
+            base.Leave(callback);
         }
+
     }
 }

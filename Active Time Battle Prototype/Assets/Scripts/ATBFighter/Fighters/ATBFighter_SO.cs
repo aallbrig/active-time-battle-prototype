@@ -10,8 +10,9 @@ namespace ATBFighter
         public float maxHealth;
         public float currentHealth;
         public float currentBattleMeterValue;
-        public GameObject model;
-        public Animator animator;
+        public float secondsToMaxBattleMeterValue;
+        // public GameObject model;
+        // public Animator animator;
         public List<ATBFighterAction_SO> actions;
     }
 }

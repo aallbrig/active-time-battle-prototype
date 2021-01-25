@@ -7,7 +7,6 @@ namespace ATBFighter
     {
         public string actionName;
         public string animationTriggerName;
-        public GameObject model;
         public float range = 1;
         public float actionEffect = 10;
         public ActionType actionType;

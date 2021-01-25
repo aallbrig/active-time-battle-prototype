@@ -9,17 +9,17 @@ namespace ATBFighter
 {
     public class FighterController : MonoBehaviour
     {
+        public ATBFighter_SO statsTemplate;
         public ATBFighter_SO stats;
         private RTSToonAnimationController _rtsAnimator;
         private NavMeshAgentController _agentController;
-        private Transform _transform;
 
         public List<ATBFighterAction_SO> GetActions() => stats.actions;
 
         public void ExecuteAction(ATBFighterAction_SO action, List<FighterController> targets)
         {
-            var originPosition = _transform.position;
-            var originRotation = _transform.rotation;
+            var originPosition = transform.position;
+            var originRotation = transform.rotation;
             var originTrigger = _rtsAnimator.CurrentTrigger;
 
             var centerPoint = FindCenterPoint(targets);
@@ -29,7 +29,7 @@ namespace ATBFighter
                 _rtsAnimator.Running();
                 _agentController.SetDestination(originPosition, 0, () =>
                 {
-                    _transform.rotation = originRotation;
+                    transform.rotation = originRotation;
                     _rtsAnimator.UpdateAnimationTrigger(originTrigger);
                 });
             });
@@ -76,8 +76,13 @@ namespace ATBFighter
             stats.currentHealth = Mathf.Clamp(stats.currentHealth + heal, 0, stats.maxHealth);
         }
 
+        public void ResetBattleMeter()
+        {
+            stats.currentBattleMeterValue = 0f;
+        }
+
         private static Vector3 FindCenterPoint(IReadOnlyCollection<FighterController> targets) =>
-            targets.Select(target => target._transform.position)
+            targets.Select(target => target.transform.position)
                 .Aggregate(new Vector3(), (acc, position) => acc + position)
                 / targets.Count;
 
@@ -88,9 +93,13 @@ namespace ATBFighter
 
         private void Start()
         {
-            _transform = transform;
             _rtsAnimator = GetComponent<RTSToonAnimationController>();
             _agentController = GetComponent<NavMeshAgentController>();
+
+            if (statsTemplate != null)
+            {
+                stats = Instantiate(statsTemplate);
+            }
         }
     }
 }

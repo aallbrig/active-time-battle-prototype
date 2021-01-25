@@ -1,11 +1,15 @@
 ﻿using System;
+using ATBFighter;
 using Controllers;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace FiniteStateMachines.ActiveTimeBattle
 {
     public class StartMenuState : ActiveTimeBattleState
     {
+        public static event Action<FighterController> OnPlayerFighterCreated; 
+
         public StartMenuState(ActiveTimeBattleController controller) : base(controller) {}
 
         public override void Enter()
@@ -38,8 +42,15 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         private void GeneratePlayerCharacters()
         {
-            // Generate player characters, based on list of player character prefabs
-        }
+            var playerFightersToSpawnCount = Random.Range(1, Controller.playerSpawnPositions.Count);
+            for (int i = 0; i < playerFightersToSpawnCount; i++)
+            {
+                var randomPlayerFigher =
+                    Controller.playerFighterPrefabs[Random.Range(0, Controller.playerFighterPrefabs.Count)];
+                var fighter = GameObject.Instantiate(randomPlayerFigher.gameObject, Controller.playerSpawnPositions[i].transform);
 
+                OnPlayerFighterCreated?.Invoke(fighter.GetComponent<FighterController>());
+            }
+        }
     }
 }

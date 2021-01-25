@@ -12,6 +12,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         private readonly PlayerBattleInputController _playerBattleInputController;
         private IEnumerator _battleMeterTickCoroutine;
+        private const float CoroutineExecutionWait = 0.75f;
 
         public BattleState(ActiveTimeBattleController controller) : base(controller)
         {
@@ -21,6 +22,9 @@ namespace FiniteStateMachines.ActiveTimeBattle
         public override void Enter()
         {
             _playerBattleInputController.gameObject.SetActive(true);
+            _playerBattleInputController.SetPlayerFighters(Controller.playerFighters);
+            _playerBattleInputController.SetEnemyFighters(Controller.enemyFighters);
+
             // Show battle UI HUD
             Controller.ToggleBattleHUDUI(true);
             // (optional) animate/set camera to battle state position
@@ -52,9 +56,26 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         private IEnumerator BattleMeterTickCoroutine()
         {
-            // For each ATB fighter, increment battle meter
-            // If ATB fighter's battle meter is >= 1.0, trigger "ATB fighter ready to act" event (consumed by player, enemy AI)
-            yield return null;
+            while (true)
+            {
+                // For each ATB fighter, increment battle meter
+                // If ATB fighter's battle meter is >= 1.0, trigger "ATB fighter ready to act" event (consumed by player, enemy AI)
+                Controller.fighters.ForEach(fighter =>
+                {
+                    var battleMeterTickRate = 1 / fighter.stats.secondsToMaxBattleMeterValue;
+                    var newBattleMeterValue = Mathf.Clamp(
+                        fighter.stats.currentBattleMeterValue + battleMeterTickRate * CoroutineExecutionWait,
+                        0f,
+                        1f
+                    );
+
+                    fighter.stats.currentBattleMeterValue = newBattleMeterValue;
+
+                    OnBattleMeterTick?.Invoke(fighter);
+                });
+                
+                yield return new WaitForSeconds(CoroutineExecutionWait);
+            }
         }
     }
 }

@@ -42,12 +42,15 @@ namespace Controllers
 
         public void UpdateAnimationTrigger(string triggerName)
         {
+            // TODO: Why do I have to do this?
+            if (_animator == null) _animator = GetComponent<Animator>();
+
             if (CurrentTrigger != null) _animator.ResetTrigger(triggerName);
             _animator.SetTrigger(triggerName);
             CurrentTrigger = triggerName;
         }
 
-        private void Start()
+        private void Awake()
         {
             _animator = GetComponent<Animator>();
             if (startingTrigger == RTSToonAnimations.CombatIdle) IdlingInCombat();

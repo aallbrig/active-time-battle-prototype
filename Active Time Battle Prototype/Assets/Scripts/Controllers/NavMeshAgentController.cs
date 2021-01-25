@@ -45,7 +45,7 @@ namespace Controllers
         }
 
 
-        private void Start()
+        private void Awake()
         {
             _agent = GetComponent<NavMeshAgent>();
         }

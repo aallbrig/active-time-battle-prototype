@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ATBFighter;
-using UI;
 using UnityEngine;
 
 namespace Controllers
@@ -10,27 +9,27 @@ namespace Controllers
     {
         public FighterController fighter;
         public List<FighterController> targets;
-        public PlayerActions playerActions;
-        public PlayerTargets playerTargets;
-        public PlayerFightersStats playerFightersStats;
 
         private Vector3 FindCenterPoint(List<FighterController> targets)
         {
-            return targets.Select(target => target.transform.position)
+            return targets.Select(target => ((Component) target).transform.position)
                 .Aggregate(new Vector3(), (acc, transform) => acc += transform)
                 / targets.Count;
         }
 
-        private void OnEnable()
+        private void Update()
         {
-            var actions = fighter.GetActions();
-            playerActions.SetActions(actions);
-            playerTargets.SetTargets(targets);
-            playerFightersStats.SetPlayerFighters(new List<FighterController> { fighter });
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
+            {
+                var actions = fighter.GetActions();
+                var randomAction = actions[Random.Range(0, actions.Count)];
+                fighter.ExecuteAction(randomAction, targets);
+            }
         }
 
         private void OnDrawGizmos()
         {
+            if (targets == null || (targets.Count > 0 && targets[0] == null)) return;
             var centerPoint = FindCenterPoint(targets);
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(centerPoint, 0.5f);
