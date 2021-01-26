@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Controllers;
-using EventBroker;
 using EventBroker.SubscriberInterfaces;
 using TMPro;
 using UnityEngine;
@@ -8,7 +7,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class PlayerFighterStats : MonoBehaviour, IBattleMeterTick, IActivePlayerFighterSet
+    public class PlayerFighterStats : MonoBehaviour, IBattleMeterTick, IActivePlayerFighterSet, IPlayerTargetsSelected
     {
         public TextMeshProUGUI FighterName;
         public TextMeshProUGUI FighterHealth;
@@ -35,16 +34,19 @@ namespace UI
 
             BattleMeter.value = _fighter.stats.currentBattleMeterValue;
         }
+
         private void Start()
         {
             EventBroker.EventBroker.Instance.Subscribe((IBattleMeterTick) this);
             EventBroker.EventBroker.Instance.Subscribe((IActivePlayerFighterSet) this);
+            EventBroker.EventBroker.Instance.Subscribe((IPlayerTargetsSelected) this);
         }
 
         private void OnDestroy()
         {
             EventBroker.EventBroker.Instance.Unsubscribe((IBattleMeterTick) this);
             EventBroker.EventBroker.Instance.Unsubscribe((IActivePlayerFighterSet) this);
+            EventBroker.EventBroker.Instance.Unsubscribe((IPlayerTargetsSelected) this);
         }
 
         public void NotifyBattleMeterTick(FighterController fighter)
@@ -52,9 +54,8 @@ namespace UI
             if (fighter == _fighter) UpdateUiElements();
         }
 
-        public void NotifyActivePlayerFighterSet(FighterController fighter)
-        {
-            Highlight.SetActive(fighter == _fighter);
-        }
+        public void NotifyActivePlayerFighterSet(FighterController fighter) => Highlight.SetActive(fighter == _fighter);
+
+        public void NotifyPlayerTargetsSelected(List<FighterController> targets) => Highlight.SetActive(false);
     }
 }
