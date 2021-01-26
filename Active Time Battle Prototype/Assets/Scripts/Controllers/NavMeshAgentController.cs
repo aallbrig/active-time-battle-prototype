@@ -11,7 +11,7 @@ namespace Controllers
         private IEnumerator _agentIsAtDestinationCoroutine;
         private bool _needToDetect;
 
-        public void SetDestination(Vector3 point, float stoppingDistance, Action onDestinationReachedCallback)
+        public IEnumerator SetDestination(Vector3 point, float stoppingDistance, Action onDestinationReachedCallback = null)
         {
             _needToDetect = true;
             _agent.stoppingDistance = stoppingDistance;
@@ -20,9 +20,11 @@ namespace Controllers
             _agentIsAtDestinationCoroutine = AgentReachedDestination(_agent, onDestinationReachedCallback);
 
             StartCoroutine(_agentIsAtDestinationCoroutine);
+
+            return _agentIsAtDestinationCoroutine;
         }
 
-        private IEnumerator AgentReachedDestination(NavMeshAgent agent, Action callback)
+        private IEnumerator AgentReachedDestination(NavMeshAgent agent, Action callback = null)
         {
             while (_needToDetect)
             {
