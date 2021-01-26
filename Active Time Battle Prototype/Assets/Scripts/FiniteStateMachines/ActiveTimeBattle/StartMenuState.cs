@@ -1,6 +1,7 @@
 ﻿using System;
 using Controllers;
 using EventBroker;
+using EventBroker.SubscriberInterfaces;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;

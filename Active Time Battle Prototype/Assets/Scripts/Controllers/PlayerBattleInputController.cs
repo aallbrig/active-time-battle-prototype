@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Data.Actions;
 using EventBroker;
+using EventBroker.SubscriberInterfaces;
 using FiniteStateMachines.PlayerBattleInput;
 using UI;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace Controllers
         FsmContextController<PlayerBattleInputState, PlayerBattleInputController>,
         IBattleMeterTick, IPlayerActionSelected, IPlayerTargetsSelected
     {
+        public static event Action<FighterController> OnSetPlayerActiveFighter;
         public ActiveTimeBattleController atbController;
         
         #region Finite State Machine States
@@ -65,6 +67,8 @@ namespace Controllers
                 if (_waitingForPlayerInputQueue.Count > 0 && CurrentState == PlayerWaitingState)
                 {
                     playerInput.ActiveFighter = _waitingForPlayerInputQueue.Dequeue();
+                    OnSetPlayerActiveFighter?.Invoke(playerInput.ActiveFighter);
+
                     var actions = playerInput.ActiveFighter.GetActions();
                     playerActions.GetComponent<PlayerActions>().SetActions(actions);
                     TransitionToState(PlayerChooseActionState);

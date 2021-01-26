@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using EventBroker;
+using EventBroker.SubscriberInterfaces;
 using FiniteStateMachines.ActiveTimeBattle;
 using UnityEditor;
 using UnityEngine;

@@ -1,6 +1,6 @@
 ﻿using Controllers;
 
-namespace EventBroker
+namespace EventBroker.SubscriberInterfaces
 {
     public interface IEnemyFighterCreated
     {

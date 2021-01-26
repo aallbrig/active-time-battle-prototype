@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Controllers;
 
-namespace EventBroker
+namespace EventBroker.SubscriberInterfaces
 {
     public interface IPlayerTargetsSelected
     {

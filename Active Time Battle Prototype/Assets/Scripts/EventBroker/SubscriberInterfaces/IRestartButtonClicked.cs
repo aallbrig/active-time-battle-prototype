@@ -1,4 +1,4 @@
-﻿namespace EventBroker
+﻿namespace EventBroker.SubscriberInterfaces
 {
     public interface IRestartButtonClicked
     {

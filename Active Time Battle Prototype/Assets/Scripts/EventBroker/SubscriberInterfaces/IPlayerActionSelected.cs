@@ -1,6 +1,6 @@
 ﻿using Data.Actions;
 
-namespace EventBroker
+namespace EventBroker.SubscriberInterfaces
 {
     public interface IPlayerActionSelected
     {
