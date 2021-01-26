@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using EventBroker;
 using EventBroker.SubscriberInterfaces;
 using FiniteStateMachines.ActiveTimeBattle;
 using UnityEditor;
@@ -13,8 +11,11 @@ namespace Controllers
 {
     // TODO: Make this maybe not be a god objective (i.e. move PlayerBattleInputController out?)
     public class ActiveTimeBattleController : FsmContextController<ActiveTimeBattleState, ActiveTimeBattleController>,
-        IPlayerFighterCreated, IEnemyFighterCreated, IContinueBattlingButtonClicked, IQuitButtonClicked, IRestartButtonClicked
+        IPlayerFighterCreated, IEnemyFighterCreated, IContinueBattlingButtonClicked, IQuitButtonClicked, IRestartButtonClicked,
+        IStartBattleButtonClicked
     {
+        public static event Action<FighterController> OnPlayerFighterCreated; 
+
         public PlayerBattleInputController playerBattleInputController;
 
         #region Pool of player/enemy fighter prefabs and spawn points
@@ -93,6 +94,17 @@ namespace Controllers
             TransitionToState(StartMenuState);
         }
 
+        public void NotifyStartBattleButtonClicked()
+        {
+            GeneratePlayerCharacters();
+            TransitionToState(BeginBattleState);
+        }
+
+        private void GeneratePlayerCharacters()
+        {
+            GenerateRandomFighters(playerSpawnPositions, OnPlayerFighterCreated);
+        }
+
         #endregion
 
         private List<string> GetAllFightersAssetPath() => 
@@ -129,6 +141,7 @@ namespace Controllers
             BattleLoseState = new BattleLoseState(this);
 
             // Setup subscriptions to notable events
+            EventBroker.EventBroker.Instance.Subscribe((IStartBattleButtonClicked) this);
             EventBroker.EventBroker.Instance.Subscribe((IPlayerFighterCreated) this);
             EventBroker.EventBroker.Instance.Subscribe((IEnemyFighterCreated) this);
             EventBroker.EventBroker.Instance.Subscribe((IContinueBattlingButtonClicked) this);

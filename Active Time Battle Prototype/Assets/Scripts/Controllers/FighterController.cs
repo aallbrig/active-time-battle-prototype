@@ -11,6 +11,11 @@ namespace Controllers
 {
     public class FighterController : MonoBehaviour
     {
+        public static event Action<FighterController, FighterAction, List<FighterController>> OnFighterAction;
+        public static event Action<FighterController, float> OnFighterTakingDamage;
+        public static event Action<FighterController, float> OnFighterHealed;
+        public static event Action<FighterController> OnFighterDie;
+
         public FighterStats statsTemplate;
         public FighterStats stats;
         private Transform _transform;
@@ -22,16 +27,22 @@ namespace Controllers
 
         public void ExecuteAction(FighterAction action, List<FighterController> targets, Action callback = null)
         {
+            OnFighterAction?.Invoke(this, action, targets);
             _actionExecutionCoroutine = ExecuteActionCoroutine(action, targets, callback);
             StartCoroutine(_actionExecutionCoroutine);
         }
 
         public void TakeDamage(float damage)
         {
+            OnFighterTakingDamage?.Invoke(this, damage);
             StartCoroutine(TakeDamageCoroutine(damage));
         }
 
-        public void Heal(float heal) => stats.currentHealth = Mathf.Clamp(stats.currentHealth + heal, 0, stats.maxHealth);
+        public void Heal(float heal)
+        {
+            OnFighterHealed?.Invoke(this, heal);
+            stats.currentHealth = Mathf.Clamp(stats.currentHealth + heal, 0, stats.maxHealth);
+        }
 
         public void ResetBattleMeter() => stats.currentBattleMeterValue = 0f;
 

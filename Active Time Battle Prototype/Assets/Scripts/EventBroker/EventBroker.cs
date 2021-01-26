@@ -115,9 +115,9 @@ namespace EventBroker
             PlayerActions.OnPlayerActionButtonClick += NotifyPlayerActionSelected;
             PlayerTargets.OnPlayerTargetButtonClick += NotifyPlayerTargetsSelected;
             BattleState.OnBattleMeterTick += NotifyBattleMeterTick;
-            StartMenuState.OnPlayerFighterCreated += NotifyPlayerFighterCreated;
             StartMenu.OnStartBattleButtonClicked += NotifyStartBattleButtonClicked;
             BeginBattleState.OnEnemyFighterCreated += NotifyEnemyFighterCreated;
+            ActiveTimeBattleController.OnPlayerFighterCreated += NotifyPlayerFighterCreated;
             PlayerBattleInputController.OnSetPlayerActiveFighter += NotifyActivePlayerFighterSet;
             VictoryScreen.OnContinueBattlingButtonClick += NotifyContinueBattlingButtonClick;
             VictoryScreen.OnQuitButtonClick += NotifyQuitButtonClicked;
@@ -129,9 +129,9 @@ namespace EventBroker
             PlayerActions.OnPlayerActionButtonClick -= NotifyPlayerActionSelected;
             PlayerTargets.OnPlayerTargetButtonClick -= NotifyPlayerTargetsSelected;
             BattleState.OnBattleMeterTick -= NotifyBattleMeterTick;
-            StartMenuState.OnPlayerFighterCreated -= NotifyPlayerFighterCreated;
             StartMenu.OnStartBattleButtonClicked -= NotifyStartBattleButtonClicked;
             BeginBattleState.OnEnemyFighterCreated -= NotifyEnemyFighterCreated;
+            ActiveTimeBattleController.OnPlayerFighterCreated -= NotifyPlayerFighterCreated;
             PlayerBattleInputController.OnSetPlayerActiveFighter -= NotifyActivePlayerFighterSet;
             VictoryScreen.OnContinueBattlingButtonClick -= NotifyContinueBattlingButtonClick;
             VictoryScreen.OnQuitButtonClick -= NotifyQuitButtonClicked;
