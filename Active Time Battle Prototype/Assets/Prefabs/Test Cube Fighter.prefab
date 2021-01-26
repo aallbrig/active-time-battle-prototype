@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 3209772048969071710}
   - component: {fileID: 3209772048969071708}
   - component: {fileID: 3209772048969071705}
-  - component: {fileID: 1320646145207678348}
   - component: {fileID: 7305831068241358713}
+  - component: {fileID: 5239726270628959002}
   - component: {fileID: 491517039774750375}
   m_Layer: 0
   m_Name: Test Cube Fighter
@@ -140,19 +140,6 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1320646145207678348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3209772048969071698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dd77ca6e5964a92bf112838df4c038e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingTrigger: idle
 --- !u!114 &7305831068241358713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +152,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9229f7c2b1554af5a8b3b5c638feeb64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5239726270628959002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3209772048969071698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dd77ca6e5964a92bf112838df4c038e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationManifest: {fileID: 11400000, guid: 7636f67e868eac14d9a8d33d8d7795c0, type: 2}
 --- !u!114 &491517039774750375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statsTemplate: {fileID: 11400000, guid: e51f726846ae1ea4eb22dfb2ef9ec556, type: 2}
-  stats: {fileID: 0}
+  stats: {fileID: 11400000, guid: e51f726846ae1ea4eb22dfb2ef9ec556, type: 2}
 --- !u!1 &3605152669210614688
 GameObject:
   m_ObjectHideFlags: 0

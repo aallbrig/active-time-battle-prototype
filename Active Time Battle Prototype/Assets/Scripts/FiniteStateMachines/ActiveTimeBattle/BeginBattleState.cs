@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Controllers;
 using UI;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace FiniteStateMachines.ActiveTimeBattle
 {
@@ -54,14 +53,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         private void GeneratePlayerEnemies()
         {
-            var enemyFightersToSpawn = Random.Range(1, Controller.enemySpawnPositions.Count);
-            for (int i = 0; i < enemyFightersToSpawn; i++)
-            {
-                var randomEnemyFighterPrefab = Controller.enemyFighterPrefabs[Random.Range(0, Controller.enemyFighterPrefabs.Count)];
-                var fighter = GameObject.Instantiate(randomEnemyFighterPrefab.gameObject, Controller.enemySpawnPositions[i].transform);
-
-                OnEnemyFighterCreated?.Invoke(fighter.GetComponent<FighterController>());
-            }
+            Controller.GenerateRandomFighters(Controller.enemySpawnPositions, OnEnemyFighterCreated);
         }
     }
 }

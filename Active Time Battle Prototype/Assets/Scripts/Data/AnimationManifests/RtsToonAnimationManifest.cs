@@ -23,6 +23,6 @@ namespace Data
         public string takeDamage = "Take Damage";
         public string deathA = "Death A";
         public string deathB = "Death B";
-        // public Animator animationController;
+        public RuntimeAnimatorController animationController;
     }
 }

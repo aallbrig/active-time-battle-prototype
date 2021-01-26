@@ -28,4 +28,4 @@ MonoBehaviour:
   takeDamage: Take Damage
   deathA: Death A
   deathB: Death B
-  animationController: {fileID: 0}
+  animationController: {fileID: 9100000, guid: 8789708263633c641b11ed8fed818fd1, type: 2}

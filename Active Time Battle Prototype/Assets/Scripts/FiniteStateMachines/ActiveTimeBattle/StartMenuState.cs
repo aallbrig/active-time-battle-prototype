@@ -1,6 +1,7 @@
 ﻿using System;
 using Controllers;
 using EventBroker;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -36,15 +37,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         private void GeneratePlayerCharacters()
         {
-            var playerFightersToSpawnCount = Random.Range(1, Controller.playerSpawnPositions.Count);
-            for (int i = 0; i < playerFightersToSpawnCount; i++)
-            {
-                var randomPlayerFigher =
-                    Controller.playerFighterPrefabs[Random.Range(0, Controller.playerFighterPrefabs.Count)];
-                var fighter = GameObject.Instantiate(randomPlayerFigher.gameObject, Controller.playerSpawnPositions[i].transform);
-
-                OnPlayerFighterCreated?.Invoke(fighter.GetComponent<FighterController>());
-            }
+            Controller.GenerateRandomFighters(Controller.playerSpawnPositions, OnPlayerFighterCreated);
         }
 
         public void NotifyStartBattleButtonClicked()

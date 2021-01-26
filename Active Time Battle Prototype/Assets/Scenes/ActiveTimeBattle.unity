@@ -1036,14 +1036,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBattleInputController: {fileID: 233476565}
-  playerFighterPrefabs:
-  - {fileID: 491517039774750375, guid: b677034d5fa01f7448e6da52a2a37382, type: 3}
+  allFighters: []
   playerSpawnPositions:
   - {fileID: 1999363805}
   - {fileID: 640010082}
   - {fileID: 1824303586}
-  enemyFighterPrefabs:
-  - {fileID: 491517039774750375, guid: b677034d5fa01f7448e6da52a2a37382, type: 3}
   enemySpawnPositions:
   - {fileID: 1719142370}
   - {fileID: 1759692371}
@@ -2257,13 +2254,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.42258203, y: 0.011906007, z: -0.0055518546, w: 0.90622944}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 50.000004, y: 1.5050001, z: 0}
 --- !u!1001 &729610208
 PrefabInstance:
   m_ObjectHideFlags: 0

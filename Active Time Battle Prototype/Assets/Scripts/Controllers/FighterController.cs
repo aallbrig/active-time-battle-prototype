@@ -12,7 +12,7 @@ namespace Controllers
     {
         public FighterStats statsTemplate;
         public FighterStats stats;
-        private RTSToonAnimationController _rtsAnimator;
+        private FighterAnimationController _fighterAnimationController;
         private NavMeshAgentController _agentController;
 
         public List<FighterAction> GetActions() => stats.actions;
@@ -21,17 +21,17 @@ namespace Controllers
         {
             var originPosition = transform.position;
             var originRotation = transform.rotation;
-            var originTrigger = _rtsAnimator.CurrentTrigger;
+            var originTrigger = _fighterAnimationController.CurrentTrigger;
 
             var centerPoint = FindCenterPoint(targets);
 
             var returnToOrigin = new Action(() =>
             {
-                _rtsAnimator.Running();
+                _fighterAnimationController.Running();
                 _agentController.SetDestination(originPosition, 0, () =>
                 {
                     transform.rotation = originRotation;
-                    _rtsAnimator.UpdateAnimationTrigger(originTrigger);
+                    _fighterAnimationController.UpdateAnimationTrigger(originTrigger);
                     callback?.Invoke();
                 });
             });
@@ -39,26 +39,27 @@ namespace Controllers
 
             if (action.actionType == Healing)
             {
-                _rtsAnimator.Running();
+                _fighterAnimationController.Running();
                 _agentController.SetDestination(
                     centerPoint,
                     action.range,
                     () =>
                     {
-                        _rtsAnimator.UpdateAnimationTrigger(action.animationTriggerName);
+                        _fighterAnimationController.UpdateAnimationTrigger(action.animationTriggerName);
                         targets.ForEach(target => target.Heal(action.actionEffect));
                         returnToOrigin();
                     });
             }
             else
             {
-                _rtsAnimator.Charging();
+                _fighterAnimationController.Charging();
                 _agentController.SetDestination(
                     centerPoint,
                     action.range,
                     () =>
                     {
-                        _rtsAnimator.UpdateAnimationTrigger(action.animationTriggerName);
+                        _fighterAnimationController.Slash();
+                        // _fighterAnimationController.UpdateAnimationTrigger(action.animationTriggerName);
                         targets.ForEach(target => target.TakeDamage(action.actionEffect));
                         returnToOrigin();
                     });
@@ -68,7 +69,7 @@ namespace Controllers
         public void TakeDamage(float damage)
         {
             stats.currentHealth = Mathf.Clamp(stats.currentHealth - damage, 0, stats.maxHealth);
-            _rtsAnimator.TakingDamage();
+            _fighterAnimationController.TakingDamage();
 
             if (stats.currentHealth == 0) Die();
         }
@@ -95,7 +96,7 @@ namespace Controllers
 
         private void Start()
         {
-            _rtsAnimator = GetComponent<RTSToonAnimationController>();
+            _fighterAnimationController = GetComponent<FighterAnimationController>();
             _agentController = GetComponent<NavMeshAgentController>();
 
             if (statsTemplate != null)

@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using EventBroker;
 using FiniteStateMachines.ActiveTimeBattle;
+using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Controllers
 {
@@ -14,9 +18,8 @@ namespace Controllers
 
         #region Pool of player/enemy fighter prefabs and spawn points
 
-        public List<FighterController> playerFighterPrefabs = new List<FighterController>();
+        public List<FighterController> allFighters = new List<FighterController>();
         public List<Transform> playerSpawnPositions = new List<Transform>();
-        public List<FighterController> enemyFighterPrefabs = new List<FighterController>();
         public List<Transform> enemySpawnPositions = new List<Transform>();
 
         #endregion
@@ -91,6 +94,29 @@ namespace Controllers
         }
 
         #endregion
+
+        private List<string> GetAllFightersAssetPath() => 
+            AssetDatabase.GetAllAssetPaths()
+                .Where(assetPath => assetPath.Contains("Prefabs/Fighters"))
+                .ToList();
+
+        private FighterController LoadFighter(string assetPath) =>
+            AssetDatabase.LoadAssetAtPath<FighterController>(assetPath);
+        
+        public void GenerateRandomFighters(List<Transform> spawnPositions, Action<FighterController> callback)
+        {
+            var fightersAssetPaths = GetAllFightersAssetPath();
+            var numberOfFightersToSpawn = Random.Range(1, spawnPositions.Count);
+
+            for (var i = 0; i < numberOfFightersToSpawn; i++)
+            {
+                var randomFighterAssetPath = fightersAssetPaths[Random.Range(0, fightersAssetPaths.Count)];
+                var randomFighterPrefab = LoadFighter(randomFighterAssetPath);
+                var fighter = GameObject.Instantiate(randomFighterPrefab.gameObject, spawnPositions[i].transform);
+
+                callback?.Invoke(fighter.GetComponent<FighterController>());
+            }
+        }
 
         private void Start()
         {
