@@ -51,7 +51,7 @@ namespace UI
 
         public void NotifyBattleMeterTick(FighterController fighter)
         {
-            if (fighter == _fighter) UpdateUiElements();
+            UpdateUiElements();
         }
 
         public void NotifyActivePlayerFighterSet(FighterController fighter) => Highlight.SetActive(fighter == _fighter);

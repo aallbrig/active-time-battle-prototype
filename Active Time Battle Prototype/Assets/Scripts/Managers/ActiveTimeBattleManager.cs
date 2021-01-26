@@ -125,7 +125,7 @@ namespace Managers
             // min value = inclusive, max value = exclusive thus + 1
             var numberOfFightersToSpawn = Random.Range(1, spawnPositions.Count + 1);
 
-            for (var i = 0; i < numberOfFightersToSpawn; i++)
+            for (var i = 0; i <= numberOfFightersToSpawn; i++)
             {
                 var randomFighterAssetPath = fightersAssetPaths[Random.Range(0, fightersAssetPaths.Count)];
                 var randomFighterPrefab = LoadFighter(randomFighterAssetPath);

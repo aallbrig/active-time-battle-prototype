@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Commands;
 using Controllers;
 using Data.Actions;
@@ -32,6 +33,8 @@ namespace Managers
         }
 
         private static FighterController RandomFighter(IReadOnlyList<FighterController> fighters) => fighters[Random.Range(0, fighters.Count)];
+        private static FighterController RandomAliveFighter(IReadOnlyCollection<FighterController> fighters) =>
+            RandomFighter(fighters.Where(fighter => !fighter.stats.dead).ToList());
         private static FighterAction RandomAction(IReadOnlyList<FighterAction> fighterActions) => fighterActions[Random.Range(0, fighterActions.Count)];
 
         private IEnumerator HandleEnemyFighterInput(FighterController fighter)
@@ -42,11 +45,11 @@ namespace Managers
             var targets = new List<FighterController>();
             if (randomAction.actionType == ActionType.Healing)
             {
-                targets.Add(RandomFighter(atbManager.EnemyFighters));
+                targets.Add(RandomAliveFighter(atbManager.EnemyFighters));
             }
             else
             {
-                targets.Add(RandomFighter(atbManager.PlayerFighters));
+                targets.Add(RandomAliveFighter(atbManager.PlayerFighters));
             }
             yield return new WaitForSeconds(Random.Range(ArtificialWaitTimeMin, ArtificialWaitTimeMax));
 
