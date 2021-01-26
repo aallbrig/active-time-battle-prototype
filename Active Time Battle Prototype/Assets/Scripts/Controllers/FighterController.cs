@@ -28,10 +28,7 @@ namespace Controllers
 
         public void TakeDamage(float damage)
         {
-            stats.currentHealth = Mathf.Clamp(stats.currentHealth - damage, 0, stats.maxHealth);
-            _fighterAnimationController.TakingDamage();
-
-            if (stats.currentHealth == 0) Die();
+            StartCoroutine(TakeDamageCoroutine(damage));
         }
 
         public void Heal(float heal) => stats.currentHealth = Mathf.Clamp(stats.currentHealth + heal, 0, stats.maxHealth);
@@ -83,6 +80,17 @@ namespace Controllers
             // TODO: Broadcast death event
             Debug.Log("Blarg I " + stats.fighterName + " am dead X_X ");
             _fighterAnimationController.Dying();
+        }
+
+        private IEnumerator TakeDamageCoroutine(float damage)
+        {
+            stats.currentHealth = Mathf.Clamp(stats.currentHealth - damage, 0, stats.maxHealth);
+            var previousAnimation = _fighterAnimationController.CurrentTrigger;
+            _fighterAnimationController.TakingDamage();
+            yield return new WaitForSeconds(0.5f);
+
+            if (stats.currentHealth == 0) Die();
+            else _fighterAnimationController.UpdateAnimationTrigger(previousAnimation);
         }
 
         private void Start()

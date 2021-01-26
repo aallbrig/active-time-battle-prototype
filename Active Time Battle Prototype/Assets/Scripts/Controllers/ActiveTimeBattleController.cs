@@ -18,7 +18,6 @@ namespace Controllers
 
         #region Pool of player/enemy fighter prefabs and spawn points
 
-        public List<FighterController> allFighters = new List<FighterController>();
         public List<Transform> playerSpawnPositions = new List<Transform>();
         public List<Transform> enemySpawnPositions = new List<Transform>();
 

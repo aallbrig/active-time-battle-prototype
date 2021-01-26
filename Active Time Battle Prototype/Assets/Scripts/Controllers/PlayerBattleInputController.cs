@@ -20,6 +20,7 @@ namespace Controllers
         public PlayerWaitingState PlayerWaitingState;
         public PlayerChooseActionState PlayerChooseActionState;
         public PlayerSelectTargetsState PlayerSelectTargetsState;
+        public PlayerActionWaitingState PlayerActionWaitingState;
 
         #endregion
 
@@ -51,6 +52,12 @@ namespace Controllers
         private readonly Queue<FighterController> _waitingForPlayerInputQueue = new Queue<FighterController>();
 
         private IEnumerator _queueCoroutine;
+
+        public void ReEnqueueFighter(FighterController fighter)
+        {
+            _waitingForPlayerInputQueue.Enqueue(fighter);
+        }
+
         private IEnumerator WatchQueueCoroutine()
         {
             while (true)
@@ -67,11 +74,14 @@ namespace Controllers
             }
         }
 
+        private void Update() => CurrentState?.Tick();
+
         private void Start()
         {
             PlayerWaitingState = new PlayerWaitingState(this);
             PlayerChooseActionState = new PlayerChooseActionState(this);
             PlayerSelectTargetsState = new PlayerSelectTargetsState(this);
+            PlayerActionWaitingState = new PlayerActionWaitingState(this);
 
             TransitionToState(PlayerWaitingState);
         }
@@ -117,6 +127,7 @@ namespace Controllers
 
         public void NotifyPlayerTargetsSelected(List<FighterController> targets)
         {
+            TransitionToState(PlayerActionWaitingState);
             playerInput.Targets = targets;
             playerInput.ActiveFighter.ExecuteAction(playerInput.SelectedAction, playerInput.Targets, () =>
             {

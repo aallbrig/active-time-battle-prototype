@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Controllers;
 using Data.Actions;
-using EventBroker;
 using UI;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace FiniteStateMachines.PlayerBattleInput
 {
@@ -29,6 +25,16 @@ namespace FiniteStateMachines.PlayerBattleInput
 
             Controller.playerTargets.GetComponent<PlayerTargets>().SetTargets(deadOrAliveTargets);
             Controller.TogglePlayerTargetsUi(true);
+        }
+
+        public override void Tick()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Controller.TogglePlayerTargetsUi(false);
+                GameObject.FindObjectOfType<PlayerActions>().EnableButtons();
+                Controller.TransitionToState(Controller.PlayerChooseActionState);
+            }
         }
     }
 }

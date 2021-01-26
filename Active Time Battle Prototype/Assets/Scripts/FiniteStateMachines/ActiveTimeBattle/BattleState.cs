@@ -47,14 +47,20 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Leave(Action callback)
         {
-            _fighters = new List<FighterController>();
+            Controller.StartCoroutine(OnLeaveCoroutine(callback));
+        }
 
+        private IEnumerator OnLeaveCoroutine(Action callback)
+        {
             Controller.StopCoroutine(_battleMeterTickCoroutine);
+            _fighters = new List<FighterController>();
             _playerBattleInputController.gameObject.SetActive(false);
 
             // Hide battle UI HUD
             Controller.ToggleBattleHUDUI(false);
             Controller.ToggleBattleAnnouncements(false);
+
+            yield return new WaitForSeconds(5);
 
             base.Leave(callback);
         }
