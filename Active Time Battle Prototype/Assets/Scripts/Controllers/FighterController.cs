@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Controllers;
+using Data.Actions;
+using Data.Fighters;
 using UnityEngine;
-using static ATBFighter.ActionType;
+using static Data.Actions.ActionType;
 
-namespace ATBFighter
+namespace Controllers
 {
     public class FighterController : MonoBehaviour
     {
-        public ATBFighter_SO statsTemplate;
-        public ATBFighter_SO stats;
+        public FighterStats statsTemplate;
+        public FighterStats stats;
         private RTSToonAnimationController _rtsAnimator;
         private NavMeshAgentController _agentController;
 
-        public List<ATBFighterAction_SO> GetActions() => stats.actions;
+        public List<FighterAction> GetActions() => stats.actions;
 
-        public void ExecuteAction(ATBFighterAction_SO action, List<FighterController> targets, Action callback = null)
+        public void ExecuteAction(FighterAction action, List<FighterController> targets, Action callback = null)
         {
             var originPosition = transform.position;
             var originRotation = transform.rotation;

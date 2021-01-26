@@ -1,9 +1,9 @@
-﻿using ATBFighter;
+﻿using Data.Actions;
 
 namespace EventBroker
 {
     public interface IPlayerActionSelected
     {
-        void NotifyPlayerActionSelected(ATBFighterAction_SO action);
+        void NotifyPlayerActionSelected(FighterAction action);
     }
 }

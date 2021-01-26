@@ -1,4 +1,4 @@
-﻿namespace ATBFighter
+﻿namespace Data.Actions
 {
     public enum ActionType
     {

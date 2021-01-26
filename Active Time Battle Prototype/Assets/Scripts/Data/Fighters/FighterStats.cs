@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Data.Actions;
 using UnityEngine;
 
-namespace ATBFighter
+namespace Data.Fighters
 {
-    [CreateAssetMenu(fileName = "new fighter", menuName = "fighter", order = 0)]
-    public class ATBFighter_SO : ScriptableObject
+    [CreateAssetMenu(fileName = "new fighter", menuName = "active time battle/fighter", order = 0)]
+    public class FighterStats : ScriptableObject
     {
         public string fighterName;
         public float maxHealth;
@@ -13,6 +14,6 @@ namespace ATBFighter
         public float secondsToMaxBattleMeterValue;
         // public GameObject model;
         // public Animator animator;
-        public List<ATBFighterAction_SO> actions;
+        public List<FighterAction> actions;
     }
 }

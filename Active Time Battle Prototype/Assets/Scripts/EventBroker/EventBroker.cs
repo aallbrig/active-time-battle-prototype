@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using ATBFighter;
+using Controllers;
+using Data.Actions;
 using FiniteStateMachines.ActiveTimeBattle;
 using UI;
 using UnityEngine;
@@ -89,7 +90,7 @@ namespace EventBroker
             _playerActionSelectedSubscribers.Add(subscriber);
         public void Unsubscribe(IPlayerActionSelected subscriber) =>
             _playerActionSelectedSubscribers.Remove(subscriber);
-        public void NotifyPlayerActionSelected(ATBFighterAction_SO action) =>
+        public void NotifyPlayerActionSelected(FighterAction action) =>
             _playerActionSelectedSubscribers.ForEach(sub => sub.NotifyPlayerActionSelected(action));
 
         public void Subscribe(IBattleMeterTick subscriber) =>

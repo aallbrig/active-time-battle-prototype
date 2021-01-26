@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-namespace ATBFighter
+namespace Data.Actions
 {
-    [CreateAssetMenu(fileName = "new fighter action", menuName = "fighter actions", order = 0)]
-    public class ATBFighterAction_SO : ScriptableObject
+    [CreateAssetMenu(fileName = "new fighter action", menuName = "active time battle/fighter actions", order = 0)]
+    public class FighterAction : ScriptableObject
     {
         public string actionName;
         public string animationTriggerName;

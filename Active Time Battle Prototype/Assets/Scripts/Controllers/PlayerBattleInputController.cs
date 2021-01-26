@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using ATBFighter;
+using Data.Actions;
 using EventBroker;
 using FiniteStateMachines.PlayerBattleInput;
 using UI;
@@ -41,7 +41,7 @@ namespace Controllers
         public struct PlayerInput
         {
             public FighterController ActiveFighter;
-            public ATBFighterAction_SO SelectedAction;
+            public FighterAction SelectedAction;
             public List<FighterController> Targets;
         }
         public PlayerInput playerInput;
@@ -109,7 +109,7 @@ namespace Controllers
             }
         }
 
-        public void NotifyPlayerActionSelected(ATBFighterAction_SO action)
+        public void NotifyPlayerActionSelected(FighterAction action)
         {
             playerInput.SelectedAction = action;
             TransitionToState(PlayerSelectTargetsState);

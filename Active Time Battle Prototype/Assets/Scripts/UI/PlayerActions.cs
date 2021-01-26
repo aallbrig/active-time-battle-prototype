@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using ATBFighter;
+using Data.Actions;
 using TMPro;
 using UnityEngine.UI;
 
 namespace UI
 {
-    public class PlayerActions : DynamicButtonContainer<ATBFighterAction_SO, Button>
+    public class PlayerActions : DynamicButtonContainer<FighterAction, Button>
     {
-        public static event Action<ATBFighterAction_SO> OnPlayerActionButtonClick;
+        public static event Action<FighterAction> OnPlayerActionButtonClick;
 
         public Button playerActionPrefab;
 
         // Alias, so my mind doesn't bend/break on generic naming
-        public void SetActions(List<ATBFighterAction_SO> actions) => SetupList(actions);
+        public void SetActions(List<FighterAction> actions) => SetupList(actions);
 
-        private ATBFighterAction_SO _action;
+        private FighterAction _action;
 
-        protected override Button GenerateUiElement(ATBFighterAction_SO element)
+        protected override Button GenerateUiElement(FighterAction element)
         {
             var action = element;
             var button = Instantiate(playerActionPrefab, containerTransform);
