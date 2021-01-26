@@ -117,7 +117,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
             while (true)
             {
                 // If ATB fighter's battle meter is >= 1.0, trigger "ATB fighter ready to act" event (consumed by player, enemy AI)
-                _fighters.ForEach(fighter =>
+                _fighters.Where(fighter => !fighter.stats.dead).ToList().ForEach(fighter =>
                 {
                     // If the fighter's battle meter is already full, no need to send more on battle meter tick events
                     if (fighter.stats.currentBattleMeterValue != 1.0f) TickBattleMeterForFighter(fighter, CoroutineWaitInSeconds);

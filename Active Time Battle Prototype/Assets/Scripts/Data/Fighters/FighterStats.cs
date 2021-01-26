@@ -10,6 +10,7 @@ namespace Data.Fighters
         public string fighterName;
         public float maxHealth;
         public float currentHealth;
+        public bool dead;
         public float currentBattleMeterValue;
         public float secondsToMaxBattleMeterValue;
         // public GameObject model;

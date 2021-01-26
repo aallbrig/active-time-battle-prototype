@@ -130,8 +130,9 @@ namespace Managers
                 var randomFighterAssetPath = fightersAssetPaths[Random.Range(0, fightersAssetPaths.Count)];
                 var randomFighterPrefab = LoadFighter(randomFighterAssetPath);
                 var fighter = GameObject.Instantiate(randomFighterPrefab.gameObject, spawnPositions[i].transform);
+                var fighterController = fighter.GetComponent<FighterController>();
 
-                callback?.Invoke(fighter.GetComponent<FighterController>());
+                callback?.Invoke(fighterController);
             }
         }
 

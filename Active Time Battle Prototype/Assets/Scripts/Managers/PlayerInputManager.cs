@@ -69,12 +69,15 @@ namespace Managers
             {
                 if (_waitingForPlayerInputQueue.Count > 0 && CurrentState == PlayerWaitingState)
                 {
-                    playerInput.ActiveFighter = _waitingForPlayerInputQueue.Dequeue();
-                    OnSetPlayerActiveFighter?.Invoke(playerInput.ActiveFighter);
-
-                    var actions = playerInput.ActiveFighter.GetActions();
-                    playerActions.GetComponent<PlayerActions>().SetActions(actions);
-                    TransitionToState(PlayerChooseActionState);
+                    var fighter = _waitingForPlayerInputQueue.Dequeue();
+                    if (!fighter.stats.dead)
+                    {
+                        playerInput.ActiveFighter = fighter;
+                        OnSetPlayerActiveFighter?.Invoke(playerInput.ActiveFighter);
+                        var actions = playerInput.ActiveFighter.GetActions();
+                        playerActions.GetComponent<PlayerActions>().SetActions(actions);
+                        TransitionToState(PlayerChooseActionState);
+                    }
                 }
 
                 yield return new WaitForSeconds(0.25f);

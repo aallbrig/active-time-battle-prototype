@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Controllers;
 using Data.Actions;
 
@@ -28,7 +29,16 @@ namespace Commands
 
         public void Execute()
         {
-            _fighter.ExecuteAction(_fighterAction, _targets, _callback);
+            if (_fighter.stats.dead) 
+            {
+                CommandComplete?.Invoke();
+            } else if (_targets.Where(fighter => !fighter.stats.dead).ToList().Count == 0)
+            {
+                _callback();
+            } else
+            {
+                _fighter.ExecuteAction(_fighterAction, _targets, _callback);
+            }
         }
     }
 }

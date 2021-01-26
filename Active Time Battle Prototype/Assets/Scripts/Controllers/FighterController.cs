@@ -6,6 +6,7 @@ using Data.Actions;
 using Data.Fighters;
 using UnityEngine;
 using static Data.Actions.ActionType;
+using Random = UnityEngine.Random;
 
 namespace Controllers
 {
@@ -44,6 +45,7 @@ namespace Controllers
             stats.currentHealth = Mathf.Clamp(stats.currentHealth + heal, 0, stats.maxHealth);
         }
 
+        public void RandomizeBattleMeter() => stats.currentBattleMeterValue = Random.Range(0f, 0.5f);
         public void ResetBattleMeter() => stats.currentBattleMeterValue = 0f;
 
         private IEnumerator ExecuteActionCoroutine(FighterAction action, List<FighterController> targets, Action callback)
@@ -89,6 +91,7 @@ namespace Controllers
 
         private void Die()
         {
+            stats.dead = true;
             OnFighterDie?.Invoke(this);
             _fighterAnimationController.Dying();
         }
@@ -114,6 +117,7 @@ namespace Controllers
             {
                 stats = Instantiate(statsTemplate);
             }
+            RandomizeBattleMeter();
         }
     }
 }
