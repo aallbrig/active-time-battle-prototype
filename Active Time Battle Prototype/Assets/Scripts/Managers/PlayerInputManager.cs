@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Commands;
+using Controllers;
 using Data.Actions;
-using EventBroker;
 using EventBroker.SubscriberInterfaces;
 using FiniteStateMachines.PlayerBattleInput;
 using UI;
 using UnityEngine;
 
-namespace Controllers
+namespace Managers
 {
-    public class PlayerBattleInputController :
-        FsmContextController<PlayerBattleInputState, PlayerBattleInputController>,
+    public class PlayerInputManager :
+        FsmContextController<PlayerBattleInputState, PlayerInputManager>,
         IBattleMeterTick, IPlayerActionSelected, IPlayerTargetsSelected
     {
         public static event Action<FighterController> OnSetPlayerActiveFighter;
-        public ActiveTimeBattleController atbController;
+        public static event Action<ICommand> OnPlayerFighterCommand;
+
+        public ActiveTimeBattleManager atbManager;
         
         #region Finite State Machine States
 
@@ -92,7 +95,7 @@ namespace Controllers
 
         private void OnEnable()
         {
-            playerFightersStats.GetComponent<PlayerFightersStats>().SetPlayerFighters(atbController.PlayerFighters);
+            playerFightersStats.GetComponent<PlayerFightersStats>().SetPlayerFighters(atbManager.PlayerFighters);
 
             EventBroker.EventBroker.Instance.Subscribe((IBattleMeterTick) this);
             EventBroker.EventBroker.Instance.Subscribe((IPlayerActionSelected) this);
@@ -114,7 +117,7 @@ namespace Controllers
 
         public void NotifyBattleMeterTick(FighterController fighter)
         {
-            if (atbController.PlayerFighters.Contains(fighter))
+            if (atbManager.PlayerFighters.Contains(fighter))
             {
                 if (!_waitingForPlayerInputQueue.Contains(fighter) && fighter.stats.currentBattleMeterValue >= 1.0f)
                 {
@@ -133,11 +136,18 @@ namespace Controllers
         {
             TransitionToState(PlayerActionWaitingState);
             playerInput.Targets = targets;
-            playerInput.ActiveFighter.ExecuteAction(playerInput.SelectedAction, playerInput.Targets, () =>
-            {
-                playerInput.ActiveFighter.stats.currentBattleMeterValue = 0f;
-                TransitionToState(PlayerWaitingState);
-            });
+
+            OnPlayerFighterCommand?.Invoke(new BattleCommand(
+                playerInput.ActiveFighter,
+                playerInput.SelectedAction,
+                playerInput.Targets,
+                () =>
+                {
+                    playerInput.ActiveFighter.ResetBattleMeter();
+                }
+            ));
+
+            TransitionToState(PlayerWaitingState);
         }
     }
 }

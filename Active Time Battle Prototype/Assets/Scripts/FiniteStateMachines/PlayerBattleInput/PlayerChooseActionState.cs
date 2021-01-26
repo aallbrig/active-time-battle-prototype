@@ -1,26 +1,27 @@
 ﻿using System;
 using Controllers;
+using Managers;
 using UnityEngine;
 
 namespace FiniteStateMachines.PlayerBattleInput
 {
     public class PlayerChooseActionState: PlayerBattleInputState
     {
-        public PlayerChooseActionState(PlayerBattleInputController controller) : base(controller) {}
+        public PlayerChooseActionState(PlayerInputManager controller) : base(controller) {}
 
         public override void Enter()
         {
-            Controller.TogglePlayerActionsUi(true);
+            Context.TogglePlayerActionsUi(true);
         }
 
         public override void Tick()
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Controller.TogglePlayerActionsUi(false);
-                Controller.TransitionToState(Controller.PlayerWaitingState);
-                var fighter = Controller.playerInput.ActiveFighter;
-                Controller.ReEnqueueFighter(fighter);
+                Context.TogglePlayerActionsUi(false);
+                Context.TransitionToState(Context.PlayerWaitingState);
+                var fighter = Context.playerInput.ActiveFighter;
+                Context.ReEnqueueFighter(fighter);
             }
         }
     }

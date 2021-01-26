@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Controllers;
 using Data.Actions;
+using Managers;
 using UI;
 using UnityEngine;
 
@@ -8,12 +9,12 @@ namespace FiniteStateMachines.PlayerBattleInput
 {
     public class PlayerSelectTargetsState: PlayerBattleInputState
     {
-        public PlayerSelectTargetsState(PlayerBattleInputController controller) : base(controller) {}
+        public PlayerSelectTargetsState(PlayerInputManager controller) : base(controller) {}
 
         public override void Enter()
         {
-            var atbController = GameObject.FindObjectOfType<ActiveTimeBattleController>();
-            var action = Controller.playerInput.SelectedAction;
+            var atbController = GameObject.FindObjectOfType<ActiveTimeBattleManager>();
+            var action = Context.playerInput.SelectedAction;
 
             var targets = action.actionType == ActionType.Healing
                 ? atbController.PlayerFighters
@@ -23,17 +24,17 @@ namespace FiniteStateMachines.PlayerBattleInput
                 action.actionType == ActionType.Reviving ? target.stats.currentHealth <= 0 : target.stats.currentHealth > 0
             ).ToList();
 
-            Controller.playerTargets.GetComponent<PlayerTargets>().SetTargets(deadOrAliveTargets);
-            Controller.TogglePlayerTargetsUi(true);
+            Context.playerTargets.GetComponent<PlayerTargets>().SetTargets(deadOrAliveTargets);
+            Context.TogglePlayerTargetsUi(true);
         }
 
         public override void Tick()
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Controller.TogglePlayerTargetsUi(false);
+                Context.TogglePlayerTargetsUi(false);
                 GameObject.FindObjectOfType<PlayerActions>().EnableButtons();
-                Controller.TransitionToState(Controller.PlayerChooseActionState);
+                Context.TransitionToState(Context.PlayerChooseActionState);
             }
         }
     }

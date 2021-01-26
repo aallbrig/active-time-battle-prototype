@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Commands;
 using Controllers;
 using Data.Actions;
 using EventBroker.SubscriberInterfaces;
 using FiniteStateMachines.ActiveTimeBattle;
-using FiniteStateMachines.PlayerBattleInput;
+using Managers;
 using UI;
 using UnityEngine;
 
@@ -23,7 +24,8 @@ namespace EventBroker
         IEventBroker<IFighterAction>, IFighterAction,
         IEventBroker<IFighterTakeDamage>, IFighterTakeDamage,
         IEventBroker<IFighterHeal>, IFighterHeal,
-        IEventBroker<IFighterDie>, IFighterDie
+        IEventBroker<IFighterDie>, IFighterDie,
+        IEventBroker<IFighterActionEnqueueRequest>, IFighterActionEnqueueRequest
     {
         public static EventBroker Instance { get; private set; }
 
@@ -43,6 +45,7 @@ namespace EventBroker
         private readonly List<IFighterTakeDamage> _fighterTakeDamageSubscribers = new List<IFighterTakeDamage>();
         private readonly List<IFighterHeal> _fighterHealSubscribers = new List<IFighterHeal>();
         private readonly List<IFighterDie> _fighterDieSubscribers = new List<IFighterDie>();
+        private readonly List<IFighterActionEnqueueRequest> _figherCommandSubscribers = new List<IFighterActionEnqueueRequest>();
 
 
         List<IPlayerActionSelected> IEventBroker<IPlayerActionSelected>.Subscribers => _playerActionSelectedSubscribers;
@@ -59,8 +62,18 @@ namespace EventBroker
         List<IFighterTakeDamage> IEventBroker<IFighterTakeDamage>.Subscribers => _fighterTakeDamageSubscribers;
         List<IFighterHeal> IEventBroker<IFighterHeal>.Subscribers => _fighterHealSubscribers;
         List<IFighterDie> IEventBroker<IFighterDie>.Subscribers => _fighterDieSubscribers;
+        List<IFighterActionEnqueueRequest> IEventBroker<IFighterActionEnqueueRequest>.Subscribers =>
+            _figherCommandSubscribers;
 
         #endregion
+
+
+        public void Subscribe(IFighterActionEnqueueRequest subscriber) =>
+            _figherCommandSubscribers.Add(subscriber);
+        public void Unsubscribe(IFighterActionEnqueueRequest subscriber) =>
+            _figherCommandSubscribers.Remove(subscriber);
+        public void NotifyFighterCommand(ICommand fighterCommand) =>
+            _figherCommandSubscribers.ForEach(sub => sub.NotifyFighterCommand(fighterCommand));
 
         public void Subscribe(IFighterDie subscriber) => _fighterDieSubscribers.Add(subscriber);
         public void Unsubscribe(IFighterDie subscriber) => _fighterDieSubscribers.Remove(subscriber);
@@ -149,8 +162,8 @@ namespace EventBroker
             BattleState.OnBattleMeterTick += NotifyBattleMeterTick;
             StartMenu.OnStartBattleButtonClicked += NotifyStartBattleButtonClicked;
             BeginBattleState.OnEnemyFighterCreated += NotifyEnemyFighterCreated;
-            ActiveTimeBattleController.OnPlayerFighterCreated += NotifyPlayerFighterCreated;
-            PlayerBattleInputController.OnSetPlayerActiveFighter += NotifyActivePlayerFighterSet;
+            ActiveTimeBattleManager.OnPlayerFighterCreated += NotifyPlayerFighterCreated;
+            PlayerInputManager.OnSetPlayerActiveFighter += NotifyActivePlayerFighterSet;
             VictoryScreen.OnContinueBattlingButtonClick += NotifyContinueBattlingButtonClick;
             VictoryScreen.OnQuitButtonClick += NotifyQuitButtonClicked;
             LoseScreen.OnRestartButtonClick += NotifyQuitButtonClicked;
@@ -158,6 +171,8 @@ namespace EventBroker
             FighterController.OnFighterTakeDamage += NotifyFighterTakeDamage;
             FighterController.OnFighterHeal += NotifyFighterHeal;
             FighterController.OnFighterDie += NotifyFighterDie;
+            PlayerInputManager.OnPlayerFighterCommand += NotifyFighterCommand;
+            EnemyAIManager.OnEnemyAiFighterCommand += NotifyFighterCommand;
         }
 
         private void UnsubscribeToEvents()
@@ -167,8 +182,8 @@ namespace EventBroker
             BattleState.OnBattleMeterTick -= NotifyBattleMeterTick;
             StartMenu.OnStartBattleButtonClicked -= NotifyStartBattleButtonClicked;
             BeginBattleState.OnEnemyFighterCreated -= NotifyEnemyFighterCreated;
-            ActiveTimeBattleController.OnPlayerFighterCreated -= NotifyPlayerFighterCreated;
-            PlayerBattleInputController.OnSetPlayerActiveFighter -= NotifyActivePlayerFighterSet;
+            ActiveTimeBattleManager.OnPlayerFighterCreated -= NotifyPlayerFighterCreated;
+            PlayerInputManager.OnSetPlayerActiveFighter -= NotifyActivePlayerFighterSet;
             VictoryScreen.OnContinueBattlingButtonClick -= NotifyContinueBattlingButtonClick;
             VictoryScreen.OnQuitButtonClick -= NotifyQuitButtonClicked;
             LoseScreen.OnRestartButtonClick -= NotifyQuitButtonClicked;
@@ -176,6 +191,8 @@ namespace EventBroker
             FighterController.OnFighterTakeDamage -= NotifyFighterTakeDamage;
             FighterController.OnFighterHeal -= NotifyFighterHeal;
             FighterController.OnFighterDie -= NotifyFighterDie;
+            PlayerInputManager.OnPlayerFighterCommand -= NotifyFighterCommand;
+            EnemyAIManager.OnEnemyAiFighterCommand -= NotifyFighterCommand;
         }
 
         private void Awake()

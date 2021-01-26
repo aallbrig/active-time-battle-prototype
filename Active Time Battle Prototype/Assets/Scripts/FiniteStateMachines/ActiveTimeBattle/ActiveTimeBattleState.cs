@@ -1,15 +1,16 @@
 ﻿using System;
 using Controllers;
+using Managers;
 
 namespace FiniteStateMachines.ActiveTimeBattle
 {
-    public abstract class ActiveTimeBattleState : IFiniteStateMachineState<ActiveTimeBattleController>
+    public abstract class ActiveTimeBattleState : IFiniteStateMachineState<ActiveTimeBattleManager>
     {
-        public ActiveTimeBattleController Controller { get; }
+        public ActiveTimeBattleManager Context { get; }
 
-        protected ActiveTimeBattleState(ActiveTimeBattleController controller)
+        protected ActiveTimeBattleState(ActiveTimeBattleManager manager)
         {
-            Controller = controller;
+            Context = manager;
         }
 
         public virtual void Enter() {}

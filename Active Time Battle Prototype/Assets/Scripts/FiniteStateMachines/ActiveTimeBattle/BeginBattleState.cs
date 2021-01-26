@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Controllers;
+using Managers;
 using UI;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
         private IEnumerator _processMessageQueueCoroutine;
         private BattleAnnouncements _battleAnnouncements;
 
-        public BeginBattleState(ActiveTimeBattleController controller) : base(controller) {}
+        public BeginBattleState(ActiveTimeBattleManager manager) : base(manager) {}
 
         private IEnumerator ProcessMessageQueue(Action callback = null)
         {
@@ -36,24 +37,24 @@ namespace FiniteStateMachines.ActiveTimeBattle
         public override void Enter()
         {
             GeneratePlayerEnemies();
-            _battleAnnouncements = Controller.BattleAnnouncementsUi.GetComponent<BattleAnnouncements>();
+            _battleAnnouncements = Context.BattleAnnouncementsUi.GetComponent<BattleAnnouncements>();
 
             // battle announcements
-            _messageQueue.Enqueue($"Enemy count: {Controller.EnemyFighters.Count}");
-            _messageQueue.Enqueue($"Player count: {Controller.PlayerFighters.Count}");
+            _messageQueue.Enqueue($"Enemy count: {Context.EnemyFighters.Count}");
+            _messageQueue.Enqueue($"Player count: {Context.PlayerFighters.Count}");
             _processMessageQueueCoroutine = ProcessMessageQueue(() =>
             {
                 // After last message, transition to battle state
-                Controller.TransitionToState(Controller.BattleState);
+                Context.TransitionToState(Context.BattleState);
             });
 
-            Controller.StartCoroutine(_processMessageQueueCoroutine);
+            Context.StartCoroutine(_processMessageQueueCoroutine);
             // (optional) play "battle begin" camera animation
         }
 
         private void GeneratePlayerEnemies()
         {
-            Controller.GenerateRandomFighters(Controller.enemySpawnPositions, OnEnemyFighterCreated);
+            Context.GenerateRandomFighters(Context.enemySpawnPositions, OnEnemyFighterCreated);
         }
     }
 }

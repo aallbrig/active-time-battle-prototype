@@ -4,7 +4,7 @@ namespace FiniteStateMachines
 {
     public interface IFiniteStateMachineState<out T>
     {
-        T Controller { get; }
+        T Context { get; }
         
         void Enter();
         void Tick();

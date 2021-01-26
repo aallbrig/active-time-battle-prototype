@@ -1,20 +1,21 @@
 ﻿using System;
 using Controllers;
+using Managers;
 
 namespace FiniteStateMachines.ActiveTimeBattle
 {
     public class BattleLoseState : ActiveTimeBattleState
     {
-        public BattleLoseState(ActiveTimeBattleController controller) : base(controller) {}
+        public BattleLoseState(ActiveTimeBattleManager manager) : base(manager) {}
 
         public override void Enter()
         {
-            Controller.ToggleLoseScreenUI(true);
+            Context.ToggleLoseScreenUI(true);
         }
 
         public override void Leave(Action callback)
         {
-            Controller.ToggleLoseScreenUI(false);
+            Context.ToggleLoseScreenUI(false);
 
             base.Leave(callback);
         }

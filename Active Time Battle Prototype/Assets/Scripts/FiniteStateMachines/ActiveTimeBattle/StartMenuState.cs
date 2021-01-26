@@ -2,6 +2,7 @@
 using Controllers;
 using EventBroker;
 using EventBroker.SubscriberInterfaces;
+using Managers;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -10,11 +11,11 @@ namespace FiniteStateMachines.ActiveTimeBattle
 {
     public class StartMenuState : ActiveTimeBattleState
     {
-        public StartMenuState(ActiveTimeBattleController controller) : base(controller) {}
+        public StartMenuState(ActiveTimeBattleManager manager) : base(manager) {}
 
         public override void Enter()
         {
-            Controller.ToggleStartMenu(true);
+            Context.ToggleStartMenu(true);
             // Play start menu on enter animation
             // User is presented with start menu title
             // User is presented with start fight button
@@ -23,7 +24,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Leave(Action callback)
         {
-            Controller.ToggleStartMenu(false);
+            Context.ToggleStartMenu(false);
             base.Leave(callback);
         }
     }

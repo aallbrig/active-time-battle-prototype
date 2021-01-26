@@ -1,9 +1,10 @@
 ﻿using Controllers;
+using Managers;
 
 namespace FiniteStateMachines.PlayerBattleInput
 {
     public class PlayerActionWaitingState: PlayerBattleInputState
     {
-        public PlayerActionWaitingState(PlayerBattleInputController controller) : base(controller) {}
+        public PlayerActionWaitingState(PlayerInputManager controller) : base(controller) {}
     }
 }

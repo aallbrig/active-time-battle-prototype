@@ -1,15 +1,16 @@
 ﻿using System;
 using Controllers;
+using Managers;
 
 namespace FiniteStateMachines.PlayerBattleInput
 {
-    public abstract class PlayerBattleInputState: IFiniteStateMachineState<PlayerBattleInputController>
+    public abstract class PlayerBattleInputState: IFiniteStateMachineState<PlayerInputManager>
     {
-        public PlayerBattleInputController Controller { get; }
+        public PlayerInputManager Context { get; }
         
-        protected PlayerBattleInputState(PlayerBattleInputController controller)
+        protected PlayerBattleInputState(PlayerInputManager controller)
         {
-            Controller = controller;
+            Context = controller;
         }
 
         public virtual void Enter() {}

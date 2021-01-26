@@ -1,24 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Commands;
+using Controllers;
+using Data.Actions;
 using EventBroker.SubscriberInterfaces;
 using FiniteStateMachines.ActiveTimeBattle;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Controllers
+namespace Managers
 {
     // TODO: Make this maybe not be a god objective (i.e. move PlayerBattleInputController out?)
-    public class ActiveTimeBattleController : FsmContextController<ActiveTimeBattleState, ActiveTimeBattleController>,
+    public class ActiveTimeBattleManager : FsmContextController<ActiveTimeBattleState, ActiveTimeBattleManager>,
         IPlayerFighterCreated, IEnemyFighterCreated, IContinueBattlingButtonClicked, IQuitButtonClicked, IRestartButtonClicked,
         IStartBattleButtonClicked
     {
         public static event Action<FighterController> OnPlayerFighterCreated; 
 
-        public PlayerBattleInputController playerBattleInputController;
+        public PlayerInputManager playerInputManager;
 
-        #region Pool of player/enemy fighter prefabs and spawn points
+        #region Pool of player/enemy fighter spawn points
 
         public List<Transform> playerSpawnPositions = new List<Transform>();
         public List<Transform> enemySpawnPositions = new List<Transform>();

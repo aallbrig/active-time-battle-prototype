@@ -78,6 +78,7 @@ namespace Controllers
 
             transform.rotation = originRotation;
             _fighterAnimationController.UpdateAnimationTrigger(originTrigger);
+
             callback?.Invoke();
         }
 

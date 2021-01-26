@@ -1,23 +1,24 @@
 ﻿using System;
 using Controllers;
+using Managers;
 using UnityEngine;
 
 namespace FiniteStateMachines.ActiveTimeBattle
 {
     public class BattleVictoryState : ActiveTimeBattleState
     {
-        public BattleVictoryState(ActiveTimeBattleController controller) : base(controller) {}
+        public BattleVictoryState(ActiveTimeBattleManager manager) : base(manager) {}
 
         public override void Enter()
         {
             // Show battle victory screen
-            Controller.ToggleVictoryScreenUI(true);
+            Context.ToggleVictoryScreenUI(true);
         }
 
         public override void Leave(Action callback)
         {
             // Hide battle victory screen
-            Controller.ToggleVictoryScreenUI(false);
+            Context.ToggleVictoryScreenUI(false);
 
             base.Leave(callback);
         }
