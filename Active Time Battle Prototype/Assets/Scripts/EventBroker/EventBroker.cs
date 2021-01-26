@@ -19,7 +19,11 @@ namespace EventBroker
         IEventBroker<IStartBattleButtonClicked>, IStartBattleButtonClicked,
         IEventBroker<IContinueBattlingButtonClicked>, IContinueBattlingButtonClicked,
         IEventBroker<IRestartButtonClicked>, IRestartButtonClicked,
-        IEventBroker<IQuitButtonClicked>, IQuitButtonClicked
+        IEventBroker<IQuitButtonClicked>, IQuitButtonClicked,
+        IEventBroker<IFighterAction>, IFighterAction,
+        IEventBroker<IFighterTakeDamage>, IFighterTakeDamage,
+        IEventBroker<IFighterHeal>, IFighterHeal,
+        IEventBroker<IFighterDie>, IFighterDie
     {
         public static EventBroker Instance { get; private set; }
 
@@ -35,6 +39,10 @@ namespace EventBroker
         private readonly List<IContinueBattlingButtonClicked> _continueBattlingButtonClickedSubscribers = new List<IContinueBattlingButtonClicked>();
         private readonly List<IRestartButtonClicked> _restartButtonClickedSubscribers = new List<IRestartButtonClicked>();
         private readonly List<IQuitButtonClicked> _quitButtonClickedSubscribers = new List<IQuitButtonClicked>();
+        private readonly List<IFighterAction> _fighterActionSubscribers = new List<IFighterAction>();
+        private readonly List<IFighterTakeDamage> _fighterTakeDamageSubscribers = new List<IFighterTakeDamage>();
+        private readonly List<IFighterHeal> _fighterHealSubscribers = new List<IFighterHeal>();
+        private readonly List<IFighterDie> _fighterDieSubscribers = new List<IFighterDie>();
 
 
         List<IPlayerActionSelected> IEventBroker<IPlayerActionSelected>.Subscribers => _playerActionSelectedSubscribers;
@@ -47,8 +55,32 @@ namespace EventBroker
         List<IBattleMeterTick> IEventBroker<IBattleMeterTick>.Subscribers => _battleMeterSubscribers;
         List<IRestartButtonClicked> IEventBroker<IRestartButtonClicked>.Subscribers => _restartButtonClickedSubscribers;
         List<IQuitButtonClicked> IEventBroker<IQuitButtonClicked>.Subscribers => _quitButtonClickedSubscribers;
+        List<IFighterAction> IEventBroker<IFighterAction>.Subscribers => _fighterActionSubscribers;
+        List<IFighterTakeDamage> IEventBroker<IFighterTakeDamage>.Subscribers => _fighterTakeDamageSubscribers;
+        List<IFighterHeal> IEventBroker<IFighterHeal>.Subscribers => _fighterHealSubscribers;
+        List<IFighterDie> IEventBroker<IFighterDie>.Subscribers => _fighterDieSubscribers;
 
         #endregion
+
+        public void Subscribe(IFighterDie subscriber) => _fighterDieSubscribers.Add(subscriber);
+        public void Unsubscribe(IFighterDie subscriber) => _fighterDieSubscribers.Remove(subscriber);
+        public void NotifyFighterDie(FighterController fighter) =>
+            _fighterDieSubscribers.ForEach(sub => sub.NotifyFighterDie(fighter));
+
+        public void Subscribe(IFighterHeal subscriber) => _fighterHealSubscribers.Add(subscriber);
+        public void Unsubscribe(IFighterHeal subscriber) => _fighterHealSubscribers.Remove(subscriber);
+        public void NotifyFighterHeal(FighterController fighter, float heal) =>
+            _fighterHealSubscribers.ForEach(sub => sub.NotifyFighterHeal(fighter, heal));
+
+        public void Subscribe(IFighterTakeDamage subscriber) => _fighterTakeDamageSubscribers.Add(subscriber);
+        public void Unsubscribe(IFighterTakeDamage subscriber) => _fighterTakeDamageSubscribers.Remove(subscriber);
+        public void NotifyFighterTakeDamage(FighterController fighter, float damage) =>
+            _fighterTakeDamageSubscribers.ForEach(sub => sub.NotifyFighterTakeDamage(fighter, damage));
+
+        public void Subscribe(IFighterAction subscriber) => _fighterActionSubscribers.Add(subscriber);
+        public void Unsubscribe(IFighterAction subscriber) => _fighterActionSubscribers.Remove(subscriber);
+        public void NotifyFighterAction(FighterController fighter, FighterAction action, List<FighterController> targets) =>
+            _fighterActionSubscribers.ForEach(sub => sub.NotifyFighterAction(fighter, action, targets));
 
         public void Subscribe(IQuitButtonClicked subscriber) => _quitButtonClickedSubscribers.Add(subscriber);
         public void Unsubscribe(IQuitButtonClicked subscriber) => _quitButtonClickedSubscribers.Remove(subscriber);
@@ -122,6 +154,10 @@ namespace EventBroker
             VictoryScreen.OnContinueBattlingButtonClick += NotifyContinueBattlingButtonClick;
             VictoryScreen.OnQuitButtonClick += NotifyQuitButtonClicked;
             LoseScreen.OnRestartButtonClick += NotifyQuitButtonClicked;
+            FighterController.OnFighterAction += NotifyFighterAction;
+            FighterController.OnFighterTakeDamage += NotifyFighterTakeDamage;
+            FighterController.OnFighterHeal += NotifyFighterHeal;
+            FighterController.OnFighterDie += NotifyFighterDie;
         }
 
         private void UnsubscribeToEvents()
@@ -136,6 +172,10 @@ namespace EventBroker
             VictoryScreen.OnContinueBattlingButtonClick -= NotifyContinueBattlingButtonClick;
             VictoryScreen.OnQuitButtonClick -= NotifyQuitButtonClicked;
             LoseScreen.OnRestartButtonClick -= NotifyQuitButtonClicked;
+            FighterController.OnFighterAction -= NotifyFighterAction;
+            FighterController.OnFighterTakeDamage -= NotifyFighterTakeDamage;
+            FighterController.OnFighterHeal -= NotifyFighterHeal;
+            FighterController.OnFighterDie -= NotifyFighterDie;
         }
 
         private void Awake()

@@ -12,8 +12,8 @@ namespace Controllers
     public class FighterController : MonoBehaviour
     {
         public static event Action<FighterController, FighterAction, List<FighterController>> OnFighterAction;
-        public static event Action<FighterController, float> OnFighterTakingDamage;
-        public static event Action<FighterController, float> OnFighterHealed;
+        public static event Action<FighterController, float> OnFighterTakeDamage;
+        public static event Action<FighterController, float> OnFighterHeal;
         public static event Action<FighterController> OnFighterDie;
 
         public FighterStats statsTemplate;
@@ -34,13 +34,13 @@ namespace Controllers
 
         public void TakeDamage(float damage)
         {
-            OnFighterTakingDamage?.Invoke(this, damage);
+            OnFighterTakeDamage?.Invoke(this, damage);
             StartCoroutine(TakeDamageCoroutine(damage));
         }
 
         public void Heal(float heal)
         {
-            OnFighterHealed?.Invoke(this, heal);
+            OnFighterHeal?.Invoke(this, heal);
             stats.currentHealth = Mathf.Clamp(stats.currentHealth + heal, 0, stats.maxHealth);
         }
 
@@ -88,8 +88,7 @@ namespace Controllers
 
         private void Die()
         {
-            // TODO: Broadcast death event
-            Debug.Log("Blarg I " + stats.fighterName + " am dead X_X ");
+            OnFighterDie?.Invoke(this);
             _fighterAnimationController.Dying();
         }
 
