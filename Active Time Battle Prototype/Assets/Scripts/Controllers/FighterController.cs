@@ -55,8 +55,8 @@ namespace Controllers
             yield return _agentController.SetDestination(centerPoint, action.range);
 
             // Play action animation
-            if (action.actionType == Healing) _fighterAnimationController.Slashing();
-            else _fighterAnimationController.CastingAtMultiple();
+            if (action.actionType == Healing) _fighterAnimationController.CastingAtMultiple();
+            else _fighterAnimationController.Slashing();
 
             // Handle action effects
             if (action.actionType == Healing) targets.ForEach(target => target.Heal(action.actionEffect));

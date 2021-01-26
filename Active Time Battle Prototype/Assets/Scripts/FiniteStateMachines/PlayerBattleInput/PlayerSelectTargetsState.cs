@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Controllers;
 using Data.Actions;
 using EventBroker;
@@ -16,12 +17,17 @@ namespace FiniteStateMachines.PlayerBattleInput
         public override void Enter()
         {
             var atbController = GameObject.FindObjectOfType<ActiveTimeBattleController>();
+            var action = Controller.playerInput.SelectedAction;
 
-            var targets = Controller.playerInput.SelectedAction.actionType == ActionType.Healing
+            var targets = action.actionType == ActionType.Healing
                 ? atbController.PlayerFighters
                 : atbController.EnemyFighters;
 
-            Controller.playerTargets.GetComponent<PlayerTargets>().SetTargets(targets);
+            var deadOrAliveTargets = targets.Where(target => 
+                action.actionType == ActionType.Reviving ? target.stats.currentHealth <= 0 : target.stats.currentHealth > 0
+            ).ToList();
+
+            Controller.playerTargets.GetComponent<PlayerTargets>().SetTargets(deadOrAliveTargets);
             Controller.TogglePlayerTargetsUi(true);
         }
     }

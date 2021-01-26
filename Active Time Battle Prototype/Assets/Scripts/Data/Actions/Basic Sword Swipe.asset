@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Basic Sword Swipe
   m_EditorClassIdentifier: 
   actionName: Sword Swipe
-  animationTriggerName: melee attack
   range: 2
   actionEffect: 10
-  actionType: 1
+  actionType: 2

@@ -14,13 +14,8 @@ namespace UI
         // alias method so my mind doesn't bend/break on generic name
         public void SetTargets(List<FighterController> targets)
         {
-            // _targets = targets;
             SetupList(targets);
         }
-
-        // public void SelectAllTargets() => OnPlayerTargetButtonClick?.Invoke(_targets);
-
-        // private List<FighterController> _targets = new List<FighterController>();
 
         protected override Button GenerateUiElement(FighterController element)
         {

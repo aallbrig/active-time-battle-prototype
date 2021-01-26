@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Delete Foe
   m_EditorClassIdentifier: 
   actionName: Delete Foe
-  animationTriggerName: 
   range: 3
   actionEffect: 100000
-  actionType: 1
+  actionType: 2

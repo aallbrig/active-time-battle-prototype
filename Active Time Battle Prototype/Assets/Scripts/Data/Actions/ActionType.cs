@@ -3,6 +3,7 @@
     public enum ActionType
     {
         Healing,
+        Reviving,
         Damaging
     }
 }
