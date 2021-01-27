@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Controllers;
+using Data;
 using UnityEngine;
 
 namespace UI
@@ -9,12 +11,13 @@ namespace UI
     {
         public Transform playerStatsUiContainer;
         public PlayerFighterStats playerFighterStatsPrefab;
+        public FighterRuntimeSet playerFighters;
         private List<PlayerFighterStats> _playerFighterStatUiElements = new List<PlayerFighterStats>();
 
-        public void SetPlayerFighters(List<FighterController> fighters)
+        private void OnEnable()
         {
             ClearFighterStats();
-            _playerFighterStatUiElements = fighters.Select(fighter =>
+            _playerFighterStatUiElements = playerFighters.Select(fighter =>
             {
                 var fighterStats = Instantiate(playerFighterStatsPrefab, playerStatsUiContainer);
                 fighterStats.SetFighter(fighter);

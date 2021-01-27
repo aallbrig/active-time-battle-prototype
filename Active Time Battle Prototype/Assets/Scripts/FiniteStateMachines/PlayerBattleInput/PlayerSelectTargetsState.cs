@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Controllers;
 using Data.Actions;
 using Managers;
 using UI;
@@ -17,14 +16,18 @@ namespace FiniteStateMachines.PlayerBattleInput
             var action = Context.playerInput.SelectedAction;
 
             var targets = action.actionType == ActionType.Healing
-                ? atbController.PlayerFighters
-                : atbController.EnemyFighters;
+                ? atbController.playerFighters
+                : atbController.enemyFighters;
 
             var deadOrAliveTargets = targets.Where(target => 
                 action.canBeUsedOnDead ? target.stats.currentHealth <= 0 : target.stats.currentHealth > 0
             ).ToList();
 
-            Context.playerTargets.GetComponent<PlayerTargets>().SetTargets(deadOrAliveTargets);
+            Context.playerTargets.Clear();
+            deadOrAliveTargets.ForEach(fighter => Context.playerTargets.Add(fighter));
+
+            // TODO: fire off scriptable object event?
+            Context.playerTargetsUi.Render();
             Context.TogglePlayerTargetsUi(true);
         }
 

@@ -281,6 +281,7 @@ MonoBehaviour:
   playerStatsUiContainer: {fileID: 561975893}
   playerFighterStatsPrefab: {fileID: 4814181898440382389, guid: 542fd8d1b5b6bda4d83bcf3b16a1e423,
     type: 3}
+  playerFighters: {fileID: 11400000, guid: bf854cc01bc5a4141b83403aaa52b841, type: 2}
 --- !u!1 &141437088
 GameObject:
   m_ObjectHideFlags: 0
@@ -1085,6 +1086,9 @@ MonoBehaviour:
   LoseScreenUi: {fileID: 609368226}
   BattleHUDUi: {fileID: 1506937024}
   BattleAnnouncementsUi: {fileID: 1762392906}
+  playerFighters: {fileID: 11400000, guid: bf854cc01bc5a4141b83403aaa52b841, type: 2}
+  enemyFighters: {fileID: 11400000, guid: 1e169a7b05638144d8f3559ec86f11d9, type: 2}
+  targets: {fileID: 0}
 --- !u!4 &221029190
 Transform:
   m_ObjectHideFlags: 0
@@ -1131,7 +1135,8 @@ MonoBehaviour:
   atbManager: {fileID: 221029189}
   playerFightersStats: {fileID: 128146309}
   playerActions: {fileID: 1855225923}
-  playerTargets: {fileID: 965902700}
+  playerTargetsUi: {fileID: 965902702}
+  playerTargets: {fileID: 11400000, guid: a9c4e1054512e9349ad31e61822d5f3e, type: 2}
   playerInput:
     ActiveFighter: {fileID: 0}
     SelectedAction: {fileID: 0}
@@ -2021,7 +2026,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca33c618b89415082121d28686f3d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atbManager: {fileID: 221029189}
+  enemyFighters: {fileID: 11400000, guid: 1e169a7b05638144d8f3559ec86f11d9, type: 2}
+  playerFighters: {fileID: 11400000, guid: bf854cc01bc5a4141b83403aaa52b841, type: 2}
 --- !u!1 &640010081
 GameObject:
   m_ObjectHideFlags: 0
@@ -3080,6 +3086,7 @@ MonoBehaviour:
   containerTransform: {fileID: 1722242822}
   playerTargetButtonPrefab: {fileID: 8272090336565382548, guid: 3a587635d3a9e574886d35430e76b88e,
     type: 3}
+  fighters: {fileID: 11400000, guid: a9c4e1054512e9349ad31e61822d5f3e, type: 2}
 --- !u!1 &967076197
 GameObject:
   m_ObjectHideFlags: 0
@@ -7729,51 +7736,6 @@ Transform:
   m_Father: {fileID: 1233575715}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!1 &1837225417
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1837225419}
-  - component: {fileID: 1837225418}
-  m_Layer: 0
-  m_Name: Fighter Tester
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1837225418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837225417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88642670783b4cfba3788b3f45822181, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fighter: {fileID: 0}
-  targets: []
---- !u!4 &1837225419
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837225417}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.0498223, y: -0.23459764, z: -4.0848384}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1855225923
 GameObject:
   m_ObjectHideFlags: 0

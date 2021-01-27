@@ -1,10 +1,9 @@
 ﻿using System;
-using FiniteStateMachines;
 using UnityEngine;
 
-namespace Controllers
+namespace FiniteStateMachines
 {
-    public class FsmContextController<T, U> : MonoBehaviour, IFiniteStateMachineContext<T> where T : IFiniteStateMachineState<U>
+    public class FiniteStateMachineContext<T, U> : MonoBehaviour, IFiniteStateMachineContext<T> where T : IFiniteStateMachineState<U>
     {
         public T CurrentState { get; private set; }
 

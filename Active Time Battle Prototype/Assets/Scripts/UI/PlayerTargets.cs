@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Controllers;
+using Data;
 using TMPro;
 using UnityEngine.UI;
 
@@ -10,12 +11,9 @@ namespace UI
     {
         public static event Action<List<FighterController>> OnPlayerTargetButtonClick;
         public Button playerTargetButtonPrefab;
+        public FighterRuntimeSet fighters;
 
-        // alias method so my mind doesn't bend/break on generic name
-        public void SetTargets(List<FighterController> targets)
-        {
-            SetupList(targets);
-        }
+        public void Render() => SetupList(fighters.ToList());
 
         protected override Button GenerateUiElement(FighterController element)
         {

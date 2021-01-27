@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Commands;
 using Controllers;
+using Data;
 using EventBroker.SubscriberInterfaces;
 using Managers;
 using UnityEngine;
@@ -32,8 +33,8 @@ namespace FiniteStateMachines.ActiveTimeBattle
         public override void Enter()
         {
             EventBroker.EventBroker.Instance.Subscribe(this);
-            _fighters = _fighters.Concat(Context.PlayerFighters).ToList();
-            _fighters = _fighters.Concat(Context.EnemyFighters).ToList();
+            _fighters = _fighters.Concat(Context.playerFighters.ToList()).ToList();
+            _fighters = _fighters.Concat(Context.enemyFighters.ToList()).ToList();
 
             _playerBattleInputController.gameObject.SetActive(true);
 
@@ -79,13 +80,13 @@ namespace FiniteStateMachines.ActiveTimeBattle
         }
 
 
-        private float SumHealth(List<FighterController> fighters) =>
+        private float SumHealth(FighterRuntimeSet fighters) =>
             fighters.Aggregate(0f, (sum, fighter) => sum + fighter.stats.currentHealth);
 
         private void CheckForBattleConclusionCondition()
         {
-            var enemiesCurrentHealth = SumHealth(Context.EnemyFighters);
-            var playersCurrentHealth = SumHealth(Context.PlayerFighters);
+            var enemiesCurrentHealth = SumHealth(Context.enemyFighters);
+            var playersCurrentHealth = SumHealth(Context.playerFighters);
 
             if (enemiesCurrentHealth <= 0)
             {

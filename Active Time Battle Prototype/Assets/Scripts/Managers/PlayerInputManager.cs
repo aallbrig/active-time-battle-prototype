@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Commands;
 using Controllers;
+using Data;
 using Data.Actions;
 using EventBroker.SubscriberInterfaces;
+using FiniteStateMachines;
 using FiniteStateMachines.PlayerBattleInput;
 using UI;
 using UnityEngine;
@@ -12,7 +14,7 @@ using UnityEngine;
 namespace Managers
 {
     public class PlayerInputManager :
-        FsmContextController<PlayerBattleInputState, PlayerInputManager>,
+        FiniteStateMachineContext<PlayerBattleInputState, PlayerInputManager>,
         IBattleMeterTick, IPlayerActionSelected, IPlayerTargetsSelected
     {
         public static event Action<FighterController> OnSetPlayerActiveFighter;
@@ -33,11 +35,12 @@ namespace Managers
 
         public GameObject playerFightersStats;
         public GameObject playerActions;
-        public GameObject playerTargets;
+        public PlayerTargets playerTargetsUi;
 
-        public void TogglePlayerActionsUi(bool value) => ToggleUI(playerActions)(value);
-        public void TogglePlayerTargetsUi(bool value) => ToggleUI(playerTargets)(value);
-        private Action<bool> ToggleUI(GameObject targetUI) => targetUI.SetActive;
+        public FighterRuntimeSet playerTargets;
+
+        public void TogglePlayerActionsUi(bool value) => playerActions.gameObject.SetActive(value);
+        public void TogglePlayerTargetsUi(bool value) => playerTargetsUi.gameObject.SetActive(value);
 
         #endregion
 
@@ -98,7 +101,7 @@ namespace Managers
 
         private void OnEnable()
         {
-            playerFightersStats.GetComponent<PlayerFightersStats>().SetPlayerFighters(atbManager.PlayerFighters);
+            // playerFightersStats.GetComponent<PlayerFightersStats>().SetPlayerFighters(atbManager.PlayerFighters);
 
             EventBroker.EventBroker.Instance.Subscribe((IBattleMeterTick) this);
             EventBroker.EventBroker.Instance.Subscribe((IPlayerActionSelected) this);
@@ -120,7 +123,7 @@ namespace Managers
 
         public void NotifyBattleMeterTick(FighterController fighter)
         {
-            if (atbManager.PlayerFighters.Contains(fighter))
+            if (atbManager.playerFighters.Contains(fighter))
             {
                 if (!_waitingForPlayerInputQueue.Contains(fighter) && fighter.stats.currentBattleMeterValue >= 1.0f)
                 {

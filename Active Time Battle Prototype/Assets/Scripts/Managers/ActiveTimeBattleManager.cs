@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Controllers;
+using Data;
 using EventBroker.SubscriberInterfaces;
+using FiniteStateMachines;
 using FiniteStateMachines.ActiveTimeBattle;
 using UnityEngine;
 using Utils;
@@ -11,7 +13,7 @@ using Random = UnityEngine.Random;
 namespace Managers
 {
     // TODO: Make this maybe not be a god objective (i.e. move PlayerBattleInputController out?)
-    public class ActiveTimeBattleManager : FsmContextController<ActiveTimeBattleState, ActiveTimeBattleManager>,
+    public class ActiveTimeBattleManager : FiniteStateMachineContext<ActiveTimeBattleState, ActiveTimeBattleManager>,
         IPlayerFighterCreated, IEnemyFighterCreated, IContinueBattlingButtonClicked, IQuitButtonClicked, IRestartButtonClicked,
         IStartBattleButtonClicked
     {
@@ -29,11 +31,11 @@ namespace Managers
         #region User Interface References and Toggles
 
         // References
-        public GameObject StartMenuUi;
-        public GameObject VictoryScreenUi;
-        public GameObject LoseScreenUi;
-        public GameObject BattleHUDUi;
-        public GameObject BattleAnnouncementsUi;
+        public UnityEngine.GameObject StartMenuUi;
+        public UnityEngine.GameObject VictoryScreenUi;
+        public UnityEngine.GameObject LoseScreenUi;
+        public UnityEngine.GameObject BattleHUDUi;
+        public UnityEngine.GameObject BattleAnnouncementsUi;
 
         // Toggles
         public void ToggleStartMenu(bool value) => ToggleUI(StartMenuUi)(value);
@@ -41,7 +43,7 @@ namespace Managers
         public void ToggleVictoryScreenUI(bool value) => ToggleUI(VictoryScreenUi)(value);
         public void ToggleBattleHUDUI(bool value) => ToggleUI(BattleHUDUi)(value);
         public void ToggleBattleAnnouncements(bool value) => ToggleUI(BattleAnnouncementsUi)(value);
-        private Action<bool> ToggleUI(GameObject targetUI) => targetUI.SetActive;
+        private Action<bool> ToggleUI(UnityEngine.GameObject targetUI) => targetUI.SetActive;
 
         #endregion
 
@@ -57,10 +59,13 @@ namespace Managers
 
         #region Lists of fighters and whom they belong to
 
-        public readonly List<FighterController> PlayerFighters = new List<FighterController>();
-        public readonly List<FighterController> EnemyFighters = new List<FighterController>();
+        // public readonly List<FighterController> PlayerFighters = new List<FighterController>();
+        // public readonly List<FighterController> EnemyFighters = new List<FighterController>();
+        public FighterRuntimeSet playerFighters;
+        public FighterRuntimeSet enemyFighters;
+        public FighterRuntimeSet targets;
 
-        private void ClearFighters(List<FighterController> fighters)
+        private void ClearFighters(FighterRuntimeSet fighters)
         {
             fighters.ForEach(fighter => Destroy(fighter.gameObject));
             fighters.Clear();
@@ -70,27 +75,27 @@ namespace Managers
 
         #region EventBroker Subscriptions
 
-        public void NotifyPlayerFighterCreated(FighterController fighter) => PlayerFighters.Add(fighter);
-        public void NotifyEnemyFighterCreated(FighterController fighter) => EnemyFighters.Add(fighter);
+        public void NotifyPlayerFighterCreated(FighterController fighter) => playerFighters.Add(fighter);
+        public void NotifyEnemyFighterCreated(FighterController fighter) => enemyFighters.Add(fighter);
         public void NotifyContinueBattlingButtonClick()
         {
-            ClearFighters(EnemyFighters);
+            ClearFighters(enemyFighters);
 
             TransitionToState(BeginBattleState);
         }
 
         public void NotifyQuitButtonClicked()
         {
-            ClearFighters(EnemyFighters);
-            ClearFighters(PlayerFighters);
+            ClearFighters(enemyFighters);
+            ClearFighters(playerFighters);
 
             TransitionToState(StartMenuState);
         }
 
         public void NotifyRestartButtonClicked()
         {
-            ClearFighters(EnemyFighters);
-            ClearFighters(PlayerFighters);
+            ClearFighters(enemyFighters);
+            ClearFighters(playerFighters);
 
             TransitionToState(StartMenuState);
         }
@@ -108,7 +113,7 @@ namespace Managers
 
         #endregion
 
-        private List<GameObject> GetAllFightersAssetPath() => Resources.LoadAll<GameObject>("Fighters").ToList();
+        private List<UnityEngine.GameObject> GetAllFightersAssetPath() => Resources.LoadAll<UnityEngine.GameObject>("Fighters").ToList();
 
         public void GenerateRandomFighters(List<Transform> spawnPositions, Action<FighterController> callback)
         {
