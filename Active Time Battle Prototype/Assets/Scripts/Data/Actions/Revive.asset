@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8c3d952cd5c46a7948159abed193634, type: 3}
-  m_Name: Delete Foe
+  m_Name: Revive
   m_EditorClassIdentifier: 
-  actionName: Delete Foe
-  range: 3
-  actionEffectMin: 1000
-  actionEffectMax: 10000
+  actionName: Revive
+  range: 4
+  actionEffectMin: 1
+  actionEffectMax: 11
   multiple: 0
-  canBeUsedOnDead: 0
-  actionType: 1
+  canBeUsedOnDead: 1
+  actionType: 0
   actionAnimation: 5

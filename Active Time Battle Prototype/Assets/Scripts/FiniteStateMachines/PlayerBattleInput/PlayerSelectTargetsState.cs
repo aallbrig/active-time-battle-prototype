@@ -21,7 +21,7 @@ namespace FiniteStateMachines.PlayerBattleInput
                 : atbController.EnemyFighters;
 
             var deadOrAliveTargets = targets.Where(target => 
-                action.actionType == ActionType.Reviving ? target.stats.currentHealth <= 0 : target.stats.currentHealth > 0
+                action.canBeUsedOnDead ? target.stats.currentHealth <= 0 : target.stats.currentHealth > 0
             ).ToList();
 
             Context.playerTargets.GetComponent<PlayerTargets>().SetTargets(deadOrAliveTargets);

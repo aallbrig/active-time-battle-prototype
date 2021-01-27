@@ -9,6 +9,8 @@ namespace Data.Actions
         public float range = 2;
         public float actionEffectMin = 5;
         public float actionEffectMax = 12;
+        public bool multiple = false;
+        public bool canBeUsedOnDead = false;
         public ActionType actionType;
         public ActionAnimation actionAnimation;
     }

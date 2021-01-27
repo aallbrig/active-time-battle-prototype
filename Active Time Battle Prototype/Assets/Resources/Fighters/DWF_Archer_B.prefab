@@ -1880,7 +1880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e03aa6f8104b46af8a9a5dfe03bd77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statsTemplate: {fileID: 11400000, guid: e51f726846ae1ea4eb22dfb2ef9ec556, type: 2}
+  statsTemplate: {fileID: 11400000, guid: 7b01dfd75cdbf2a49bdaa2bbefe7a009, type: 2}
   stats: {fileID: 0}
 --- !u!114 &3473326508290150200
 MonoBehaviour:
