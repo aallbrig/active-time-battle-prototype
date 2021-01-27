@@ -24,7 +24,6 @@ namespace FiniteStateMachines.ActiveTimeBattle
         private readonly Queue<ICommand> _battleCommandQueue = new Queue<ICommand>();
         private IEnumerator _battleCommandQueueProcessor;
 
-
         public BattleState(ActiveTimeBattleManager manager) : base(manager)
         {
             _playerBattleInputController = manager.playerInputManager;
@@ -33,8 +32,8 @@ namespace FiniteStateMachines.ActiveTimeBattle
         public override void Enter()
         {
             EventBroker.EventBroker.Instance.Subscribe(this);
-            _fighters = _fighters.Concat(Context.playerFighters.ToList()).ToList();
-            _fighters = _fighters.Concat(Context.enemyFighters.ToList()).ToList();
+            _fighters = _fighters.Concat(FighterListsManager.Instance.enemyFighters).ToList();
+            _fighters = _fighters.Concat(FighterListsManager.Instance.playerFighters).ToList();
 
             _playerBattleInputController.gameObject.SetActive(true);
 
@@ -80,13 +79,13 @@ namespace FiniteStateMachines.ActiveTimeBattle
         }
 
 
-        private float SumHealth(FighterRuntimeSet fighters) =>
+        private float SumHealth(List<FighterController> fighters) =>
             fighters.Aggregate(0f, (sum, fighter) => sum + fighter.stats.currentHealth);
 
         private void CheckForBattleConclusionCondition()
         {
-            var enemiesCurrentHealth = SumHealth(Context.enemyFighters);
-            var playersCurrentHealth = SumHealth(Context.playerFighters);
+            var enemiesCurrentHealth = SumHealth(FighterListsManager.Instance.enemyFighters);
+            var playersCurrentHealth = SumHealth(FighterListsManager.Instance.playerFighters);
 
             if (enemiesCurrentHealth <= 0)
             {

@@ -1113,9 +1113,6 @@ MonoBehaviour:
   LoseScreenUi: {fileID: 609368226}
   BattleHUDUi: {fileID: 1506937024}
   BattleAnnouncementsUi: {fileID: 1762392906}
-  playerFighters: {fileID: 11400000, guid: bf854cc01bc5a4141b83403aaa52b841, type: 2}
-  enemyFighters: {fileID: 11400000, guid: 1e169a7b05638144d8f3559ec86f11d9, type: 2}
-  targets: {fileID: 11400000, guid: a9c4e1054512e9349ad31e61822d5f3e, type: 2}
   playerFighterCreated: {fileID: 11400000, guid: 93135088acc894e47a36d31207a18074,
     type: 2}
   playerFighterDeleted: {fileID: 11400000, guid: 9d7cf498540f7814594ec1cd4817bca6,
@@ -2060,6 +2057,7 @@ GameObject:
   m_Component:
   - component: {fileID: 630713728}
   - component: {fileID: 630713729}
+  - component: {fileID: 630713730}
   m_Layer: 0
   m_Name: EnemyAiManager
   m_TagString: Untagged
@@ -2093,8 +2091,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca33c618b89415082121d28686f3d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyFighters: {fileID: 11400000, guid: 1e169a7b05638144d8f3559ec86f11d9, type: 2}
-  playerFighters: {fileID: 11400000, guid: bf854cc01bc5a4141b83403aaa52b841, type: 2}
+--- !u!114 &630713730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630713727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5f6284d8c644df3b8c757f8b22d24b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: b00a48008557dc5478a2f86cdbe7ddcc, type: 2}
+  onEventRaisedHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 630713729}
+        m_MethodName: NotifyBattleMeterFull
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &640010081
 GameObject:
   m_ObjectHideFlags: 0

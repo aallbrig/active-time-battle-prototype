@@ -5,37 +5,24 @@ using System.Linq;
 using Commands;
 using Controllers;
 using Data;
-using Data.Actions;
-using EventBroker.SubscriberInterfaces;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
 
 namespace Managers
 {
-    public class EnemyAIManager : Singleton<EnemyAIManager>, IBattleMeterTick
+    public class EnemyAIManager : Singleton<EnemyAIManager>
     {
         public static event Action<ICommand> OnEnemyAiFighterCommand;
         
-        public FighterRuntimeSet enemyFighters;
-        public FighterRuntimeSet playerFighters;
-
         private const float ArtificialWaitTimeMin = 0.25f;
         private const float ArtificialWaitTimeMax = 1.0f;
 
-        private void Start()
-        {
-            EventBroker.EventBroker.Instance.Subscribe(Instance);
-        }
-
-        protected override void OnDestroy()
-        {
-            EventBroker.EventBroker.Instance.Unsubscribe(Instance);
-
-            base.OnDestroy();
-        }
-
         private static FighterAction RandomAction(IReadOnlyList<FighterAction> fighterActions) => fighterActions[Random.Range(0, fighterActions.Count)];
+        public FighterController RandomAliveFighter(List<FighterController> fighters) {
+            var validFighters = fighters.Where(fighter => !fighter.stats.dead).ToList();
+            return validFighters[Random.Range(0, validFighters.Count)];
+        }
 
         private IEnumerator HandleEnemyFighterInput(FighterController fighter)
         {
@@ -45,11 +32,11 @@ namespace Managers
             var targets = new List<FighterController>();
             if (randomAction.actionType == ActionType.Healing)
             {
-                targets.Add(enemyFighters.RandomAliveFighter());
+                targets.Add(RandomAliveFighter(FighterListsManager.Instance.enemyFighters));
             }
             else
             {
-                targets.Add(playerFighters.RandomAliveFighter());
+                targets.Add(RandomAliveFighter(FighterListsManager.Instance.playerFighters));
             }
             yield return new WaitForSeconds(Random.Range(ArtificialWaitTimeMin, ArtificialWaitTimeMax));
 
@@ -61,9 +48,9 @@ namespace Managers
             ));
         }
 
-        public void NotifyBattleMeterTick(FighterController fighter)
+        public void NotifyBattleMeterFull(FighterController fighter)
         {
-            if (enemyFighters.Contains(fighter) && fighter.stats.currentBattleMeterValue >= 1.0) StartCoroutine(HandleEnemyFighterInput(fighter));
+            if (FighterListsManager.Instance.enemyFighters.Contains(fighter)) StartCoroutine(HandleEnemyFighterInput(fighter));
         }
     }
 }

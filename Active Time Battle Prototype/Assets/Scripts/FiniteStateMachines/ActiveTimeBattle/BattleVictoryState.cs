@@ -17,7 +17,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Leave(Action callback)
         {
-            Context.playerFighters.ForEach(fighter => fighter.RandomizeBattleMeter());
+            FighterListsManager.Instance.playerFighters.ForEach(fighter => fighter.RandomizeBattleMeter());
             // Hide battle victory screen
             Context.ToggleVictoryScreenUI(false);
 

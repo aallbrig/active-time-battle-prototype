@@ -19,6 +19,9 @@ namespace Managers
             if (playerFighters.Contains(fighter)) playerFighters.Remove(fighter);
         }
 
+        public void ClearPlayerFighters() => ClearFighters(playerFighters);
+        
+
         public void AddEnemyFighter(FighterController fighter)
         {
             if (!enemyFighters.Contains(fighter)) enemyFighters.Add(fighter);
@@ -27,6 +30,14 @@ namespace Managers
         public void RemoveEnemyFighter(FighterController fighter)
         {
             if (enemyFighters.Contains(fighter)) enemyFighters.Remove(fighter);
+        }
+        public void ClearEnemyFighters() => ClearFighters(enemyFighters);
+        
+
+        private void ClearFighters(List<FighterController> fighters)
+        {
+            fighters.ForEach(fighter => Destroy(fighter.gameObject));
+            fighters.Clear();
         }
     }
 }

@@ -33,11 +33,15 @@ namespace Managers
 
         #region User Interface
 
-        public GameObject playerFightersStats;
         public GameObject playerActions;
         public PlayerTargets playerTargetsUi;
 
-        public FighterRuntimeSet playerTargets;
+        public void SetTargets(List<FighterController> targets)
+        {
+            // TODO: fire off scriptable object event?
+            playerInput.Targets = targets;
+            playerTargetsUi.Render(playerInput.Targets);
+        }
 
         public void TogglePlayerActionsUi(bool value) => playerActions.gameObject.SetActive(value);
         public void TogglePlayerTargetsUi(bool value) => playerTargetsUi.gameObject.SetActive(value);

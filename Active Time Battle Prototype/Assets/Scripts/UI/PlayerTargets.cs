@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Controllers;
 using Data;
+using Managers;
 using TMPro;
 using UnityEngine.UI;
 
@@ -12,9 +13,8 @@ namespace UI
         public static event Action<List<FighterController>> OnPlayerTargetButtonClick;
 
         public Button playerTargetButtonPrefab;
-        public FighterRuntimeSet fighters;
 
-        public void Render() => SetupList(fighters.ToList());
+        public void Render(List<FighterController> targets) => SetupList(targets);
 
         protected override Button GenerateUiElement(FighterController element)
         {

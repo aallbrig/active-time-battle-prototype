@@ -18,4 +18,4 @@ MonoBehaviour:
   dead: 0
   currentBattleMeterValue: 0
   secondsToMaxBattleMeterValue: 3.5
-  actionSet: {fileID: 0}
+  actionSet: {fileID: 11400000, guid: ed7e4fdf752332040aa2b0c743e10b26, type: 2}

@@ -15,7 +15,7 @@ namespace Managers
 {
     // TODO: Make this maybe not be a god objective (i.e. move PlayerBattleInputController out?)
     public class ActiveTimeBattleManager : FiniteStateMachineContext<ActiveTimeBattleState, ActiveTimeBattleManager>,
-        IPlayerFighterCreated, IEnemyFighterCreated, IContinueBattlingButtonClicked, IQuitButtonClicked, IRestartButtonClicked,
+        IContinueBattlingButtonClicked, IQuitButtonClicked, IRestartButtonClicked,
         IStartBattleButtonClicked
     {
         public static event Action<FighterController> OnPlayerFighterCreated; 
@@ -60,11 +60,6 @@ namespace Managers
 
         #endregion
 
-        #region Lists of fighters and whom they belong to
-
-        public FighterRuntimeSet playerFighters;
-        public FighterRuntimeSet enemyFighters;
-        public FighterRuntimeSet targets;
 
         [Header("Fighter Game Events")]
         public FighterGameEvent playerFighterCreated;
@@ -74,18 +69,8 @@ namespace Managers
         public FighterGameEvent fighterBattleMeterTick;
         public FighterGameEvent fighterBattleMeterFull;
 
-        private void ClearFighters(FighterRuntimeSet fighters)
-        {
-            fighters.ForEach(fighter => Destroy(fighter.gameObject));
-            fighters.Clear();
-        }
-
-        #endregion
-
         #region EventBroker Subscriptions
 
-        public void NotifyPlayerFighterCreated(FighterController fighter) => playerFighters.Add(fighter);
-        public void NotifyEnemyFighterCreated(FighterController fighter) => enemyFighters.Add(fighter);
         public void NotifyContinueBattlingButtonClick()
         {
             ClearEnemyFighters();
@@ -137,18 +122,20 @@ namespace Managers
             });
         }
 
-        private void ClearEnemyFighters()
+        public void ClearEnemyFighters()
         {
             if (enemyFighterDeleted != null)
-                enemyFighters.ForEach(enemyFighterDeleted.Broadcast);
-            ClearFighters(enemyFighters);
+                FighterListsManager.Instance.enemyFighters.ForEach(enemyFighterDeleted.Broadcast);
+
+            FighterListsManager.Instance.ClearEnemyFighters();
         }
 
         private void ClearPlayerFighters()
         {
             if (playerFighterDeleted != null)
-                playerFighters.ForEach(playerFighterDeleted.Broadcast);
-            ClearFighters(playerFighters);
+                FighterListsManager.Instance.playerFighters.ForEach(playerFighterDeleted.Broadcast);
+
+            FighterListsManager.Instance.ClearPlayerFighters();
         }
         #endregion
 
@@ -191,8 +178,6 @@ namespace Managers
 
             // Setup subscriptions to notable events
             EventBroker.EventBroker.Instance.Subscribe((IStartBattleButtonClicked) this);
-            EventBroker.EventBroker.Instance.Subscribe((IPlayerFighterCreated) this);
-            EventBroker.EventBroker.Instance.Subscribe((IEnemyFighterCreated) this);
             EventBroker.EventBroker.Instance.Subscribe((IContinueBattlingButtonClicked) this);
             EventBroker.EventBroker.Instance.Subscribe((IRestartButtonClicked) this);
             EventBroker.EventBroker.Instance.Subscribe((IQuitButtonClicked) this);
