@@ -110,6 +110,8 @@ namespace FiniteStateMachines.ActiveTimeBattle
             );
 
             fighter.stats.currentBattleMeterValue = newBattleMeterValue;
+
+            Context.OnBattleMeterTick(fighter);
             OnBattleMeterTick?.Invoke(fighter);
         }
 
@@ -121,7 +123,10 @@ namespace FiniteStateMachines.ActiveTimeBattle
                 _fighters.Where(fighter => !fighter.stats.dead).ToList().ForEach(fighter =>
                 {
                     // If the fighter's battle meter is already full, no need to send more on battle meter tick events
-                    if (fighter.stats.currentBattleMeterValue != 1.0f) TickBattleMeterForFighter(fighter, CoroutineWaitInSeconds);
+                    if (fighter.stats.currentBattleMeterValue != 1.0f)
+                    {
+                        TickBattleMeterForFighter(fighter, CoroutineWaitInSeconds);
+                    }
                 });
 
                 yield return new WaitForSeconds(CoroutineWaitInSeconds);

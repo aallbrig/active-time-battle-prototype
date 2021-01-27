@@ -16,5 +16,7 @@ MonoBehaviour:
   range: 7
   actionEffectMin: 3
   actionEffectMax: 15
-  actionType: 2
+  multiple: 0
+  canBeUsedOnDead: 0
+  actionType: 1
   actionAnimation: 0

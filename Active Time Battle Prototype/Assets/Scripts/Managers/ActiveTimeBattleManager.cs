@@ -6,6 +6,7 @@ using Data;
 using EventBroker.SubscriberInterfaces;
 using FiniteStateMachines;
 using FiniteStateMachines.ActiveTimeBattle;
+using GameEventSystem;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
@@ -18,6 +19,8 @@ namespace Managers
         IStartBattleButtonClicked
     {
         public static event Action<FighterController> OnPlayerFighterCreated; 
+        public static event Action<FighterController> OnEnemyFighterCreated;
+
 
         public PlayerInputManager playerInputManager;
 
@@ -59,11 +62,17 @@ namespace Managers
 
         #region Lists of fighters and whom they belong to
 
-        // public readonly List<FighterController> PlayerFighters = new List<FighterController>();
-        // public readonly List<FighterController> EnemyFighters = new List<FighterController>();
         public FighterRuntimeSet playerFighters;
         public FighterRuntimeSet enemyFighters;
         public FighterRuntimeSet targets;
+
+        [Header("Fighter Game Events")]
+        public FighterGameEvent playerFighterCreated;
+        public FighterGameEvent playerFighterDeleted;
+        public FighterGameEvent enemyFighterCreated;
+        public FighterGameEvent enemyFighterDeleted;
+        public FighterGameEvent fighterBattleMeterTick;
+        public FighterGameEvent fighterBattleMeterFull;
 
         private void ClearFighters(FighterRuntimeSet fighters)
         {
@@ -79,23 +88,23 @@ namespace Managers
         public void NotifyEnemyFighterCreated(FighterController fighter) => enemyFighters.Add(fighter);
         public void NotifyContinueBattlingButtonClick()
         {
-            ClearFighters(enemyFighters);
+            ClearEnemyFighters();
 
             TransitionToState(BeginBattleState);
         }
 
         public void NotifyQuitButtonClicked()
         {
-            ClearFighters(enemyFighters);
-            ClearFighters(playerFighters);
+            ClearEnemyFighters();
+            ClearPlayerFighters();
 
             TransitionToState(StartMenuState);
         }
 
         public void NotifyRestartButtonClicked()
         {
-            ClearFighters(enemyFighters);
-            ClearFighters(playerFighters);
+            ClearEnemyFighters();
+            ClearPlayerFighters();
 
             TransitionToState(StartMenuState);
         }
@@ -108,12 +117,52 @@ namespace Managers
 
         private void GeneratePlayerCharacters()
         {
-            GenerateRandomFighters(playerSpawnPositions, OnPlayerFighterCreated);
+            GenerateRandomFighters(playerSpawnPositions, fighter =>
+            {
+                // Brand new system
+                if (playerFighterCreated != null) playerFighterCreated.Broadcast(fighter);
+
+                // TODO: fully replace one of the two systems
+                OnPlayerFighterCreated?.Invoke(fighter);
+            });
         }
 
+        public void GeneratePlayerEnemies()
+        {
+            GenerateRandomFighters(enemySpawnPositions, fighter =>
+            {
+                // Brand new system
+                if (enemyFighterCreated != null) enemyFighterCreated.Broadcast(fighter);
+                OnEnemyFighterCreated?.Invoke(fighter);
+            });
+        }
+
+        private void ClearEnemyFighters()
+        {
+            if (enemyFighterDeleted != null)
+                enemyFighters.ForEach(enemyFighterDeleted.Broadcast);
+            ClearFighters(enemyFighters);
+        }
+
+        private void ClearPlayerFighters()
+        {
+            if (playerFighterDeleted != null)
+                playerFighters.ForEach(playerFighterDeleted.Broadcast);
+            ClearFighters(playerFighters);
+        }
         #endregion
 
-        private List<UnityEngine.GameObject> GetAllFightersAssetPath() => Resources.LoadAll<UnityEngine.GameObject>("Fighters").ToList();
+        private List<GameObject> GetAllFightersAssetPath() => Resources.LoadAll<GameObject>("Fighters").ToList();
+
+        public void OnBattleMeterTick(FighterController fighter)
+        {
+            if (fighterBattleMeterTick != null) fighterBattleMeterTick.Broadcast(fighter);
+
+            if (fighter.stats.currentBattleMeterValue >= 1.0f)
+            {
+                if (fighterBattleMeterFull != null) fighterBattleMeterFull.Broadcast(fighter);
+            }
+        }
 
         public void GenerateRandomFighters(List<Transform> spawnPositions, Action<FighterController> callback)
         {

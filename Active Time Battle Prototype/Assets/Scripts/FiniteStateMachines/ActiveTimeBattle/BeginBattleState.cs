@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Controllers;
 using Managers;
 using UI;
 using UnityEngine;
@@ -10,7 +9,6 @@ namespace FiniteStateMachines.ActiveTimeBattle
 {
     public class BeginBattleState : ActiveTimeBattleState
     {
-        public static event Action<FighterController> OnEnemyFighterCreated;
         private const float MessageQueueWaitInSeconds = 3.0f;
         private readonly Queue<string> _messageQueue = new Queue<string>();
         private IEnumerator _processMessageQueueCoroutine;
@@ -37,7 +35,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
         public override void Enter()
         {
             Context.enemyFighters.Clear();
-            GeneratePlayerEnemies();
+            Context.GeneratePlayerEnemies();
             _battleAnnouncements = Context.BattleAnnouncementsUi.GetComponent<BattleAnnouncements>();
 
             // battle announcements
@@ -51,11 +49,6 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
             Context.StartCoroutine(_processMessageQueueCoroutine);
             // (optional) play "battle begin" camera animation
-        }
-
-        private void GeneratePlayerEnemies()
-        {
-            Context.GenerateRandomFighters(Context.enemySpawnPositions, OnEnemyFighterCreated);
         }
     }
 }

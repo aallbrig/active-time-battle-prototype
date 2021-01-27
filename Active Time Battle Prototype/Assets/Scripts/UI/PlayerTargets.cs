@@ -10,6 +10,7 @@ namespace UI
     public class PlayerTargets : DynamicButtonContainer<FighterController, Button>
     {
         public static event Action<List<FighterController>> OnPlayerTargetButtonClick;
+
         public Button playerTargetButtonPrefab;
         public FighterRuntimeSet fighters;
 

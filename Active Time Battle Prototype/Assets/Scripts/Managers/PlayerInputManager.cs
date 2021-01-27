@@ -121,14 +121,17 @@ namespace Managers
             StopCoroutine(_queueCoroutine);
         }
 
+        public void EnqueuePlayerFighter(FighterController fighter)
+        {
+            if (!FighterListsManager.Instance.playerFighters.Contains(fighter)) return;
+
+            if (!_waitingForPlayerInputQueue.Contains(fighter)) _waitingForPlayerInputQueue.Enqueue(fighter);
+        }
+
         public void NotifyBattleMeterTick(FighterController fighter)
         {
-            if (atbManager.playerFighters.Contains(fighter))
+            if (FighterListsManager.Instance.playerFighters.Contains(fighter))
             {
-                if (!_waitingForPlayerInputQueue.Contains(fighter) && fighter.stats.currentBattleMeterValue >= 1.0f)
-                {
-                    _waitingForPlayerInputQueue.Enqueue(fighter);
-                }
             }
         }
 

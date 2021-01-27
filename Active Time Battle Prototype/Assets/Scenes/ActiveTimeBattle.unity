@@ -236,6 +236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 128146310}
   - component: {fileID: 128146311}
+  - component: {fileID: 128146312}
   m_Layer: 0
   m_Name: Player Stats
   m_TagString: Untagged
@@ -281,7 +282,33 @@ MonoBehaviour:
   playerStatsUiContainer: {fileID: 561975893}
   playerFighterStatsPrefab: {fileID: 4814181898440382389, guid: 542fd8d1b5b6bda4d83bcf3b16a1e423,
     type: 3}
-  playerFighters: {fileID: 11400000, guid: bf854cc01bc5a4141b83403aaa52b841, type: 2}
+--- !u!114 &128146312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128146309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5f6284d8c644df3b8c757f8b22d24b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 93135088acc894e47a36d31207a18074, type: 2}
+  onEventRaisedHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 128146311}
+        m_MethodName: Rerender
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &141437088
 GameObject:
   m_ObjectHideFlags: 0
@@ -1088,7 +1115,19 @@ MonoBehaviour:
   BattleAnnouncementsUi: {fileID: 1762392906}
   playerFighters: {fileID: 11400000, guid: bf854cc01bc5a4141b83403aaa52b841, type: 2}
   enemyFighters: {fileID: 11400000, guid: 1e169a7b05638144d8f3559ec86f11d9, type: 2}
-  targets: {fileID: 0}
+  targets: {fileID: 11400000, guid: a9c4e1054512e9349ad31e61822d5f3e, type: 2}
+  playerFighterCreated: {fileID: 11400000, guid: 93135088acc894e47a36d31207a18074,
+    type: 2}
+  playerFighterDeleted: {fileID: 11400000, guid: 9d7cf498540f7814594ec1cd4817bca6,
+    type: 2}
+  enemyFighterCreated: {fileID: 11400000, guid: e235643ebf0692440bebd26d9f482b13,
+    type: 2}
+  enemyFighterDeleted: {fileID: 11400000, guid: 2d6e280a85adfb94da58d17d8db1dfd8,
+    type: 2}
+  fighterBattleMeterTick: {fileID: 11400000, guid: bfb0fba057683ce408bb15ba2f08575e,
+    type: 2}
+  fighterBattleMeterFull: {fileID: 11400000, guid: b00a48008557dc5478a2f86cdbe7ddcc,
+    type: 2}
 --- !u!4 &221029190
 Transform:
   m_ObjectHideFlags: 0
@@ -1113,6 +1152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 233476566}
   - component: {fileID: 233476565}
+  - component: {fileID: 233476567}
   m_Layer: 0
   m_Name: PlayerBattleInput
   m_TagString: Untagged
@@ -1155,6 +1195,33 @@ Transform:
   m_Father: {fileID: 1343372972}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &233476567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233476564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5f6284d8c644df3b8c757f8b22d24b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: b00a48008557dc5478a2f86cdbe7ddcc, type: 2}
+  onEventRaisedHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 233476565}
+        m_MethodName: EnqueuePlayerFighter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &235402254
 GameObject:
   m_ObjectHideFlags: 0
@@ -4486,6 +4553,163 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1311615117}
   m_CullTransparentMesh: 0
+--- !u!1 &1324093689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1324093690}
+  - component: {fileID: 1324093692}
+  - component: {fileID: 1324093693}
+  - component: {fileID: 1324093695}
+  - component: {fileID: 1324093694}
+  - component: {fileID: 1324093691}
+  m_Layer: 0
+  m_Name: FigherListsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1324093690
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324093689}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1343372972}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1324093691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324093689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65805d4c02fdae44682946aca78b7cc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerFighters: []
+  enemyFighters: []
+--- !u!114 &1324093692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324093689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5f6284d8c644df3b8c757f8b22d24b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 93135088acc894e47a36d31207a18074, type: 2}
+  onEventRaisedHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1324093691}
+        m_MethodName: AddPlayerFighter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1324093693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324093689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5f6284d8c644df3b8c757f8b22d24b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: e235643ebf0692440bebd26d9f482b13, type: 2}
+  onEventRaisedHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1324093691}
+        m_MethodName: AddEnemyFighter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1324093694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324093689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5f6284d8c644df3b8c757f8b22d24b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 2d6e280a85adfb94da58d17d8db1dfd8, type: 2}
+  onEventRaisedHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1324093691}
+        m_MethodName: RemoveEnemyFighter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1324093695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324093689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5f6284d8c644df3b8c757f8b22d24b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 9d7cf498540f7814594ec1cd4817bca6, type: 2}
+  onEventRaisedHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1324093691}
+        m_MethodName: RemovePlayerFighter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1343372971
 GameObject:
   m_ObjectHideFlags: 0
@@ -4518,6 +4742,8 @@ Transform:
   - {fileID: 144357272}
   - {fileID: 1432037441}
   - {fileID: 630713728}
+  - {fileID: 1456390811}
+  - {fileID: 1324093690}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4764,6 +4990,36 @@ Transform:
   m_Father: {fileID: 219118881}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &1456390810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1456390811}
+  m_Layer: 0
+  m_Name: GameEventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1456390811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456390810}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1343372972}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1506937024
 GameObject:
   m_ObjectHideFlags: 0

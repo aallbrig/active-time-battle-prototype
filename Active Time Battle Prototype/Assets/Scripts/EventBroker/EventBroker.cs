@@ -162,7 +162,7 @@ namespace EventBroker
             PlayerTargets.OnPlayerTargetButtonClick += NotifyPlayerTargetsSelected;
             BattleState.OnBattleMeterTick += NotifyBattleMeterTick;
             StartMenu.OnStartBattleButtonClicked += NotifyStartBattleButtonClicked;
-            BeginBattleState.OnEnemyFighterCreated += NotifyEnemyFighterCreated;
+            ActiveTimeBattleManager.OnEnemyFighterCreated += NotifyEnemyFighterCreated;
             ActiveTimeBattleManager.OnPlayerFighterCreated += NotifyPlayerFighterCreated;
             PlayerInputManager.OnSetPlayerActiveFighter += NotifyActivePlayerFighterSet;
             VictoryScreen.OnContinueBattlingButtonClick += NotifyContinueBattlingButtonClick;
@@ -182,7 +182,7 @@ namespace EventBroker
             PlayerTargets.OnPlayerTargetButtonClick -= NotifyPlayerTargetsSelected;
             BattleState.OnBattleMeterTick -= NotifyBattleMeterTick;
             StartMenu.OnStartBattleButtonClicked -= NotifyStartBattleButtonClicked;
-            BeginBattleState.OnEnemyFighterCreated -= NotifyEnemyFighterCreated;
+            ActiveTimeBattleManager.OnEnemyFighterCreated -= NotifyEnemyFighterCreated;
             ActiveTimeBattleManager.OnPlayerFighterCreated -= NotifyPlayerFighterCreated;
             PlayerInputManager.OnSetPlayerActiveFighter -= NotifyActivePlayerFighterSet;
             VictoryScreen.OnContinueBattlingButtonClick -= NotifyContinueBattlingButtonClick;

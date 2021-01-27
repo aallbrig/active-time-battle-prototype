@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using Data.Actions;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Data.Fighters
+namespace Data
 {
-    [CreateAssetMenu(fileName = "new fighter stats", menuName = "active time battle/fighter stats", order = 0)]
-    public class FighterStats : ScriptableObject
+    [CreateAssetMenu(fileName = "new fighter", menuName = "active time battle/fighter", order = 0)]
+    public class Fighter : ScriptableObject
     {
         public string fighterName;
         public float maxHealth;

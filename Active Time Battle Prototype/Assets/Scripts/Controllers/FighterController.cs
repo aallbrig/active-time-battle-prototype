@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Data;
 using Data.Actions;
-using Data.Fighters;
 using UnityEngine;
 using static Data.ActionType;
 using Random = UnityEngine.Random;
@@ -18,8 +17,8 @@ namespace Controllers
         public static event Action<FighterController, float> OnFighterHeal;
         public static event Action<FighterController> OnFighterDie;
 
-        public FighterStats statsTemplate;
-        public FighterStats stats;
+        public Fighter template;
+        public Fighter stats;
         private Transform _transform;
         private FighterAnimationController _fighterAnimationController;
         private NavMeshAgentController _agentController;
@@ -133,9 +132,9 @@ namespace Controllers
             _fighterAnimationController = GetComponent<FighterAnimationController>();
             _agentController = GetComponent<NavMeshAgentController>();
 
-            if (statsTemplate != null)
+            if (template != null)
             {
-                stats = Instantiate(statsTemplate);
+                stats = Instantiate(template);
             }
             RandomizeBattleMeter();
         }
