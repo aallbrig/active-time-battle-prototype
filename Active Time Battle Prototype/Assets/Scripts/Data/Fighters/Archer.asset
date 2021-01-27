@@ -18,7 +18,4 @@ MonoBehaviour:
   dead: 0
   currentBattleMeterValue: 0
   secondsToMaxBattleMeterValue: 3.3
-  actions:
-  - {fileID: 11400000, guid: 214fff43677304f4583e087393c5cada, type: 2}
-  - {fileID: 11400000, guid: 01963f74b7ebb30448405dbdf936be3e, type: 2}
-  - {fileID: 11400000, guid: 6f518d4079bfca54fbd1c77fa04c2f9a, type: 2}
+  actionSet: {fileID: 11400000, guid: 89ddef342db18b34f92c6279b8432f1a, type: 2}

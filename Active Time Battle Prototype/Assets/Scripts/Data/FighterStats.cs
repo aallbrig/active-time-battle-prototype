@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Data.Fighters
 {
-    [CreateAssetMenu(fileName = "new fighter", menuName = "active time battle/fighter", order = 0)]
+    [CreateAssetMenu(fileName = "new fighter stats", menuName = "active time battle/fighter stats", order = 0)]
     public class FighterStats : ScriptableObject
     {
         public string fighterName;
@@ -13,8 +13,6 @@ namespace Data.Fighters
         public bool dead;
         public float currentBattleMeterValue;
         public float secondsToMaxBattleMeterValue;
-        // public GameObject model;
-        // public Animator animator;
-        public List<FighterAction> actions;
+        public ActionSet actionSet;
     }
 }

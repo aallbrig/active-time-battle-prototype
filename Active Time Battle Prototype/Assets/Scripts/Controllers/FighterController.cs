@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Data;
 using Data.Actions;
 using Data.Fighters;
 using UnityEngine;
-using static Data.Actions.ActionType;
+using static Data.ActionType;
 using Random = UnityEngine.Random;
 
 namespace Controllers
@@ -24,7 +25,7 @@ namespace Controllers
         private NavMeshAgentController _agentController;
         private IEnumerator _actionExecutionCoroutine;
 
-        public List<FighterAction> GetActions() => stats.actions;
+        public List<FighterAction> GetActions() => stats.actionSet.actions;
 
         public void ExecuteAction(FighterAction action, List<FighterController> targets, Action callback = null)
         {

@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Data.Actions;
+using UnityEngine;
 
-namespace Data.Actions
+namespace Data
 {
     [CreateAssetMenu(fileName = "new fighter action", menuName = "active time battle/fighter actions", order = 0)]
     public class FighterAction : ScriptableObject

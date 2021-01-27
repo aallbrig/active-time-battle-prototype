@@ -1,4 +1,5 @@
-﻿using Data.Actions;
+﻿using Data;
+using Data.Actions;
 
 namespace EventBroker.SubscriberInterfaces
 {

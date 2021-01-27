@@ -17,9 +17,5 @@ MonoBehaviour:
   currentHealth: 49
   dead: 0
   currentBattleMeterValue: 0
-  secondsToMaxBattleMeterValue: 3.8
-  actions:
-  - {fileID: 11400000, guid: 01963f74b7ebb30448405dbdf936be3e, type: 2}
-  - {fileID: 11400000, guid: d0b730c33ab15264aa32df7ca533bf53, type: 2}
-  - {fileID: 11400000, guid: 80aac85261fe7a3469a9e228b69abb9a, type: 2}
-  - {fileID: 11400000, guid: 10e54a431240e4a438c64838d82d2389, type: 2}
+  secondsToMaxBattleMeterValue: 3.1
+  actionSet: {fileID: 11400000, guid: c70f0faeba8a42540ab26bbb8670c638, type: 2}

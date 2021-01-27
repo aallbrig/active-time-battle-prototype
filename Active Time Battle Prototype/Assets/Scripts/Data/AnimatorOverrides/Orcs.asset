@@ -9,14 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8c3d952cd5c46a7948159abed193634, type: 3}
-  m_Name: Magic Missles
+  m_Script: {fileID: 11500000, guid: 86e121836905448faecb275c3e790619, type: 3}
+  m_Name: Orcs
   m_EditorClassIdentifier: 
-  actionName: 
-  range: 5
-  actionEffectMin: 3
-  actionEffectMax: 9
-  multiple: 0
-  canBeUsedOnDead: 0
-  actionType: 1
-  actionAnimation: 3
+  animationController: {fileID: 22100000, guid: 1340e8493926f514e9af42aa1882f52b,
+    type: 2}

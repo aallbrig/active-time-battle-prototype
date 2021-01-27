@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e420b35c45cc48d795821e5ec8e2739d, type: 3}
-  m_Name: WesternKingdomAnimationManifest
+  m_Name: RTSToonAnimationManifest
   m_EditorClassIdentifier: 
   idle: Idle
   combatIdle: Combat Idle
@@ -28,4 +28,3 @@ MonoBehaviour:
   takeDamage: Take Damage
   deathA: Death A
   deathB: Death B
-  animationController: {fileID: 9100000, guid: 8789708263633c641b11ed8fed818fd1, type: 2}

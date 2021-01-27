@@ -2418,6 +2418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationManifest: {fileID: 11400000, guid: 7636f67e868eac14d9a8d33d8d7795c0, type: 2}
+  animatorOverride: {fileID: 11400000, guid: 3ae58efc9d2f15540875efb7737abc76, type: 2}
 --- !u!195 &6018994806572932997
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ namespace Controllers
     public class FighterAnimationController : MonoBehaviour
     {
         public RtsToonAnimationManifest animationManifest;
+        public RtsToonAnimatorOverride animatorOverride;
         private Animator _animator;
 
         public string CurrentTrigger { get; private set; }
@@ -44,7 +45,7 @@ namespace Controllers
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-            _animator.runtimeAnimatorController = animationManifest.animationController;
+            _animator.runtimeAnimatorController = animatorOverride.animationController;
             IdlingInCombat();
         }
     }

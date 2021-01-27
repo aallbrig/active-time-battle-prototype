@@ -36,6 +36,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
         
         public override void Enter()
         {
+            Context.enemyFighters.Clear();
             GeneratePlayerEnemies();
             _battleAnnouncements = Context.BattleAnnouncementsUi.GetComponent<BattleAnnouncements>();
 
