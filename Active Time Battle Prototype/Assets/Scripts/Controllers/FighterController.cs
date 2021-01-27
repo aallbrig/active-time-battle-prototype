@@ -33,13 +33,13 @@ namespace Controllers
             StartCoroutine(_actionExecutionCoroutine);
         }
 
-        public void TakeDamage(float damage)
+        private void TakeDamage(float damage)
         {
             OnFighterTakeDamage?.Invoke(this, damage);
             StartCoroutine(TakeDamageCoroutine(damage));
         }
 
-        public void Heal(float heal)
+        private void Heal(float heal)
         {
             OnFighterHeal?.Invoke(this, heal);
             stats.currentHealth = Mathf.Clamp(stats.currentHealth + heal, 0, stats.maxHealth);
@@ -65,14 +65,33 @@ namespace Controllers
             yield return _agentController.SetDestination(centerPoint, action.range);
 
             // Play action animation
-            if (action.actionType == Healing) _fighterAnimationController.CastingAtMultiple();
-            else _fighterAnimationController.Slashing();
+            switch (action.actionAnimation)
+            {
+                case ActionAnimation.SlashAttack:
+                    _fighterAnimationController.Slashing();
+                    break;
+                case ActionAnimation.StabAttack:
+                    _fighterAnimationController.Stabbing();
+                    break;
+                case ActionAnimation.RangedAttack:
+                    _fighterAnimationController.AttackingAtRange();
+                    break;
+                case ActionAnimation.TargetCast:
+                    _fighterAnimationController.CastingAtTarget();
+                    break;
+                case ActionAnimation.MultipleCast:
+                    _fighterAnimationController.CastingAtMultiple();
+                    break;
+                case ActionAnimation.ChannelCast:
+                    _fighterAnimationController.ChannelCasting();
+                    break;
+            }
 
             // Handle action effects
-            if (action.actionType == Healing) targets.ForEach(target => target.Heal(action.actionEffect));
-            else targets.ForEach(target => target.TakeDamage(action.actionEffect));
+            var actionEffect = Random.Range(action.actionEffectMin, action.actionEffectMax);
+            if (action.actionType == Healing) targets.ForEach(target => target.Heal(actionEffect));
+            else targets.ForEach(target => target.TakeDamage(actionEffect));
             // Wait for action animation to be complete
-            // TODO:
             yield return new WaitForSeconds(0.5f);
 
             playRunAnimation();

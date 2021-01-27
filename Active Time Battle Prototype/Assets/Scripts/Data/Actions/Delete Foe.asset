@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Delete Foe
   range: 3
-  actionEffect: 100000
+  actionEffectMin: 1000
+  actionEffectMax: 10000
   actionType: 2
+  actionAnimation: 5

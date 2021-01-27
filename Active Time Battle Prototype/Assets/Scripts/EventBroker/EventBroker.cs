@@ -45,7 +45,7 @@ namespace EventBroker
         private readonly List<IFighterTakeDamage> _fighterTakeDamageSubscribers = new List<IFighterTakeDamage>();
         private readonly List<IFighterHeal> _fighterHealSubscribers = new List<IFighterHeal>();
         private readonly List<IFighterDie> _fighterDieSubscribers = new List<IFighterDie>();
-        private readonly List<IFighterActionEnqueueRequest> _figherCommandSubscribers = new List<IFighterActionEnqueueRequest>();
+        private readonly List<IFighterActionEnqueueRequest> _fighterCommandSubscribers = new List<IFighterActionEnqueueRequest>();
 
 
         List<IPlayerActionSelected> IEventBroker<IPlayerActionSelected>.Subscribers => _playerActionSelectedSubscribers;
@@ -63,17 +63,17 @@ namespace EventBroker
         List<IFighterHeal> IEventBroker<IFighterHeal>.Subscribers => _fighterHealSubscribers;
         List<IFighterDie> IEventBroker<IFighterDie>.Subscribers => _fighterDieSubscribers;
         List<IFighterActionEnqueueRequest> IEventBroker<IFighterActionEnqueueRequest>.Subscribers =>
-            _figherCommandSubscribers;
+            _fighterCommandSubscribers;
 
         #endregion
 
 
         public void Subscribe(IFighterActionEnqueueRequest subscriber) =>
-            _figherCommandSubscribers.Add(subscriber);
+            _fighterCommandSubscribers.Add(subscriber);
         public void Unsubscribe(IFighterActionEnqueueRequest subscriber) =>
-            _figherCommandSubscribers.Remove(subscriber);
+            _fighterCommandSubscribers.Remove(subscriber);
         public void NotifyFighterCommand(ICommand fighterCommand) =>
-            _figherCommandSubscribers.ForEach(sub => sub.NotifyFighterCommand(fighterCommand));
+            _fighterCommandSubscribers.ForEach(sub => sub.NotifyFighterCommand(fighterCommand));
 
         public void Subscribe(IFighterDie subscriber) => _fighterDieSubscribers.Add(subscriber);
         public void Unsubscribe(IFighterDie subscriber) => _fighterDieSubscribers.Remove(subscriber);

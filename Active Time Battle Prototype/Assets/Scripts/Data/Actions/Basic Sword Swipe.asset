@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Sword Swipe
   range: 2
-  actionEffect: 10
+  actionEffectMin: 5
+  actionEffectMax: 12
   actionType: 2
+  actionAnimation: 1

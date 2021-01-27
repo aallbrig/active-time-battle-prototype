@@ -6,8 +6,10 @@ namespace Data.Actions
     public class FighterAction : ScriptableObject
     {
         public string actionName;
-        public float range = 1;
-        public float actionEffect = 10;
+        public float range = 2;
+        public float actionEffectMin = 5;
+        public float actionEffectMax = 12;
         public ActionType actionType;
+        public ActionAnimation actionAnimation;
     }
 }

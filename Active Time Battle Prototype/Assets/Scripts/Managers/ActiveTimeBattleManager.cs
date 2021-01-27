@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Commands;
 using Controllers;
-using Data.Actions;
 using EventBroker.SubscriberInterfaces;
 using FiniteStateMachines.ActiveTimeBattle;
-using UnityEditor;
 using UnityEngine;
+using Utils;
 using Random = UnityEngine.Random;
 
 namespace Managers
@@ -111,25 +108,18 @@ namespace Managers
 
         #endregion
 
-        private List<string> GetAllFightersAssetPath() => 
-            AssetDatabase.GetAllAssetPaths()
-                .Where(assetPath => assetPath.Contains("Prefabs/Fighters"))
-                .ToList();
+        private List<GameObject> GetAllFightersAssetPath() => Resources.LoadAll<GameObject>("Fighters").ToList();
 
-        private FighterController LoadFighter(string assetPath) =>
-            AssetDatabase.LoadAssetAtPath<FighterController>(assetPath);
-        
         public void GenerateRandomFighters(List<Transform> spawnPositions, Action<FighterController> callback)
         {
-            var fightersAssetPaths = GetAllFightersAssetPath();
-            // min value = inclusive, max value = exclusive thus + 1
-            var numberOfFightersToSpawn = Random.Range(1, spawnPositions.Count + 1);
+            var numberOfFightersToSpawn = Random.Range(1, spawnPositions.Count);
+            var allFighters = GetAllFightersAssetPath();
+            var shuffledSpawnPoints = spawnPositions.Shuffle();
 
-            for (var i = 0; i <= numberOfFightersToSpawn; i++)
+            for (var i = numberOfFightersToSpawn; i > 0; i--)
             {
-                var randomFighterAssetPath = fightersAssetPaths[Random.Range(0, fightersAssetPaths.Count)];
-                var randomFighterPrefab = LoadFighter(randomFighterAssetPath);
-                var fighter = GameObject.Instantiate(randomFighterPrefab.gameObject, spawnPositions[i].transform);
+                var randomFighterPrefab = allFighters[Random.Range(0, allFighters.Count)];
+                var fighter = Instantiate(randomFighterPrefab, shuffledSpawnPoints[i].transform);
                 var fighterController = fighter.GetComponent<FighterController>();
 
                 callback?.Invoke(fighterController);
