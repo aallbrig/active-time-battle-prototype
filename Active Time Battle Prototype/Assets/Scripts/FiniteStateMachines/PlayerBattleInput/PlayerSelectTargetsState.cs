@@ -12,7 +12,7 @@ namespace FiniteStateMachines.PlayerBattleInput
 
         public override void Enter()
         {
-            var action = Context.playerInput.SelectedAction;
+            var action = Context.selectedAction;
 
             var targets = action.actionType == ActionType.Healing
                 ? FighterListsManager.Instance.playerFighters
@@ -32,6 +32,8 @@ namespace FiniteStateMachines.PlayerBattleInput
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Context.TogglePlayerTargetsUi(false);
+
+                // TODO: Hook this up differently
                 GameObject.FindObjectOfType<PlayerActions>().EnableButtons();
                 Context.TransitionToState(Context.PlayerChooseActionState);
             }

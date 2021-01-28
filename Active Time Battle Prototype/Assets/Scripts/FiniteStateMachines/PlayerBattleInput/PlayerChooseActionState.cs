@@ -1,6 +1,4 @@
-﻿using System;
-using Controllers;
-using Managers;
+﻿using Managers;
 using UnityEngine;
 
 namespace FiniteStateMachines.PlayerBattleInput
@@ -19,9 +17,8 @@ namespace FiniteStateMachines.PlayerBattleInput
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Context.TogglePlayerActionsUi(false);
+                Context.ReEnqueueFighter(Context.activePlayerFighter);
                 Context.TransitionToState(Context.PlayerWaitingState);
-                var fighter = Context.playerInput.ActiveFighter;
-                Context.ReEnqueueFighter(fighter);
             }
         }
     }

@@ -26,10 +26,10 @@ namespace Controllers
 
         public List<FighterAction> GetActions() => stats.actionSet.actions;
 
-        public void ExecuteAction(FighterAction action, List<FighterController> targets, Action callback = null)
+        public void ExecuteAction(FighterAction action, List<FighterController> targets)
         {
             OnFighterAction?.Invoke(this, action, targets);
-            _actionExecutionCoroutine = ExecuteActionCoroutine(action, targets, callback);
+            _actionExecutionCoroutine = ExecuteActionCoroutine(action, targets);
             StartCoroutine(_actionExecutionCoroutine);
         }
 
@@ -48,7 +48,7 @@ namespace Controllers
         public void RandomizeBattleMeter() => stats.currentBattleMeterValue = Random.Range(0f, 0.5f);
         public void ResetBattleMeter() => stats.currentBattleMeterValue = 0f;
 
-        private IEnumerator ExecuteActionCoroutine(FighterAction action, List<FighterController> targets, Action callback)
+        private IEnumerator ExecuteActionCoroutine(FighterAction action, List<FighterController> targets)
         {
             var originPosition = _transform.position;
             var originRotation = _transform.rotation;
@@ -100,7 +100,7 @@ namespace Controllers
             transform.rotation = originRotation;
             _fighterAnimationController.UpdateAnimationTrigger(originTrigger);
 
-            callback?.Invoke();
+            ResetBattleMeter();
         }
 
         private static Vector3 FindCenterPoint(IReadOnlyCollection<FighterController> targets) =>

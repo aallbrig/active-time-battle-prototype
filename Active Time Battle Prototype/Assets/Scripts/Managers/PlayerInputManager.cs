@@ -38,8 +38,8 @@ namespace Managers
         public void SetTargets(List<FighterController> targets)
         {
             // TODO: fire off scriptable object event?
-            playerInput.Targets = targets;
-            playerTargetsUi.Render(playerInput.Targets);
+            this.targets = targets;
+            playerTargetsUi.Render(targets);
         }
 
         public void TogglePlayerActionsUi(bool value) => playerActions.gameObject.SetActive(value);
@@ -49,15 +49,9 @@ namespace Managers
 
         #region Player Input
 
-        [Serializable]
-        public struct PlayerInput
-        {
-            public FighterController ActiveFighter;
-            public FighterAction SelectedAction;
-            public List<FighterController> Targets;
-        }
-        public PlayerInput playerInput;
-        [SerializeField] private FighterController _activePlayerFighter;
+        [SerializeField] public FighterController activePlayerFighter;
+        [SerializeField] public FighterAction selectedAction;
+        [SerializeField] public List<FighterController> targets;
 
         #endregion
 
@@ -75,7 +69,7 @@ namespace Managers
 
         public void ActivatePlayerFighter(FighterController fighter)
         {
-            _activePlayerFighter = fighter;
+            activePlayerFighter = fighter;
             TransitionToState(PlayerChooseActionState);
         }
 
@@ -140,23 +134,19 @@ namespace Managers
 
         public void NotifyPlayerActionSelected(FighterAction action)
         {
-            playerInput.SelectedAction = action;
+            selectedAction = action;
             TransitionToState(PlayerSelectTargetsState);
         }
 
         public void NotifyPlayerTargetsSelected(List<FighterController> targets)
         {
             TransitionToState(PlayerActionWaitingState);
-            playerInput.Targets = targets;
+            this.targets = targets;
 
             OnPlayerFighterCommand?.Invoke(new BattleCommand(
-                playerInput.ActiveFighter,
-                playerInput.SelectedAction,
-                playerInput.Targets,
-                () =>
-                {
-                    playerInput.ActiveFighter.ResetBattleMeter();
-                }
+                activePlayerFighter,
+                selectedAction,
+                this.targets
             ));
 
             TransitionToState(PlayerWaitingState);

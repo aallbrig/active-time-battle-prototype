@@ -13,31 +13,22 @@ namespace Commands
         private readonly FighterController _fighter;
         private readonly FighterAction _fighterAction;
         private readonly List<FighterController> _targets;
-        private readonly Action _callback;
 
-        public BattleCommand(FighterController fighter, FighterAction action, List<FighterController> targets, Action callback = null)
+        public BattleCommand(FighterController fighter, FighterAction action, List<FighterController> targets)
         {
             _fighter = fighter;
             _fighterAction = action;
             _targets = targets;
-            _callback = () =>
-            {
-                CommandComplete?.Invoke();
-                callback?.Invoke();
-            };
         }
 
         public void Execute()
         {
-            if (_fighter.stats.dead) 
+            if (_fighter.stats.dead)
             {
                 CommandComplete?.Invoke();
-            } else if (_targets.Where(fighter => !fighter.stats.dead).ToList().Count == 0)
+            } else 
             {
-                _callback();
-            } else
-            {
-                _fighter.ExecuteAction(_fighterAction, _targets, _callback);
+                _fighter.ExecuteAction(_fighterAction, _targets);
             }
         }
     }

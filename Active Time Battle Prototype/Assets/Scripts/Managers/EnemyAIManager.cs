@@ -43,8 +43,7 @@ namespace Managers
             OnEnemyAiFighterCommand?.Invoke(new BattleCommand(
                 fighter,
                 randomAction,
-                targets,
-                fighter.ResetBattleMeter
+                targets
             ));
         }
 
