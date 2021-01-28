@@ -19,8 +19,6 @@ namespace Managers
     {
         public static event Action<ICommand> OnPlayerFighterCommand;
 
-        public ActiveTimeBattleManager atbManager;
-        
         #region Finite State Machine States
 
         public PlayerWaitingState PlayerWaitingState;
@@ -38,7 +36,7 @@ namespace Managers
         public void SetTargets(List<FighterController> targets)
         {
             // TODO: fire off scriptable object event?
-            this.targets = targets;
+            this.targetFighters = targets;
             playerTargetsUi.Render(targets);
         }
 
@@ -51,7 +49,7 @@ namespace Managers
 
         [SerializeField] public FighterController activePlayerFighter;
         [SerializeField] public FighterAction selectedAction;
-        [SerializeField] public List<FighterController> targets;
+        [SerializeField] public List<FighterController> targetFighters;
 
         #endregion
 
@@ -141,12 +139,12 @@ namespace Managers
         public void NotifyPlayerTargetsSelected(List<FighterController> targets)
         {
             TransitionToState(PlayerActionWaitingState);
-            this.targets = targets;
+            targetFighters = targets;
 
             OnPlayerFighterCommand?.Invoke(new BattleCommand(
                 activePlayerFighter,
                 selectedAction,
-                this.targets
+                targetFighters
             ));
 
             TransitionToState(PlayerWaitingState);

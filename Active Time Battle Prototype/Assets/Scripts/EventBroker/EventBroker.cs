@@ -12,7 +12,6 @@ namespace EventBroker
     public class EventBroker : MonoBehaviour,
         IEventBroker<IPlayerActionSelected>, IPlayerActionSelected,
         IEventBroker<IPlayerTargetsSelected>, IPlayerTargetsSelected,
-        IEventBroker<IFighterAction>, IFighterAction,
         IEventBroker<IFighterTakeDamage>, IFighterTakeDamage,
         IEventBroker<IFighterHeal>, IFighterHeal,
         IEventBroker<IFighterActionEnqueueRequest>, IFighterActionEnqueueRequest
@@ -23,7 +22,6 @@ namespace EventBroker
 
         private readonly List<IPlayerActionSelected> _playerActionSelectedSubscribers = new List<IPlayerActionSelected>();
         private readonly List<IPlayerTargetsSelected> _playerTargetsSelectedSubscribers = new List<IPlayerTargetsSelected>();
-        private readonly List<IFighterAction> _fighterActionSubscribers = new List<IFighterAction>();
         private readonly List<IFighterTakeDamage> _fighterTakeDamageSubscribers = new List<IFighterTakeDamage>();
         private readonly List<IFighterHeal> _fighterHealSubscribers = new List<IFighterHeal>();
         private readonly List<IFighterActionEnqueueRequest> _fighterCommandSubscribers = new List<IFighterActionEnqueueRequest>();
@@ -31,7 +29,6 @@ namespace EventBroker
 
         List<IPlayerActionSelected> IEventBroker<IPlayerActionSelected>.Subscribers => _playerActionSelectedSubscribers;
         List<IPlayerTargetsSelected> IEventBroker<IPlayerTargetsSelected>.Subscribers => _playerTargetsSelectedSubscribers;
-        List<IFighterAction> IEventBroker<IFighterAction>.Subscribers => _fighterActionSubscribers;
         List<IFighterTakeDamage> IEventBroker<IFighterTakeDamage>.Subscribers => _fighterTakeDamageSubscribers;
         List<IFighterHeal> IEventBroker<IFighterHeal>.Subscribers => _fighterHealSubscribers;
         List<IFighterActionEnqueueRequest> IEventBroker<IFighterActionEnqueueRequest>.Subscribers =>
@@ -57,11 +54,6 @@ namespace EventBroker
         public void NotifyFighterTakeDamage(FighterController fighter, float damage) =>
             _fighterTakeDamageSubscribers.ForEach(sub => sub.NotifyFighterTakeDamage(fighter, damage));
 
-        public void Subscribe(IFighterAction subscriber) => _fighterActionSubscribers.Add(subscriber);
-        public void Unsubscribe(IFighterAction subscriber) => _fighterActionSubscribers.Remove(subscriber);
-        public void NotifyFighterAction(FighterController fighter, FighterAction action, List<FighterController> targets) =>
-            _fighterActionSubscribers.ForEach(sub => sub.NotifyFighterAction(fighter, action, targets));
-
         public void Subscribe(IPlayerTargetsSelected subscriber) =>
             _playerTargetsSelectedSubscribers.Add(subscriber);
         public void Unsubscribe(IPlayerTargetsSelected subscriber) =>
@@ -81,7 +73,6 @@ namespace EventBroker
         {
             PlayerActions.OnPlayerActionButtonClick += NotifyPlayerActionSelected;
             PlayerTargets.OnPlayerTargetButtonClick += NotifyPlayerTargetsSelected;
-            FighterController.OnFighterAction += NotifyFighterAction;
             FighterController.OnFighterTakeDamage += NotifyFighterTakeDamage;
             FighterController.OnFighterHeal += NotifyFighterHeal;
             PlayerInputManager.OnPlayerFighterCommand += NotifyFighterCommand;
@@ -92,7 +83,6 @@ namespace EventBroker
         {
             PlayerActions.OnPlayerActionButtonClick -= NotifyPlayerActionSelected;
             PlayerTargets.OnPlayerTargetButtonClick -= NotifyPlayerTargetsSelected;
-            FighterController.OnFighterAction -= NotifyFighterAction;
             FighterController.OnFighterTakeDamage -= NotifyFighterTakeDamage;
             FighterController.OnFighterHeal -= NotifyFighterHeal;
             PlayerInputManager.OnPlayerFighterCommand -= NotifyFighterCommand;

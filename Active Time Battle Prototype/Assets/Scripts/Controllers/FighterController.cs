@@ -12,7 +12,11 @@ namespace Controllers
 {
     public class FighterController : MonoBehaviour
     {
-        public static event Action<FighterController, FighterAction, List<FighterController>> OnFighterAction;
+        public FighterActionGameEvent fighterActionStart;
+        public FighterActionGameEvent fighterActionHandleEffects;
+        public FighterActionGameEvent fighterActionComplete;
+
+        // public static event Action<FighterController, FighterAction, List<FighterController>> OnFighterAction;
         public static event Action<FighterController, float> OnFighterTakeDamage;
         public static event Action<FighterController, float> OnFighterHeal;
         public FighterGameEvent fighterDie;
@@ -28,7 +32,6 @@ namespace Controllers
 
         public void ExecuteAction(FighterAction action, List<FighterController> targets)
         {
-            OnFighterAction?.Invoke(this, action, targets);
             _actionExecutionCoroutine = ExecuteActionCoroutine(action, targets);
             StartCoroutine(_actionExecutionCoroutine);
         }
@@ -50,6 +53,7 @@ namespace Controllers
 
         private IEnumerator ExecuteActionCoroutine(FighterAction action, List<FighterController> targets)
         {
+            if (fighterActionStart != null) fighterActionStart.Broadcast(this, action, targets);
             var originPosition = _transform.position;
             var originRotation = _transform.rotation;
             var originTrigger = _fighterAnimationController.CurrentTrigger;
@@ -88,6 +92,8 @@ namespace Controllers
             }
 
             // Handle action effects
+            if (fighterActionHandleEffects != null) fighterActionHandleEffects.Broadcast(this, action, targets);
+
             var actionEffect = Random.Range(action.actionEffectMin, action.actionEffectMax);
             if (action.actionType == Healing) targets.ForEach(target => target.Heal(actionEffect));
             else targets.ForEach(target => target.TakeDamage(actionEffect));
@@ -100,6 +106,7 @@ namespace Controllers
             transform.rotation = originRotation;
             _fighterAnimationController.UpdateAnimationTrigger(originTrigger);
 
+            if (fighterActionComplete != null) fighterActionComplete.Broadcast(this, action, targets);
             ResetBattleMeter();
         }
 

@@ -1212,7 +1212,18 @@ MonoBehaviour:
   Event: {fileID: 11400000, guid: ffe45ac1c45ac7542889b076b231d17b, type: 2}
   onEventBroadcastHandlers:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 221029189}
+        m_MethodName: OnQuitButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &221029194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1229,12 +1240,12 @@ MonoBehaviour:
   onEventBroadcastHandlers:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 221029188}
-        m_MethodName: 
+      - m_Target: {fileID: 221029189}
+        m_MethodName: OnRestartButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1271,12 +1282,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188de10a626e428fa987e0d05aaa68ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atbManager: {fileID: 221029189}
   playerActions: {fileID: 1855225923}
   playerTargetsUi: {fileID: 965902702}
   activePlayerFighter: {fileID: 0}
   selectedAction: {fileID: 0}
-  targets: []
+  targetFighters: []
   playerFighterActive: {fileID: 11400000, guid: 9a713cb9fd3b5c846a7441f6e968321e,
     type: 2}
 --- !u!4 &233476566
@@ -5089,6 +5099,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1432037441}
   - component: {fileID: 1432037442}
+  - component: {fileID: 1432037443}
   m_Layer: 0
   m_Name: BattleAnnouncements
   m_TagString: Untagged
@@ -5123,6 +5134,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleAnnouncementsUi: {fileID: 1762392911}
+--- !u!114 &1432037443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432037440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e43726c2d9646aa803e654bc1e54513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: a0e3220ab2b07cc44bfefd4d594292c1, type: 2}
+  onEventRaisedHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1432037442}
+        m_MethodName: OnFighterActionStart
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1455618288
 GameObject:
   m_ObjectHideFlags: 0

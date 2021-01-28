@@ -9,7 +9,7 @@ using Utils;
 
 namespace Managers
 {
-    public class BattleAnnouncementsManager : Singleton<BattleAnnouncementsManager>, IFighterAction
+    public class BattleAnnouncementsManager : Singleton<BattleAnnouncementsManager>
     {
         public BattleAnnouncements battleAnnouncementsUi;
 
@@ -46,20 +46,18 @@ namespace Managers
 
         private void Start()
         {
-            EventBroker.EventBroker.Instance.Subscribe(this);
             _watchMessageQueueCoroutine = WatchMessageQueue();
             StartCoroutine(_watchMessageQueueCoroutine);
         }
 
         protected override void OnDestroy()
         {
-            EventBroker.EventBroker.Instance.Unsubscribe(this);
             StopCoroutine(_watchMessageQueueCoroutine);
 
             base.OnDestroy();
         }
 
-        public void NotifyFighterAction(FighterController fighter, FighterAction action, List<FighterController> targets)
+        public void OnFighterActionStart(FighterController fighter, FighterAction action, List<FighterController> targets)
         {
             EnqueueBattleMessage(fighter.stats.fighterName + " casts " + action.actionName + " on " + targets.Count + " targets");
         }
