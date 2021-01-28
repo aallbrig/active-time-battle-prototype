@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Controllers;
 using Data;
 
@@ -22,12 +23,13 @@ namespace Commands
 
         public void Execute()
         {
-            if (_fighter.stats.dead)
-            {
-                CommandComplete?.Invoke();
-            } else 
+            var targetsAlive = _targets.Aggregate(0f, (acc, fighter) => acc + fighter.stats.currentHealth) > 0;
+            if (targetsAlive && !_fighter.stats.dead)
             {
                 _fighter.ExecuteAction(_fighterAction, _targets);
+            } else if (!targetsAlive)
+            {
+                _fighter.ResetBattleMeter();
             }
         }
     }

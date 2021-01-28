@@ -1129,6 +1129,8 @@ MonoBehaviour:
     type: 2}
   fighterBattleMeterFull: {fileID: 11400000, guid: b00a48008557dc5478a2f86cdbe7ddcc,
     type: 2}
+  startGame: {fileID: 11400000, guid: fffd39a22e8700f4ca8c1ea91f6340f2, type: 2}
+  gameOver: {fileID: 11400000, guid: 25e80605b28057947aa7e5405925d7e6, type: 2}
 --- !u!4 &221029190
 Transform:
   m_ObjectHideFlags: 0
@@ -2368,7 +2370,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh82104
+  m_Name: pb_Mesh51428
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2829,7 +2831,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &797953554
 Transform:
   m_ObjectHideFlags: 0
@@ -5371,6 +5373,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1456390811}
+  - component: {fileID: 1456390813}
+  - component: {fileID: 1456390812}
   m_Layer: 0
   m_Name: GameEventSystem
   m_TagString: Untagged
@@ -5392,6 +5396,60 @@ Transform:
   m_Father: {fileID: 1343372972}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1456390812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456390810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b53f150b6034e3ea8e555d877713e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: fffd39a22e8700f4ca8c1ea91f6340f2, type: 2}
+  onEventBroadcastHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 797953553}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &1456390813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456390810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b53f150b6034e3ea8e555d877713e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 25e80605b28057947aa7e5405925d7e6, type: 2}
+  onEventBroadcastHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 797953553}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1506937024
 GameObject:
   m_ObjectHideFlags: 0
@@ -5664,8 +5722,13 @@ MonoBehaviour:
   actionEffectDisplayText: {fileID: 1364842868483076585, guid: 44417f13bccf8904998bdec83eed936a,
     type: 3}
   targetCanvas: {fileID: 1138220995}
-  healTextColor: {r: 0.045501336, g: 0.6886792, b: 0, a: 0}
-  damageTextColor: {r: 0.8113208, g: 0, b: 0.21429309, a: 0}
+  healTextColor:
+    serializedVersion: 2
+    rgba: 4279020800
+  damageTextColor:
+    serializedVersion: 2
+    rgba: 188
+  offset: {x: 0, y: 1.5, z: 0}
 --- !u!114 &1530701228
 MonoBehaviour:
   m_ObjectHideFlags: 0

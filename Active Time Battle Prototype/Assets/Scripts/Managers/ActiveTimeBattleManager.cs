@@ -62,9 +62,18 @@ namespace Managers
         public FighterGameEvent fighterBattleMeterTick;
         public FighterGameEvent fighterBattleMeterFull;
 
+        [Header("Game Events")]
+        public GameEvent startGame;
+        public GameEvent gameOver;
+
         public void OnStartBattleButtonClicked()
         {
+            ClearEnemyFighters();
+            ClearPlayerFighters();
             GeneratePlayerCharacters();
+            GeneratePlayerEnemies();
+
+            if (startGame != null) startGame.Broadcast();
 
             TransitionToState(BeginBattleState);
         }
@@ -72,24 +81,24 @@ namespace Managers
         public void OnContinueButtonClicked()
         {
             ClearEnemyFighters();
+            GeneratePlayerEnemies();
 
             TransitionToState(BeginBattleState);
         }
 
         public void OnRestartButtonClicked()
         {
-            ClearEnemyFighters();
-            ClearPlayerFighters();
-
             TransitionToState(StartMenuState);
         }
 
         public void OnQuitButtonClicked()
         {
-            ClearEnemyFighters();
-            ClearPlayerFighters();
-
             TransitionToState(StartMenuState);
+        }
+
+        public void GameOver()
+        {
+            if (gameOver != null) gameOver.Broadcast();
         }
 
         private void GeneratePlayerCharacters()
@@ -110,17 +119,11 @@ namespace Managers
 
         public void ClearEnemyFighters()
         {
-            if (enemyFighterDeleted != null)
-                FighterListsManager.Instance.enemyFighters.ForEach(enemyFighterDeleted.Broadcast);
-
             FighterListsManager.Instance.ClearEnemyFighters();
         }
 
         private void ClearPlayerFighters()
         {
-            if (playerFighterDeleted != null)
-                FighterListsManager.Instance.playerFighters.ForEach(playerFighterDeleted.Broadcast);
-
             FighterListsManager.Instance.ClearPlayerFighters();
         }
 

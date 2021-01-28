@@ -1,5 +1,4 @@
 ﻿using System;
-using Controllers;
 using Managers;
 
 namespace FiniteStateMachines.ActiveTimeBattle
@@ -10,6 +9,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Enter()
         {
+            Context.GameOver();
             Context.ToggleLoseScreenUI(true);
         }
 

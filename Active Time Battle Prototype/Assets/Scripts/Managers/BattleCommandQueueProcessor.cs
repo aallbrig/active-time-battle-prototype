@@ -15,7 +15,7 @@ namespace Managers
         private readonly Queue<ICommand> _battleCommandQueue = new Queue<ICommand>();
         private IEnumerator _battleCommandQueueProcessor;
 
-        private IEnumerator commandQueueProcessor()
+        private IEnumerator CommandQueueProcessorCoroutine()
         {
             while (true)
             {
@@ -42,20 +42,20 @@ namespace Managers
             _readyToProcessAnotherCommand = true;
         }
 
-        private void Start()
+        private void OnEnable()
         {
             EventBroker.EventBroker.Instance.Subscribe(this);
             _readyToProcessAnotherCommand = true;
-            _battleCommandQueueProcessor = commandQueueProcessor();
+            _battleCommandQueueProcessor = CommandQueueProcessorCoroutine();
             StartCoroutine(_battleCommandQueueProcessor);
         }
 
-        protected override void OnDestroy()
+        protected void OnDisable()
         {
             EventBroker.EventBroker.Instance.Unsubscribe(this);
+
             StopCoroutine(_battleCommandQueueProcessor);
             _battleCommandQueue.Clear();
-            base.OnDestroy();
         }
     }
 }
