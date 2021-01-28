@@ -1,4 +1,4 @@
-﻿namespace Data.Actions
+﻿namespace Data
 {
     public enum ActionAnimation
     {

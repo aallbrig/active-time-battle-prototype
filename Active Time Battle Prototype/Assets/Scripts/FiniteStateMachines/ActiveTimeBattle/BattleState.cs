@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Commands;
 using Controllers;
-using Data;
 using EventBroker.SubscriberInterfaces;
 using Managers;
 using UnityEngine;
@@ -13,8 +12,6 @@ namespace FiniteStateMachines.ActiveTimeBattle
 {
     public class BattleState : ActiveTimeBattleState, IFighterActionEnqueueRequest
     {
-        public static event Action<FighterController> OnBattleMeterTick;
-
         private readonly PlayerInputManager _playerBattleInputController;
         private IEnumerator _battleMeterTickCoroutine;
         private const float CoroutineWaitInSeconds = 0.1f;
@@ -111,7 +108,6 @@ namespace FiniteStateMachines.ActiveTimeBattle
             fighter.stats.currentBattleMeterValue = newBattleMeterValue;
 
             Context.OnBattleMeterTick(fighter);
-            OnBattleMeterTick?.Invoke(fighter);
         }
 
         private IEnumerator BattleMeterTickCoroutine()

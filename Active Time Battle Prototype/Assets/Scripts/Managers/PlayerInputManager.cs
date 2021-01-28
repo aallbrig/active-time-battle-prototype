@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Commands;
 using Controllers;
 using Data;
-using Data.Actions;
 using EventBroker.SubscriberInterfaces;
 using FiniteStateMachines;
 using FiniteStateMachines.PlayerBattleInput;
@@ -15,7 +14,7 @@ namespace Managers
 {
     public class PlayerInputManager :
         FiniteStateMachineContext<PlayerBattleInputState, PlayerInputManager>,
-        IBattleMeterTick, IPlayerActionSelected, IPlayerTargetsSelected
+        IPlayerActionSelected, IPlayerTargetsSelected
     {
         public static event Action<FighterController> OnSetPlayerActiveFighter;
         public static event Action<ICommand> OnPlayerFighterCommand;
@@ -105,9 +104,6 @@ namespace Managers
 
         private void OnEnable()
         {
-            // playerFightersStats.GetComponent<PlayerFightersStats>().SetPlayerFighters(atbManager.PlayerFighters);
-
-            EventBroker.EventBroker.Instance.Subscribe((IBattleMeterTick) this);
             EventBroker.EventBroker.Instance.Subscribe((IPlayerActionSelected) this);
             EventBroker.EventBroker.Instance.Subscribe((IPlayerTargetsSelected) this);
 
@@ -118,7 +114,6 @@ namespace Managers
 
         private void OnDisable()
         {
-            EventBroker.EventBroker.Instance.Unsubscribe((IBattleMeterTick) this);
             EventBroker.EventBroker.Instance.Unsubscribe((IPlayerActionSelected) this);
             EventBroker.EventBroker.Instance.Unsubscribe((IPlayerTargetsSelected) this);
             TransitionToState(null);
@@ -130,13 +125,6 @@ namespace Managers
             if (!FighterListsManager.Instance.playerFighters.Contains(fighter)) return;
 
             if (!_waitingForPlayerInputQueue.Contains(fighter)) _waitingForPlayerInputQueue.Enqueue(fighter);
-        }
-
-        public void NotifyBattleMeterTick(FighterController fighter)
-        {
-            if (FighterListsManager.Instance.playerFighters.Contains(fighter))
-            {
-            }
         }
 
         public void NotifyPlayerActionSelected(FighterAction action)

@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class PlayerFighterStats : MonoBehaviour, IBattleMeterTick, IActivePlayerFighterSet, IPlayerTargetsSelected
+    public class PlayerFighterStats : MonoBehaviour, IActivePlayerFighterSet, IPlayerTargetsSelected
     {
-        public TextMeshProUGUI FighterName;
-        public TextMeshProUGUI FighterHealth;
-        public Slider BattleMeter;
-        public GameObject Highlight;
+        public TextMeshProUGUI fighterName;
+        public TextMeshProUGUI fighterHealth;
+        public Slider battleMeter;
+        public GameObject highlight;
 
         private FighterController _fighter;
 
@@ -26,36 +26,34 @@ namespace UI
         private void UpdateUiElements()
         {
             // TODO: Name, max health values aren't going to change a bunch...
-            FighterName.text = _fighter.stats.fighterName;
+            fighterName.text = _fighter.stats.fighterName;
 
             var currentHealth = ((int) _fighter.stats.currentHealth).ToString();
             var maxHealth = ((int) _fighter.stats.maxHealth).ToString();
-            FighterHealth.text = currentHealth + " / " + maxHealth;
+            fighterHealth.text = currentHealth + " / " + maxHealth;
 
-            BattleMeter.value = _fighter.stats.currentBattleMeterValue;
+            battleMeter.value = _fighter.stats.currentBattleMeterValue;
         }
 
         private void Start()
         {
-            EventBroker.EventBroker.Instance.Subscribe((IBattleMeterTick) this);
             EventBroker.EventBroker.Instance.Subscribe((IActivePlayerFighterSet) this);
             EventBroker.EventBroker.Instance.Subscribe((IPlayerTargetsSelected) this);
         }
 
         private void OnDestroy()
         {
-            EventBroker.EventBroker.Instance.Unsubscribe((IBattleMeterTick) this);
             EventBroker.EventBroker.Instance.Unsubscribe((IActivePlayerFighterSet) this);
             EventBroker.EventBroker.Instance.Unsubscribe((IPlayerTargetsSelected) this);
         }
 
         public void NotifyBattleMeterTick(FighterController fighter)
         {
-            UpdateUiElements();
+            if (fighter == _fighter) UpdateUiElements();
         }
 
-        public void NotifyActivePlayerFighterSet(FighterController fighter) => Highlight.SetActive(fighter == _fighter);
+        public void NotifyActivePlayerFighterSet(FighterController fighter) => highlight.SetActive(fighter == _fighter);
 
-        public void NotifyPlayerTargetsSelected(List<FighterController> targets) => Highlight.SetActive(false);
+        public void NotifyPlayerTargetsSelected(List<FighterController> targets) => highlight.SetActive(false);
     }
 }

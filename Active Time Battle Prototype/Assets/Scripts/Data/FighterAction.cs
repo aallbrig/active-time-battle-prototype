@@ -1,5 +1,4 @@
-﻿using Data.Actions;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Data
 {
