@@ -4571,6 +4571,10 @@ MonoBehaviour:
     type: 2}
   fighterActionComplete: {fileID: 11400000, guid: 846128469c9769c4881f659a15c24ab5,
     type: 2}
+  fighterReceivesDamage: {fileID: 11400000, guid: db727e8bb228b374b8b04667d71a8882,
+    type: 2}
+  fighterReceivesHeal: {fileID: 11400000, guid: 17f65c9c4c55d7343b095c17504d51a7,
+    type: 2}
   fighterDie: {fileID: 11400000, guid: 0b60764c517c376488ffa3a9ccb2d5d8, type: 2}
   template: {fileID: 11400000, guid: 8a8b71243a11d9a479eddb40e91ccd91, type: 2}
   stats: {fileID: 0}

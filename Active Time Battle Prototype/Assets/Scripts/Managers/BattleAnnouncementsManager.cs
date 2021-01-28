@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Controllers;
 using Data;
-using EventBroker.SubscriberInterfaces;
 using UI;
 using UnityEngine;
 using Utils;
@@ -48,13 +47,6 @@ namespace Managers
         {
             _watchMessageQueueCoroutine = WatchMessageQueue();
             StartCoroutine(_watchMessageQueueCoroutine);
-        }
-
-        protected override void OnDestroy()
-        {
-            StopCoroutine(_watchMessageQueueCoroutine);
-
-            base.OnDestroy();
         }
 
         public void OnFighterActionStart(FighterController fighter, FighterAction action, List<FighterController> targets)

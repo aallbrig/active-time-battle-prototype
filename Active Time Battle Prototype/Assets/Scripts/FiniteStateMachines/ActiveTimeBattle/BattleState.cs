@@ -10,16 +10,13 @@ using UnityEngine;
 
 namespace FiniteStateMachines.ActiveTimeBattle
 {
-    public class BattleState : ActiveTimeBattleState, IFighterActionEnqueueRequest
+    public class BattleState : ActiveTimeBattleState
     {
         private readonly PlayerInputManager _playerBattleInputController;
         private IEnumerator _battleMeterTickCoroutine;
         private const float CoroutineWaitInSeconds = 0.1f;
         private bool _checkBattleConclusionCondition;
         private List<FighterController> _fighters = new List<FighterController>();
-        private bool _readyToProcessAnotherCommand = true;
-        private readonly Queue<ICommand> _battleCommandQueue = new Queue<ICommand>();
-        private IEnumerator _battleCommandQueueProcessor;
 
         public BattleState(ActiveTimeBattleManager manager) : base(manager)
         {
@@ -28,7 +25,6 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Enter()
         {
-            EventBroker.EventBroker.Instance.Subscribe(this);
             _fighters = _fighters.Concat(FighterListsManager.Instance.enemyFighters).ToList();
             _fighters = _fighters.Concat(FighterListsManager.Instance.playerFighters).ToList();
 
@@ -40,8 +36,6 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
             _battleMeterTickCoroutine = BattleMeterTickCoroutine();
             Context.StartCoroutine(_battleMeterTickCoroutine);
-            _battleCommandQueueProcessor = BattleCommandQueueProcessor();
-            Context.StartCoroutine(_battleCommandQueueProcessor);
 
             _checkBattleConclusionCondition = true;
         }
@@ -59,10 +53,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         private IEnumerator OnLeaveCoroutine(Action callback)
         {
-            _battleCommandQueue.Clear();
-            EventBroker.EventBroker.Instance.Unsubscribe(this);
             Context.StopCoroutine(_battleMeterTickCoroutine);
-            Context.StopCoroutine(_battleCommandQueueProcessor);
             _fighters = new List<FighterController>();
             _playerBattleInputController.gameObject.SetActive(false);
 
@@ -126,27 +117,6 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
                 yield return new WaitForSeconds(CoroutineWaitInSeconds);
             }
-        }
-
-        private IEnumerator BattleCommandQueueProcessor()
-        {
-            while (true)
-            {
-                if (_readyToProcessAnotherCommand && _battleCommandQueue.Count > 0)
-                {
-                    _readyToProcessAnotherCommand = false;
-
-                    var cmd = _battleCommandQueue.Dequeue();
-                    cmd.CommandComplete += () => _readyToProcessAnotherCommand = true;
-                    cmd.Execute();
-                }
-                yield return new WaitForSeconds(0.25f);
-            }
-        }
-
-        public void NotifyFighterCommand(ICommand fighterCommand)
-        {
-            _battleCommandQueue.Enqueue(fighterCommand);
         }
     }
 }

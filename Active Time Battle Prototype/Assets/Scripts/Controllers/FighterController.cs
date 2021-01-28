@@ -15,10 +15,9 @@ namespace Controllers
         public FighterActionGameEvent fighterActionStart;
         public FighterActionGameEvent fighterActionHandleEffects;
         public FighterActionGameEvent fighterActionComplete;
+        public FighterActionEffectGameEvent fighterReceivesDamage;
+        public FighterActionEffectGameEvent fighterReceivesHeal;
 
-        // public static event Action<FighterController, FighterAction, List<FighterController>> OnFighterAction;
-        public static event Action<FighterController, float> OnFighterTakeDamage;
-        public static event Action<FighterController, float> OnFighterHeal;
         public FighterGameEvent fighterDie;
 
         public Fighter template;
@@ -38,14 +37,13 @@ namespace Controllers
 
         private void TakeDamage(float damage)
         {
-            OnFighterTakeDamage?.Invoke(this, damage);
             StartCoroutine(TakeDamageCoroutine(damage));
         }
 
         private void Heal(float heal)
         {
-            OnFighterHeal?.Invoke(this, heal);
             stats.currentHealth = Mathf.Clamp(stats.currentHealth + heal, 0, stats.maxHealth);
+            if (fighterReceivesHeal != null) fighterReceivesHeal.Broadcast(this, heal);
         }
 
         public void RandomizeBattleMeter() => stats.currentBattleMeterValue = Random.Range(0f, 0.5f);
@@ -128,6 +126,7 @@ namespace Controllers
             stats.currentHealth = Mathf.Clamp(stats.currentHealth - damage, 0, stats.maxHealth);
             var previousAnimation = _fighterAnimationController.CurrentTrigger;
             _fighterAnimationController.TakingDamage();
+            if (fighterReceivesDamage != null) fighterReceivesDamage.Broadcast(this, damage);
             yield return new WaitForSeconds(0.5f);
 
             if (stats.currentHealth == 0) Die();

@@ -73,7 +73,8 @@ namespace Managers
 
         public void SetActivePlayerFighterActions(FighterController fighter)
         {
-            GameObject.FindObjectOfType<PlayerActions>().SetupActions(fighter);
+            // Do this differently
+            FindObjectOfType<PlayerActions>().SetupActions(fighter);
         }
 
         private IEnumerator WatchQueueCoroutine()
