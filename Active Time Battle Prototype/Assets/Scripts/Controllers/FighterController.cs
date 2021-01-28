@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Data;
+using GameEventSystem;
 using UnityEngine;
 using static Data.ActionType;
 using Random = UnityEngine.Random;
@@ -14,7 +15,7 @@ namespace Controllers
         public static event Action<FighterController, FighterAction, List<FighterController>> OnFighterAction;
         public static event Action<FighterController, float> OnFighterTakeDamage;
         public static event Action<FighterController, float> OnFighterHeal;
-        public static event Action<FighterController> OnFighterDie;
+        public FighterGameEvent fighterDie;
 
         public Fighter template;
         public Fighter stats;
@@ -110,8 +111,9 @@ namespace Controllers
         private void Die()
         {
             stats.dead = true;
-            OnFighterDie?.Invoke(this);
             _fighterAnimationController.Dying();
+
+            if (fighterDie != null) fighterDie.Broadcast(this);
         }
 
         private IEnumerator TakeDamageCoroutine(float damage)

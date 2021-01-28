@@ -2533,6 +2533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e03aa6f8104b46af8a9a5dfe03bd77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fighterDie: {fileID: 11400000, guid: 0b60764c517c376488ffa3a9ccb2d5d8, type: 2}
   template: {fileID: 11400000, guid: 8a8b71243a11d9a479eddb40e91ccd91, type: 2}
   stats: {fileID: 0}
 --- !u!114 &7132848663750476920

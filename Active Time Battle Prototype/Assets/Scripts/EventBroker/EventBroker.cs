@@ -15,7 +15,6 @@ namespace EventBroker
         IEventBroker<IFighterAction>, IFighterAction,
         IEventBroker<IFighterTakeDamage>, IFighterTakeDamage,
         IEventBroker<IFighterHeal>, IFighterHeal,
-        IEventBroker<IFighterDie>, IFighterDie,
         IEventBroker<IFighterActionEnqueueRequest>, IFighterActionEnqueueRequest
     {
         public static EventBroker Instance { get; private set; }
@@ -27,7 +26,6 @@ namespace EventBroker
         private readonly List<IFighterAction> _fighterActionSubscribers = new List<IFighterAction>();
         private readonly List<IFighterTakeDamage> _fighterTakeDamageSubscribers = new List<IFighterTakeDamage>();
         private readonly List<IFighterHeal> _fighterHealSubscribers = new List<IFighterHeal>();
-        private readonly List<IFighterDie> _fighterDieSubscribers = new List<IFighterDie>();
         private readonly List<IFighterActionEnqueueRequest> _fighterCommandSubscribers = new List<IFighterActionEnqueueRequest>();
 
 
@@ -36,7 +34,6 @@ namespace EventBroker
         List<IFighterAction> IEventBroker<IFighterAction>.Subscribers => _fighterActionSubscribers;
         List<IFighterTakeDamage> IEventBroker<IFighterTakeDamage>.Subscribers => _fighterTakeDamageSubscribers;
         List<IFighterHeal> IEventBroker<IFighterHeal>.Subscribers => _fighterHealSubscribers;
-        List<IFighterDie> IEventBroker<IFighterDie>.Subscribers => _fighterDieSubscribers;
         List<IFighterActionEnqueueRequest> IEventBroker<IFighterActionEnqueueRequest>.Subscribers =>
             _fighterCommandSubscribers;
 
@@ -49,11 +46,6 @@ namespace EventBroker
             _fighterCommandSubscribers.Remove(subscriber);
         public void NotifyFighterCommand(ICommand fighterCommand) =>
             _fighterCommandSubscribers.ForEach(sub => sub.NotifyFighterCommand(fighterCommand));
-
-        public void Subscribe(IFighterDie subscriber) => _fighterDieSubscribers.Add(subscriber);
-        public void Unsubscribe(IFighterDie subscriber) => _fighterDieSubscribers.Remove(subscriber);
-        public void NotifyFighterDie(FighterController fighter) =>
-            _fighterDieSubscribers.ForEach(sub => sub.NotifyFighterDie(fighter));
 
         public void Subscribe(IFighterHeal subscriber) => _fighterHealSubscribers.Add(subscriber);
         public void Unsubscribe(IFighterHeal subscriber) => _fighterHealSubscribers.Remove(subscriber);
@@ -92,7 +84,6 @@ namespace EventBroker
             FighterController.OnFighterAction += NotifyFighterAction;
             FighterController.OnFighterTakeDamage += NotifyFighterTakeDamage;
             FighterController.OnFighterHeal += NotifyFighterHeal;
-            FighterController.OnFighterDie += NotifyFighterDie;
             PlayerInputManager.OnPlayerFighterCommand += NotifyFighterCommand;
             EnemyAIManager.OnEnemyAiFighterCommand += NotifyFighterCommand;
         }
@@ -104,7 +95,6 @@ namespace EventBroker
             FighterController.OnFighterAction -= NotifyFighterAction;
             FighterController.OnFighterTakeDamage -= NotifyFighterTakeDamage;
             FighterController.OnFighterHeal -= NotifyFighterHeal;
-            FighterController.OnFighterDie -= NotifyFighterDie;
             PlayerInputManager.OnPlayerFighterCommand -= NotifyFighterCommand;
             EnemyAIManager.OnEnemyAiFighterCommand -= NotifyFighterCommand;
         }
