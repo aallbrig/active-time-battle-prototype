@@ -15,10 +15,6 @@ namespace Managers
     // TODO: Make this maybe not be a god objective (i.e. move PlayerBattleInputController out?)
     public class ActiveTimeBattleManager : FiniteStateMachineContext<ActiveTimeBattleState, ActiveTimeBattleManager>
     {
-        public static event Action<FighterController> OnPlayerFighterCreated; 
-        public static event Action<FighterController> OnEnemyFighterCreated;
-
-
         public PlayerInputManager playerInputManager;
 
         #region Pool of player/enemy fighter spawn points
@@ -100,11 +96,7 @@ namespace Managers
         {
             GenerateRandomFighters(playerSpawnPositions, fighter =>
             {
-                // Brand new system
                 if (playerFighterCreated != null) playerFighterCreated.Broadcast(fighter);
-
-                // TODO: fully replace one of the two systems
-                OnPlayerFighterCreated?.Invoke(fighter);
             });
         }
 
@@ -112,9 +104,7 @@ namespace Managers
         {
             GenerateRandomFighters(enemySpawnPositions, fighter =>
             {
-                // Brand new system
                 if (enemyFighterCreated != null) enemyFighterCreated.Broadcast(fighter);
-                OnEnemyFighterCreated?.Invoke(fighter);
             });
         }
 
