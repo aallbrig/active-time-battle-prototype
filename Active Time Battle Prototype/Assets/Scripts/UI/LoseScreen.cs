@@ -1,4 +1,4 @@
-﻿using System;
+﻿using GameEventSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,8 +6,7 @@ namespace UI
 {
     public class LoseScreen : MonoBehaviour
     {
-        public static event Action OnRestartButtonClick;
-
+        public ButtonClickedGameEvent restartButtonClicked;
         public Button restartButton;
 
         private void EnableButtons()
@@ -27,7 +26,7 @@ namespace UI
             restartButton.onClick.AddListener(() =>
             {
                 DisableButtons();
-                OnRestartButtonClick?.Invoke();
+                if (restartButtonClicked != null) restartButtonClicked.Broadcast();
             });
         }
     }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Controllers;
-using Data;
 using EventBroker.SubscriberInterfaces;
 using FiniteStateMachines;
 using FiniteStateMachines.ActiveTimeBattle;
@@ -14,8 +13,7 @@ using Random = UnityEngine.Random;
 namespace Managers
 {
     // TODO: Make this maybe not be a god objective (i.e. move PlayerBattleInputController out?)
-    public class ActiveTimeBattleManager : FiniteStateMachineContext<ActiveTimeBattleState, ActiveTimeBattleManager>,
-        IContinueBattlingButtonClicked, IQuitButtonClicked, IRestartButtonClicked
+    public class ActiveTimeBattleManager : FiniteStateMachineContext<ActiveTimeBattleState, ActiveTimeBattleManager>
     {
         public static event Action<FighterController> OnPlayerFighterCreated; 
         public static event Action<FighterController> OnEnemyFighterCreated;
@@ -68,35 +66,34 @@ namespace Managers
         public FighterGameEvent fighterBattleMeterTick;
         public FighterGameEvent fighterBattleMeterFull;
 
-        #region EventBroker Subscriptions
-
-        public void NotifyContinueBattlingButtonClick()
-        {
-            ClearEnemyFighters();
-
-            TransitionToState(BeginBattleState);
-        }
-
-        public void NotifyQuitButtonClicked()
-        {
-            ClearEnemyFighters();
-            ClearPlayerFighters();
-
-            TransitionToState(StartMenuState);
-        }
-
-        public void NotifyRestartButtonClicked()
-        {
-            ClearEnemyFighters();
-            ClearPlayerFighters();
-
-            TransitionToState(StartMenuState);
-        }
-
-        public void StartBattleButtonClicked()
+        public void OnStartBattleButtonClicked()
         {
             GeneratePlayerCharacters();
+
             TransitionToState(BeginBattleState);
+        }
+
+        public void OnContinueButtonClicked()
+        {
+            ClearEnemyFighters();
+
+            TransitionToState(BeginBattleState);
+        }
+
+        public void OnRestartButtonClicked()
+        {
+            ClearEnemyFighters();
+            ClearPlayerFighters();
+
+            TransitionToState(StartMenuState);
+        }
+
+        public void OnQuitButtonClicked()
+        {
+            ClearEnemyFighters();
+            ClearPlayerFighters();
+
+            TransitionToState(StartMenuState);
         }
 
         private void GeneratePlayerCharacters()
@@ -136,7 +133,6 @@ namespace Managers
 
             FighterListsManager.Instance.ClearPlayerFighters();
         }
-        #endregion
 
         private List<GameObject> GetAllFightersAssetPath() => Resources.LoadAll<GameObject>("Fighters").ToList();
 
@@ -174,11 +170,6 @@ namespace Managers
             BattleState = new BattleState(this);
             BattleVictoryState = new BattleVictoryState(this);
             BattleLoseState = new BattleLoseState(this);
-
-            // Setup subscriptions to notable events
-            EventBroker.EventBroker.Instance.Subscribe((IContinueBattlingButtonClicked) this);
-            EventBroker.EventBroker.Instance.Subscribe((IRestartButtonClicked) this);
-            EventBroker.EventBroker.Instance.Subscribe((IQuitButtonClicked) this);
 
             // Initial state
             TransitionToState(StartMenuState);

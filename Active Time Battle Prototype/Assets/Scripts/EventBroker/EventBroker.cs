@@ -14,9 +14,6 @@ namespace EventBroker
         IEventBroker<IPlayerTargetsSelected>, IPlayerTargetsSelected,
         IEventBroker<IPlayerFighterCreated>, IPlayerFighterCreated,
         IEventBroker<IEnemyFighterCreated>, IEnemyFighterCreated,
-        IEventBroker<IContinueBattlingButtonClicked>, IContinueBattlingButtonClicked,
-        IEventBroker<IRestartButtonClicked>, IRestartButtonClicked,
-        IEventBroker<IQuitButtonClicked>, IQuitButtonClicked,
         IEventBroker<IFighterAction>, IFighterAction,
         IEventBroker<IFighterTakeDamage>, IFighterTakeDamage,
         IEventBroker<IFighterHeal>, IFighterHeal,
@@ -31,10 +28,6 @@ namespace EventBroker
         private readonly List<IPlayerTargetsSelected> _playerTargetsSelectedSubscribers = new List<IPlayerTargetsSelected>();
         private readonly List<IPlayerFighterCreated> _playerFighterCreatedSubscribers = new List<IPlayerFighterCreated>();
         private readonly List<IEnemyFighterCreated> _enemyFighterCreatedSubscribers = new List<IEnemyFighterCreated>();
-        private readonly List<IStartBattleButtonClicked> _startBattleButtonSubscribers = new List<IStartBattleButtonClicked>();
-        private readonly List<IContinueBattlingButtonClicked> _continueBattlingButtonClickedSubscribers = new List<IContinueBattlingButtonClicked>();
-        private readonly List<IRestartButtonClicked> _restartButtonClickedSubscribers = new List<IRestartButtonClicked>();
-        private readonly List<IQuitButtonClicked> _quitButtonClickedSubscribers = new List<IQuitButtonClicked>();
         private readonly List<IFighterAction> _fighterActionSubscribers = new List<IFighterAction>();
         private readonly List<IFighterTakeDamage> _fighterTakeDamageSubscribers = new List<IFighterTakeDamage>();
         private readonly List<IFighterHeal> _fighterHealSubscribers = new List<IFighterHeal>();
@@ -46,9 +39,6 @@ namespace EventBroker
         List<IPlayerTargetsSelected> IEventBroker<IPlayerTargetsSelected>.Subscribers => _playerTargetsSelectedSubscribers;
         List<IPlayerFighterCreated> IEventBroker<IPlayerFighterCreated>.Subscribers => _playerFighterCreatedSubscribers;
         List<IEnemyFighterCreated> IEventBroker<IEnemyFighterCreated>.Subscribers => _enemyFighterCreatedSubscribers;
-        List<IContinueBattlingButtonClicked> IEventBroker<IContinueBattlingButtonClicked>.Subscribers => _continueBattlingButtonClickedSubscribers;
-        List<IRestartButtonClicked> IEventBroker<IRestartButtonClicked>.Subscribers => _restartButtonClickedSubscribers;
-        List<IQuitButtonClicked> IEventBroker<IQuitButtonClicked>.Subscribers => _quitButtonClickedSubscribers;
         List<IFighterAction> IEventBroker<IFighterAction>.Subscribers => _fighterActionSubscribers;
         List<IFighterTakeDamage> IEventBroker<IFighterTakeDamage>.Subscribers => _fighterTakeDamageSubscribers;
         List<IFighterHeal> IEventBroker<IFighterHeal>.Subscribers => _fighterHealSubscribers;
@@ -86,21 +76,6 @@ namespace EventBroker
         public void NotifyFighterAction(FighterController fighter, FighterAction action, List<FighterController> targets) =>
             _fighterActionSubscribers.ForEach(sub => sub.NotifyFighterAction(fighter, action, targets));
 
-        public void Subscribe(IQuitButtonClicked subscriber) => _quitButtonClickedSubscribers.Add(subscriber);
-        public void Unsubscribe(IQuitButtonClicked subscriber) => _quitButtonClickedSubscribers.Remove(subscriber);
-        public void NotifyQuitButtonClicked() => _quitButtonClickedSubscribers.ForEach(sub => sub.NotifyQuitButtonClicked());
-
-        public void Subscribe(IRestartButtonClicked subscriber) => _restartButtonClickedSubscribers.Add(subscriber);
-        public void Unsubscribe(IRestartButtonClicked subscriber) => _restartButtonClickedSubscribers.Remove(subscriber);
-        public void NotifyRestartButtonClicked() => _restartButtonClickedSubscribers.ForEach(sub => sub.NotifyRestartButtonClicked());
-
-        public void Subscribe(IContinueBattlingButtonClicked subscriber) =>
-            _continueBattlingButtonClickedSubscribers.Add(subscriber);
-        public void Unsubscribe(IContinueBattlingButtonClicked subscriber) =>
-            _continueBattlingButtonClickedSubscribers.Remove(subscriber);
-        public void NotifyContinueBattlingButtonClick() =>
-            _continueBattlingButtonClickedSubscribers.ForEach(sub => sub.NotifyContinueBattlingButtonClick());
-
         public void Subscribe(IEnemyFighterCreated subscriber) =>
             _enemyFighterCreatedSubscribers.Add(subscriber);
         public void Unsubscribe(IEnemyFighterCreated subscriber) =>
@@ -136,9 +111,6 @@ namespace EventBroker
             PlayerTargets.OnPlayerTargetButtonClick += NotifyPlayerTargetsSelected;
             ActiveTimeBattleManager.OnEnemyFighterCreated += NotifyEnemyFighterCreated;
             ActiveTimeBattleManager.OnPlayerFighterCreated += NotifyPlayerFighterCreated;
-            VictoryScreen.OnContinueBattlingButtonClick += NotifyContinueBattlingButtonClick;
-            VictoryScreen.OnQuitButtonClick += NotifyQuitButtonClicked;
-            LoseScreen.OnRestartButtonClick += NotifyQuitButtonClicked;
             FighterController.OnFighterAction += NotifyFighterAction;
             FighterController.OnFighterTakeDamage += NotifyFighterTakeDamage;
             FighterController.OnFighterHeal += NotifyFighterHeal;
@@ -153,9 +125,6 @@ namespace EventBroker
             PlayerTargets.OnPlayerTargetButtonClick -= NotifyPlayerTargetsSelected;
             ActiveTimeBattleManager.OnEnemyFighterCreated -= NotifyEnemyFighterCreated;
             ActiveTimeBattleManager.OnPlayerFighterCreated -= NotifyPlayerFighterCreated;
-            VictoryScreen.OnContinueBattlingButtonClick -= NotifyContinueBattlingButtonClick;
-            VictoryScreen.OnQuitButtonClick -= NotifyQuitButtonClicked;
-            LoseScreen.OnRestartButtonClick -= NotifyQuitButtonClicked;
             FighterController.OnFighterAction -= NotifyFighterAction;
             FighterController.OnFighterTakeDamage -= NotifyFighterTakeDamage;
             FighterController.OnFighterHeal -= NotifyFighterHeal;

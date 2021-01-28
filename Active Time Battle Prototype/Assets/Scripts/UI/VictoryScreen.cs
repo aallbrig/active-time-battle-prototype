@@ -1,4 +1,5 @@
 ﻿using System;
+using GameEventSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,8 +7,8 @@ namespace UI
 {
     public class VictoryScreen : MonoBehaviour
     {
-        public static event Action OnContinueBattlingButtonClick;
-        public static event Action OnQuitButtonClick;
+        public ButtonClickedGameEvent continueBattlingButtonClicked;
+        public ButtonClickedGameEvent quitBattleButtonClicked;
 
         public Button continueBattlingButton;
         public Button quitBattleButton;
@@ -31,12 +32,12 @@ namespace UI
             continueBattlingButton.onClick.AddListener(() =>
             {
                 DisableButtons();
-                OnContinueBattlingButtonClick?.Invoke();
+                if (continueBattlingButtonClicked != null) continueBattlingButtonClicked.Broadcast();
             });
             quitBattleButton.onClick.AddListener(() =>
             {
                 DisableButtons();
-                OnQuitButtonClick?.Invoke();
+                if (quitBattleButtonClicked != null) quitBattleButtonClicked.Broadcast();
             });
         }
     }

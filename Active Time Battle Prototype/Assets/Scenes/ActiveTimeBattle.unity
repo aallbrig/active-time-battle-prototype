@@ -1078,6 +1078,9 @@ GameObject:
   - component: {fileID: 221029190}
   - component: {fileID: 221029189}
   - component: {fileID: 221029191}
+  - component: {fileID: 221029192}
+  - component: {fileID: 221029194}
+  - component: {fileID: 221029193}
   m_Layer: 0
   m_Name: ActiveTimeBattle
   m_TagString: Untagged
@@ -1157,11 +1160,81 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 221029189}
-        m_MethodName: StartBattleButtonClicked
+        m_MethodName: OnStartBattleButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &221029192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221029188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01c415486b88466caf11306a414282ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 5cda2646bb1186744840cf9399825324, type: 2}
+  onEventBroadcastHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 221029189}
+        m_MethodName: OnContinueButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &221029193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221029188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01c415486b88466caf11306a414282ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: ffe45ac1c45ac7542889b076b231d17b, type: 2}
+  onEventBroadcastHandlers:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &221029194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221029188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01c415486b88466caf11306a414282ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: cc07c568aff861f4998dd409b941096e, type: 2}
+  onEventBroadcastHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 221029188}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2114,6 +2187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 213ce7a879f9413da10bddda2bba4a40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  restartButtonClicked: {fileID: 11400000, guid: cc07c568aff861f4998dd409b941096e,
+    type: 2}
   restartButton: {fileID: 1975987122}
 --- !u!1 &630713727
 GameObject:
@@ -5927,6 +6002,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368957bcbfd54627af409afb28609882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  continueBattlingButtonClicked: {fileID: 11400000, guid: 5cda2646bb1186744840cf9399825324,
+    type: 2}
+  quitBattleButtonClicked: {fileID: 11400000, guid: ffe45ac1c45ac7542889b076b231d17b,
+    type: 2}
   continueBattlingButton: {fileID: 2035170092}
   quitBattleButton: {fileID: 537201181}
 --- !u!1 &1808408117
