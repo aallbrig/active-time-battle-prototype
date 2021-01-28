@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class PlayerFighterStats : MonoBehaviour, IActivePlayerFighterSet, IPlayerTargetsSelected
+    public class PlayerFighterStats : MonoBehaviour, IPlayerTargetsSelected
     {
         public TextMeshProUGUI fighterName;
         public TextMeshProUGUI fighterHealth;
@@ -37,13 +37,11 @@ namespace UI
 
         private void Start()
         {
-            EventBroker.EventBroker.Instance.Subscribe((IActivePlayerFighterSet) this);
             EventBroker.EventBroker.Instance.Subscribe((IPlayerTargetsSelected) this);
         }
 
         private void OnDestroy()
         {
-            EventBroker.EventBroker.Instance.Unsubscribe((IActivePlayerFighterSet) this);
             EventBroker.EventBroker.Instance.Unsubscribe((IPlayerTargetsSelected) this);
         }
 
@@ -52,7 +50,7 @@ namespace UI
             if (fighter == _fighter) UpdateUiElements();
         }
 
-        public void NotifyActivePlayerFighterSet(FighterController fighter) => highlight.SetActive(fighter == _fighter);
+        public void ActivePlayerSet(FighterController fighter) => highlight.SetActive(fighter == _fighter);
 
         public void NotifyPlayerTargetsSelected(List<FighterController> targets) => highlight.SetActive(false);
     }

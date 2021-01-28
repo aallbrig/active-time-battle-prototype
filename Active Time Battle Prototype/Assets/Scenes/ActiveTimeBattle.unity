@@ -1077,6 +1077,7 @@ GameObject:
   m_Component:
   - component: {fileID: 221029190}
   - component: {fileID: 221029189}
+  - component: {fileID: 221029191}
   m_Layer: 0
   m_Name: ActiveTimeBattle
   m_TagString: Untagged
@@ -1139,6 +1140,33 @@ Transform:
   m_Father: {fileID: 1343372972}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &221029191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221029188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01c415486b88466caf11306a414282ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: cde241d678f2d814293bf6a4254c40f5, type: 2}
+  onEventBroadcastHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 221029189}
+        m_MethodName: StartBattleButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &233476564
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,6 +1178,7 @@ GameObject:
   - component: {fileID: 233476566}
   - component: {fileID: 233476565}
   - component: {fileID: 233476567}
+  - component: {fileID: 233476568}
   m_Layer: 0
   m_Name: PlayerBattleInput
   m_TagString: Untagged
@@ -1170,14 +1199,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atbManager: {fileID: 221029189}
-  playerFightersStats: {fileID: 128146309}
   playerActions: {fileID: 1855225923}
   playerTargetsUi: {fileID: 965902702}
-  playerTargets: {fileID: 11400000, guid: a9c4e1054512e9349ad31e61822d5f3e, type: 2}
   playerInput:
     ActiveFighter: {fileID: 0}
     SelectedAction: {fileID: 0}
     Targets: []
+  _activePlayerFighter: {fileID: 0}
+  playerFighterActive: {fileID: 11400000, guid: 9a713cb9fd3b5c846a7441f6e968321e,
+    type: 2}
 --- !u!4 &233476566
 Transform:
   m_ObjectHideFlags: 0
@@ -1210,6 +1240,44 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 233476565}
         m_MethodName: EnqueuePlayerFighter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &233476568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233476564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5f6284d8c644df3b8c757f8b22d24b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 9a713cb9fd3b5c846a7441f6e968321e, type: 2}
+  onEventRaisedHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 233476565}
+        m_MethodName: ActivatePlayerFighter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 233476565}
+        m_MethodName: SetActivePlayerFighterActions
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1528,7 +1596,7 @@ PrefabInstance:
     - target: {fileID: 7441622955904206567, guid: 542fd8d1b5b6bda4d83bcf3b16a1e423,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 430
+      value: 420
       objectReference: {fileID: 0}
     - target: {fileID: 7441622955904206567, guid: 542fd8d1b5b6bda4d83bcf3b16a1e423,
         type: 3}
@@ -2546,7 +2614,7 @@ PrefabInstance:
     - target: {fileID: 7441622955904206567, guid: 542fd8d1b5b6bda4d83bcf3b16a1e423,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 430
+      value: 420
       objectReference: {fileID: 0}
     - target: {fileID: 7441622955904206567, guid: 542fd8d1b5b6bda4d83bcf3b16a1e423,
         type: 3}
@@ -3176,7 +3244,6 @@ MonoBehaviour:
   containerTransform: {fileID: 1722242822}
   playerTargetButtonPrefab: {fileID: 8272090336565382548, guid: 3a587635d3a9e574886d35430e76b88e,
     type: 3}
-  fighters: {fileID: 11400000, guid: a9c4e1054512e9349ad31e61822d5f3e, type: 2}
 --- !u!1 &967076197
 GameObject:
   m_ObjectHideFlags: 0
@@ -8930,6 +8997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdde41e43c7bea844a578f704b26845d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonClicked: {fileID: 11400000, guid: cde241d678f2d814293bf6a4254c40f5, type: 2}
   startBattlingButton: {fileID: 1025310455}
 --- !u!1001 &7441622956586217835
 PrefabInstance:
@@ -9011,7 +9079,7 @@ PrefabInstance:
     - target: {fileID: 7441622955904206567, guid: 542fd8d1b5b6bda4d83bcf3b16a1e423,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 430
+      value: 420
       objectReference: {fileID: 0}
     - target: {fileID: 7441622955904206567, guid: 542fd8d1b5b6bda4d83bcf3b16a1e423,
         type: 3}

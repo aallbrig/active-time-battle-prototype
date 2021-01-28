@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using Controllers;
 using Data;
 using TMPro;
 using UnityEngine.UI;
@@ -12,8 +12,11 @@ namespace UI
 
         public Button playerActionPrefab;
 
-        // Alias, so my mind doesn't bend/break on generic naming
-        public void SetActions(List<FighterAction> actions) => SetupList(actions);
+        public void SetupActions(FighterController fighter)
+        {
+            var actions = fighter.stats.actionSet.actions;
+            SetupList(actions);
+        }
 
         private FighterAction _action;
 

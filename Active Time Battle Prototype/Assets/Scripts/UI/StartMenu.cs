@@ -1,4 +1,4 @@
-﻿using System;
+﻿using GameEventSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +6,7 @@ namespace UI
 {
     public class StartMenu : MonoBehaviour
     {
-        public static event Action OnStartBattleButtonClicked;
+        public ButtonClickedGameEvent buttonClicked;
         public Button startBattlingButton;
 
         private void OnEnable()
@@ -19,7 +19,7 @@ namespace UI
             startBattlingButton.onClick.AddListener(() =>
             {
                 startBattlingButton.interactable = false;
-                OnStartBattleButtonClicked?.Invoke();
+                if (buttonClicked != null) buttonClicked.Broadcast();
             });
         }
     }

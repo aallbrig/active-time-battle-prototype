@@ -7,6 +7,7 @@ using Data;
 using EventBroker.SubscriberInterfaces;
 using FiniteStateMachines;
 using FiniteStateMachines.PlayerBattleInput;
+using GameEventSystem;
 using UI;
 using UnityEngine;
 
@@ -16,7 +17,6 @@ namespace Managers
         FiniteStateMachineContext<PlayerBattleInputState, PlayerInputManager>,
         IPlayerActionSelected, IPlayerTargetsSelected
     {
-        public static event Action<FighterController> OnSetPlayerActiveFighter;
         public static event Action<ICommand> OnPlayerFighterCommand;
 
         public ActiveTimeBattleManager atbManager;
@@ -57,16 +57,31 @@ namespace Managers
             public List<FighterController> Targets;
         }
         public PlayerInput playerInput;
+        [SerializeField] private FighterController _activePlayerFighter;
 
         #endregion
 
-        private readonly Queue<FighterController> _waitingForPlayerInputQueue = new Queue<FighterController>();
+        [Header("Fighter Game Events")]
+        public FighterGameEvent playerFighterActive;
 
+        // TODO: Move this queue/processor logic into another script
+        private readonly Queue<FighterController> _waitingForPlayerInputQueue = new Queue<FighterController>();
         private IEnumerator _queueCoroutine;
 
         public void ReEnqueueFighter(FighterController fighter)
         {
             _waitingForPlayerInputQueue.Enqueue(fighter);
+        }
+
+        public void ActivatePlayerFighter(FighterController fighter)
+        {
+            _activePlayerFighter = fighter;
+            TransitionToState(PlayerChooseActionState);
+        }
+
+        public void SetActivePlayerFighterActions(FighterController fighter)
+        {
+            GameObject.FindObjectOfType<PlayerActions>().SetupActions(fighter);
         }
 
         private IEnumerator WatchQueueCoroutine()
@@ -78,11 +93,7 @@ namespace Managers
                     var fighter = _waitingForPlayerInputQueue.Dequeue();
                     if (!fighter.stats.dead)
                     {
-                        playerInput.ActiveFighter = fighter;
-                        OnSetPlayerActiveFighter?.Invoke(playerInput.ActiveFighter);
-                        var actions = playerInput.ActiveFighter.GetActions();
-                        playerActions.GetComponent<PlayerActions>().SetActions(actions);
-                        TransitionToState(PlayerChooseActionState);
+                        if (playerFighterActive != null) playerFighterActive.Broadcast(fighter);
                     }
                 }
 

@@ -15,8 +15,7 @@ namespace Managers
 {
     // TODO: Make this maybe not be a god objective (i.e. move PlayerBattleInputController out?)
     public class ActiveTimeBattleManager : FiniteStateMachineContext<ActiveTimeBattleState, ActiveTimeBattleManager>,
-        IContinueBattlingButtonClicked, IQuitButtonClicked, IRestartButtonClicked,
-        IStartBattleButtonClicked
+        IContinueBattlingButtonClicked, IQuitButtonClicked, IRestartButtonClicked
     {
         public static event Action<FighterController> OnPlayerFighterCreated; 
         public static event Action<FighterController> OnEnemyFighterCreated;
@@ -94,7 +93,7 @@ namespace Managers
             TransitionToState(StartMenuState);
         }
 
-        public void NotifyStartBattleButtonClicked()
+        public void StartBattleButtonClicked()
         {
             GeneratePlayerCharacters();
             TransitionToState(BeginBattleState);
@@ -177,7 +176,6 @@ namespace Managers
             BattleLoseState = new BattleLoseState(this);
 
             // Setup subscriptions to notable events
-            EventBroker.EventBroker.Instance.Subscribe((IStartBattleButtonClicked) this);
             EventBroker.EventBroker.Instance.Subscribe((IContinueBattlingButtonClicked) this);
             EventBroker.EventBroker.Instance.Subscribe((IRestartButtonClicked) this);
             EventBroker.EventBroker.Instance.Subscribe((IQuitButtonClicked) this);
