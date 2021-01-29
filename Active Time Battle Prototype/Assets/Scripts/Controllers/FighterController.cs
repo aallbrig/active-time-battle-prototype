@@ -24,10 +24,20 @@ namespace Controllers
 
         public Fighter template;
         public Fighter stats;
+        public Vector3 startingPosition;
+        public Quaternion startingRotation;
+        public string startingTrigger;
+
         private Transform _transform;
-        private FighterAnimationController _fighterAnimationController;
-        private NavMeshAgentController _agentController;
+        public FighterAnimationController fighterAnimationController;
+        public NavMeshAgentController agentController;
         private IEnumerator _actionExecutionCoroutine;
+
+
+        public static Vector3 FindCenterPoint(IReadOnlyCollection<FighterController> targets) =>
+            targets.Select(target => target.transform.position)
+                .Aggregate(new Vector3(), (acc, position) => acc + position)
+                / targets.Count;
 
         public List<FighterAction> GetActions() => stats.actionSet.actions;
 
@@ -54,72 +64,28 @@ namespace Controllers
         private IEnumerator ExecuteActionCoroutine(FighterAction action, List<FighterController> targets)
         {
             if (fighterActionStart != null) fighterActionStart.Broadcast(this, action, targets);
-            var originPosition = _transform.position;
-            var originRotation = _transform.rotation;
-            var originTrigger = _fighterAnimationController.CurrentTrigger;
-            var centerPoint = FindCenterPoint(targets);
 
-            var playRunAnimation = new Action(() =>
-            {
-                if (action.actionType == Healing) _fighterAnimationController.Running();
-                else _fighterAnimationController.Charging();
-            });
 
-            playRunAnimation();
-            yield return _agentController.SetDestination(centerPoint, action.range);
+            yield return action.ingress.Play(this, action, targets);
 
-            // Play action animation
-            switch (action.actionAnimation)
-            {
-                case ActionAnimation.SlashAttack:
-                    _fighterAnimationController.Slashing();
-                    break;
-                case ActionAnimation.StabAttack:
-                    _fighterAnimationController.Stabbing();
-                    break;
-                case ActionAnimation.RangedAttack:
-                    _fighterAnimationController.AttackingAtRange();
-                    break;
-                case ActionAnimation.TargetCast:
-                    _fighterAnimationController.CastingAtTarget();
-                    break;
-                case ActionAnimation.MultipleCast:
-                    _fighterAnimationController.CastingAtMultiple();
-                    break;
-                case ActionAnimation.ChannelCast:
-                    _fighterAnimationController.ChannelCasting();
-                    break;
-            }
+            yield return action.act.Play(this, action, targets);
 
-            // Handle action effects
-
+            // TODO: Handle Effects
             var actionEffect = Random.Range(action.actionEffectMin, action.actionEffectMax);
             if (action.actionType == Healing) targets.ForEach(target => target.Heal(actionEffect));
             else targets.ForEach(target => target.TakeDamage(actionEffect));
-
             if (fighterActionHandleEffects != null) fighterActionHandleEffects.Broadcast(this, action, targets);
-            // Wait for action animation to be complete
-            yield return new WaitForSeconds(0.5f);
+            // End TODO
 
-            playRunAnimation();
-            yield return _agentController.SetDestination(originPosition, 0);
-
-            transform.rotation = originRotation;
-            _fighterAnimationController.UpdateAnimationTrigger(originTrigger);
-
+            yield return action.egress.Play(this, action, targets);
             if (fighterActionComplete != null) fighterActionComplete.Broadcast(this, action, targets);
             ResetBattleMeter();
         }
 
-        private static Vector3 FindCenterPoint(IReadOnlyCollection<FighterController> targets) =>
-            targets.Select(target => target.transform.position)
-                .Aggregate(new Vector3(), (acc, position) => acc + position)
-                / targets.Count;
-
         private void Die()
         {
             stats.dead = true;
-            _fighterAnimationController.Dying();
+            fighterAnimationController.Dying();
 
             if (fighterDie != null) fighterDie.Broadcast(this);
         }
@@ -127,20 +93,23 @@ namespace Controllers
         private IEnumerator TakeDamageCoroutine(float damage)
         {
             stats.currentHealth = Mathf.Clamp(stats.currentHealth - damage, 0, stats.maxHealth);
-            var previousAnimation = _fighterAnimationController.CurrentTrigger;
-            _fighterAnimationController.TakingDamage();
+            var previousAnimation = fighterAnimationController.CurrentTrigger;
+            fighterAnimationController.TakingDamage();
             if (fighterReceivesDamage != null) fighterReceivesDamage.Broadcast(this, damage);
             yield return new WaitForSeconds(0.5f);
 
             if (stats.currentHealth == 0) Die();
-            else _fighterAnimationController.UpdateAnimationTrigger(previousAnimation);
+            else fighterAnimationController.UpdateAnimationTrigger(previousAnimation);
         }
 
         private void Start()
         {
             _transform = transform;
-            _fighterAnimationController = GetComponent<FighterAnimationController>();
-            _agentController = GetComponent<NavMeshAgentController>();
+            startingPosition = _transform.position;
+            startingRotation = _transform.rotation;
+            fighterAnimationController = GetComponent<FighterAnimationController>();
+            startingTrigger = fighterAnimationController.CurrentTrigger;
+            agentController = GetComponent<NavMeshAgentController>();
 
             if (template != null)
             {

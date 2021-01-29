@@ -13,18 +13,16 @@ namespace Managers
         public FighterListRuntimeSet playerFighters;
         public FighterListRuntimeSet enemyFighters;
 
-        private bool _readyToProcessAnotherCommand = true;
         private readonly Queue<ICommand> _battleCommandQueue = new Queue<ICommand>();
+        private readonly List<FighterController> _fightersTakingAction = new List<FighterController>();
         private IEnumerator _battleCommandQueueProcessor;
 
         private IEnumerator CommandQueueProcessorCoroutine()
         {
             while (true)
             {
-                if (_readyToProcessAnotherCommand && _battleCommandQueue.Count > 0)
+                if (_fightersTakingAction.Count == 0 && _battleCommandQueue.Count > 0)
                 {
-                    _readyToProcessAnotherCommand = false;
-
                     var cmds = GetAllCommandsOfSameFighterFaction((BattleCommand) _battleCommandQueue.Dequeue());
                     cmds.ForEach(cmd => cmd.Execute());
                 }
@@ -37,11 +35,14 @@ namespace Managers
             _battleCommandQueue.Enqueue(new BattleCommand(fighter, action, targets));
         }
 
-        public void ReadyToProcessAnotherBattleCommand(
-            FighterController fighter, FighterAction action, List<FighterController> targets
-        )
+        public void OnFighterActionStart(FighterController fighter, FighterAction action, List<FighterController> targets)
         {
-            _readyToProcessAnotherCommand = true;
+            if (!_fightersTakingAction.Contains(fighter)) _fightersTakingAction.Add(fighter);
+        }
+
+        public void OnFighterActionComplete(FighterController fighter, FighterAction action, List<FighterController> targets)
+        {
+            if (_fightersTakingAction.Contains(fighter)) _fightersTakingAction.Remove(fighter);
         }
 
         private List<BattleCommand> GetAllCommandsOfSameFighterFaction(BattleCommand cmd)
@@ -76,13 +77,14 @@ namespace Managers
 
         private void OnEnable()
         {
-            _readyToProcessAnotherCommand = true;
             _battleCommandQueueProcessor = CommandQueueProcessorCoroutine();
             StartCoroutine(_battleCommandQueueProcessor);
         }
 
         protected void OnDisable()
         {
+            _battleCommandQueue.Clear();
+            _fightersTakingAction.Clear();
             StopCoroutine(_battleCommandQueueProcessor);
             _battleCommandQueue.Clear();
         }

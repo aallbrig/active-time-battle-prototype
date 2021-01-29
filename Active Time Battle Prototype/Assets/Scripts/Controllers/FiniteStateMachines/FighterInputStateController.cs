@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Data;
 using GameEventSystem;
-using Managers;
 using ScriptableObjects;
 using ScriptableObjects.FiniteStateMachines.FighterInput;
 using UnityEngine;
@@ -25,6 +25,7 @@ namespace Controllers.FiniteStateMachines
 
         [Header("Finite State Machine")]
         public State currentState;
+        private State _startingState;
 
         public readonly Queue<FighterController> FighterReadyQueue = new Queue<FighterController>();
 
@@ -61,10 +62,15 @@ namespace Controllers.FiniteStateMachines
             if (submitFighterInput != null) submitFighterInput.Broadcast(fighter, action, targets);
         }
 
-        public void TransitionToState(State nextState)
-        {
-            currentState = nextState;
-        }
+        public void TransitionToState(State nextState) => currentState = nextState;
+
+        public void ResetState() => currentState = _startingState;
+        public void ResetInput() => input.ResetInput();
         private void Update() => currentState.UpdateState(this);
+
+        private void Awake()
+        {
+            _startingState = currentState;
+        }
     }
 }

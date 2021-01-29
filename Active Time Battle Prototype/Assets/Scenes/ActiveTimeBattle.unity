@@ -2714,6 +2714,8 @@ GameObject:
   - component: {fileID: 797953555}
   - component: {fileID: 797953556}
   - component: {fileID: 797953557}
+  - component: {fileID: 797953559}
+  - component: {fileID: 797953558}
   m_Layer: 0
   m_Name: BattleCommandQueueProcessor
   m_TagString: Untagged
@@ -2794,6 +2796,60 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 797953555}
         m_MethodName: EnqueueFighterAction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &797953558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797953553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e43726c2d9646aa803e654bc1e54513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 846128469c9769c4881f659a15c24ab5, type: 2}
+  onEventRaisedHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 797953555}
+        m_MethodName: OnFighterActionComplete
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &797953559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797953553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e43726c2d9646aa803e654bc1e54513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: a0e3220ab2b07cc44bfefd4d594292c1, type: 2}
+  onEventRaisedHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 797953555}
+        m_MethodName: OnFighterActionStart
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4457,6 +4513,7 @@ GameObject:
   - component: {fileID: 1209398289}
   - component: {fileID: 1209398288}
   - component: {fileID: 1209398290}
+  - component: {fileID: 1209398291}
   m_Layer: 0
   m_Name: Player Input State Controller
   m_TagString: Untagged
@@ -4570,6 +4627,33 @@ MonoBehaviour:
       - m_Target: {fileID: 1209398286}
         m_MethodName: SetActiveFighterTargets
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1209398291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209398285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b53f150b6034e3ea8e555d877713e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: fffd39a22e8700f4ca8c1ea91f6340f2, type: 2}
+  onEventBroadcastHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1209398286}
+        m_MethodName: ResetInput
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9365,6 +9449,7 @@ GameObject:
   - component: {fileID: 2087547723}
   - component: {fileID: 2087547724}
   - component: {fileID: 2087547722}
+  - component: {fileID: 2087547725}
   m_Layer: 0
   m_Name: UI Manager
   m_TagString: Untagged
@@ -9506,6 +9591,66 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &2087547725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087547720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b53f150b6034e3ea8e555d877713e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: fffd39a22e8700f4ca8c1ea91f6340f2, type: 2}
+  onEventBroadcastHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1855225923}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 965902700}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1209398286}
+        m_MethodName: ResetInput
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1209398286}
+        m_MethodName: ResetState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &2098346879
 GameObject:

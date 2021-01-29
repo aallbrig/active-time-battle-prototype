@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Data
+namespace ScriptableObjects
 {
     [CreateAssetMenu(fileName = "animation manifest", menuName = "active time battle/animation manifest", order = 0)]
     public class RtsToonAnimationManifest : ScriptableObject

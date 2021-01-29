@@ -1,4 +1,5 @@
 ﻿using Data;
+using ScriptableObjects.FighterActionAnimations;
 using UnityEngine;
 
 namespace ScriptableObjects
@@ -13,6 +14,8 @@ namespace ScriptableObjects
         public bool multiple = false;
         public bool canBeUsedOnDead = false;
         public ActionType actionType;
-        public ActionAnimation actionAnimation;
+        public FighterActionAnimation ingress;
+        public FighterActionAnimation act;
+        public FighterActionAnimation egress;
     }
 }

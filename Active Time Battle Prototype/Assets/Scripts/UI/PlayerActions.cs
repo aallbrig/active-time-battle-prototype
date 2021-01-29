@@ -1,4 +1,5 @@
-﻿using Controllers;
+﻿using System;
+using Controllers;
 using GameEventSystem;
 using ScriptableObjects;
 using TMPro;
@@ -9,7 +10,6 @@ namespace UI
     public class PlayerActions : DynamicButtonContainer<FighterAction, Button>
     {
         public FighterActionGameEvent playerFighterActionSelect;
-
         public Button playerActionPrefab;
 
         public void SetupActions(FighterController fighter)
@@ -17,8 +17,6 @@ namespace UI
             var actions = fighter.stats.actionSet.actions;
             SetupList(actions);
         }
-
-        private FighterAction _action;
 
         protected override Button GenerateUiElement(FighterAction element)
         {

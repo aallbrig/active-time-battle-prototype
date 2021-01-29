@@ -1,4 +1,5 @@
 ﻿using Data;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Controllers

@@ -20,3 +20,6 @@ MonoBehaviour:
   canBeUsedOnDead: 0
   actionType: 0
   actionAnimation: 4
+  ingress: {fileID: 11400000, guid: 544b287cb401b514a9a11e8e1234af65, type: 2}
+  act: {fileID: 11400000, guid: 771494369c3272548941ec581c7854db, type: 2}
+  egress: {fileID: 11400000, guid: aa35547e7caf61a4e82601b18b4364fd, type: 2}
