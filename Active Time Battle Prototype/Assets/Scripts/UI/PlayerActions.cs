@@ -1,6 +1,6 @@
-﻿using System;
-using Controllers;
-using Data;
+﻿using Controllers;
+using GameEventSystem;
+using ScriptableObjects;
 using TMPro;
 using UnityEngine.UI;
 
@@ -8,7 +8,7 @@ namespace UI
 {
     public class PlayerActions : DynamicButtonContainer<FighterAction, Button>
     {
-        public static event Action<FighterAction> OnPlayerActionButtonClick;
+        public FighterActionGameEvent playerFighterActionSelect;
 
         public Button playerActionPrefab;
 
@@ -28,7 +28,7 @@ namespace UI
             text.text = element.actionName;
             button.onClick.AddListener(() =>
             {
-                OnPlayerActionButtonClick?.Invoke(action);
+                if (playerFighterActionSelect != null) playerFighterActionSelect.Broadcast(action);
                 DisableButtons();
             });
 

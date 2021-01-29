@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Controllers;
 using Data;
+using ScriptableObjects;
 using UI;
 using UnityEngine;
 using Utils;

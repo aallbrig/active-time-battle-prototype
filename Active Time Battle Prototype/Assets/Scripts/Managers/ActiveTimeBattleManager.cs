@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Controllers;
-using EventBroker.SubscriberInterfaces;
 using FiniteStateMachines;
 using FiniteStateMachines.ActiveTimeBattle;
 using GameEventSystem;
@@ -15,7 +14,6 @@ namespace Managers
     // TODO: Make this maybe not be a god objective (i.e. move PlayerBattleInputController out?)
     public class ActiveTimeBattleManager : FiniteStateMachineContext<ActiveTimeBattleState, ActiveTimeBattleManager>
     {
-        public PlayerInputManager playerInputManager;
 
         #region Pool of player/enemy fighter spawn points
 
@@ -27,11 +25,11 @@ namespace Managers
         #region User Interface References and Toggles
 
         // References
-        public UnityEngine.GameObject StartMenuUi;
-        public UnityEngine.GameObject VictoryScreenUi;
-        public UnityEngine.GameObject LoseScreenUi;
-        public UnityEngine.GameObject BattleHUDUi;
-        public UnityEngine.GameObject BattleAnnouncementsUi;
+        public GameObject StartMenuUi;
+        public GameObject VictoryScreenUi;
+        public GameObject LoseScreenUi;
+        public GameObject BattleHUDUi;
+        public GameObject BattleAnnouncementsUi;
 
         // Toggles
         public void ToggleStartMenu(bool value) => ToggleUI(StartMenuUi)(value);
@@ -170,9 +168,6 @@ namespace Managers
 
         private void Update()
         {
-            // Hierarchical state machine implementation (HACK)
-            // TODO: Find more elegant way of implementing HSM
-            // if (playerBattleInputController.CurrentState != null) return;
             CurrentState?.Tick();
         }
     }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Data;
 using GameEventSystem;
+using ScriptableObjects;
 using UnityEngine;
 using static Data.ActionType;
 using Random = UnityEngine.Random;
@@ -12,9 +13,9 @@ namespace Controllers
 {
     public class FighterController : MonoBehaviour
     {
-        public FighterActionGameEvent fighterActionStart;
-        public FighterActionGameEvent fighterActionHandleEffects;
-        public FighterActionGameEvent fighterActionComplete;
+        public FighterActionExecuteGameEvent fighterActionStart;
+        public FighterActionExecuteGameEvent fighterActionHandleEffects;
+        public FighterActionExecuteGameEvent fighterActionComplete;
         public FighterActionEffectGameEvent fighterReceivesDamage;
         public FighterActionEffectGameEvent fighterReceivesHeal;
 
@@ -90,11 +91,12 @@ namespace Controllers
             }
 
             // Handle action effects
-            if (fighterActionHandleEffects != null) fighterActionHandleEffects.Broadcast(this, action, targets);
 
             var actionEffect = Random.Range(action.actionEffectMin, action.actionEffectMax);
             if (action.actionType == Healing) targets.ForEach(target => target.Heal(actionEffect));
             else targets.ForEach(target => target.TakeDamage(actionEffect));
+
+            if (fighterActionHandleEffects != null) fighterActionHandleEffects.Broadcast(this, action, targets);
             // Wait for action animation to be complete
             yield return new WaitForSeconds(0.5f);
 

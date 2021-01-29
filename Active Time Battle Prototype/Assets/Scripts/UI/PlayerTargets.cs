@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Controllers;
 using Data;
+using GameEventSystem;
 using Managers;
 using TMPro;
 using UnityEngine.UI;
@@ -10,8 +11,7 @@ namespace UI
 {
     public class PlayerTargets : DynamicButtonContainer<FighterController, Button>
     {
-        public static event Action<List<FighterController>> OnPlayerTargetButtonClick;
-
+        public FighterTargetsGameEvent playerFighterTargetsSelected;
         public Button playerTargetButtonPrefab;
 
         public void Render(List<FighterController> targets) => SetupList(targets);
@@ -25,7 +25,8 @@ namespace UI
             {
                 DisableButtons();
                 // TODO: get multiple target selection working
-                OnPlayerTargetButtonClick?.Invoke(new List<FighterController> { element });
+                var targets = new List<FighterController> {element};
+                if (playerFighterTargetsSelected != null) playerFighterTargetsSelected.Broadcast(targets);
             });
 
             return button;

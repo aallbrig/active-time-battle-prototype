@@ -4,6 +4,7 @@ using Commands;
 using Controllers;
 using Data;
 using EventBroker.SubscriberInterfaces;
+using ScriptableObjects;
 using UnityEngine;
 using Utils;
 

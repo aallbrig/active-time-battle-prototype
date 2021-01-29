@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Commands;
 using Controllers;
-using EventBroker.SubscriberInterfaces;
 using Managers;
 using UnityEngine;
 
@@ -12,23 +11,17 @@ namespace FiniteStateMachines.ActiveTimeBattle
 {
     public class BattleState : ActiveTimeBattleState
     {
-        private readonly PlayerInputManager _playerBattleInputController;
         private IEnumerator _battleMeterTickCoroutine;
         private const float CoroutineWaitInSeconds = 0.1f;
         private bool _checkBattleConclusionCondition;
         private List<FighterController> _fighters = new List<FighterController>();
 
-        public BattleState(ActiveTimeBattleManager manager) : base(manager)
-        {
-            _playerBattleInputController = manager.playerInputManager;
-        }
+        public BattleState(ActiveTimeBattleManager manager) : base(manager) {}
 
         public override void Enter()
         {
             _fighters = _fighters.Concat(FighterListsManager.Instance.enemyFighters).ToList();
             _fighters = _fighters.Concat(FighterListsManager.Instance.playerFighters).ToList();
-
-            _playerBattleInputController.gameObject.SetActive(true);
 
             // Show battle UI HUD
             Context.ToggleBattleHUDUI(true);
@@ -55,7 +48,6 @@ namespace FiniteStateMachines.ActiveTimeBattle
         {
             Context.StopCoroutine(_battleMeterTickCoroutine);
             _fighters = new List<FighterController>();
-            _playerBattleInputController.gameObject.SetActive(false);
 
             // Hide battle UI HUD
             Context.ToggleBattleHUDUI(false);

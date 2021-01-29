@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Controllers;
-using EventBroker.SubscriberInterfaces;
+using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
-    public class PlayerFighterStats : MonoBehaviour, IPlayerTargetsSelected
+    public class PlayerFighterStats : MonoBehaviour
     {
         public TextMeshProUGUI fighterName;
         public TextMeshProUGUI fighterHealth;
@@ -35,23 +35,18 @@ namespace UI
             battleMeter.value = _fighter.stats.currentBattleMeterValue;
         }
 
-        private void Start()
+        public void UpdateIfTargeted(FighterController attacker, FighterAction action, List<FighterController> targets)
         {
-            EventBroker.EventBroker.Instance.Subscribe((IPlayerTargetsSelected) this);
+            if (targets.Contains(_fighter)) UpdateUiElements();
         }
 
-        private void OnDestroy()
-        {
-            EventBroker.EventBroker.Instance.Unsubscribe((IPlayerTargetsSelected) this);
-        }
-
-        public void NotifyBattleMeterTick(FighterController fighter)
+        public void UpdateOnBattleMeterTicker(FighterController fighter)
         {
             if (fighter == _fighter) UpdateUiElements();
         }
 
         public void ActivePlayerSet(FighterController fighter) => highlight.SetActive(fighter == _fighter);
 
-        public void NotifyPlayerTargetsSelected(List<FighterController> targets) => highlight.SetActive(false);
+        public void PlayerTargetsSelected(List<FighterController> targets) => highlight.SetActive(false);
     }
 }
