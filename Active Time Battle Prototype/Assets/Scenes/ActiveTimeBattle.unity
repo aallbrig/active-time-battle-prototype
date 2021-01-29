@@ -471,7 +471,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1343372972}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &144357273
 MonoBehaviour:
@@ -1244,122 +1244,6 @@ MonoBehaviour:
       - m_Target: {fileID: 221029189}
         m_MethodName: OnRestartButtonClicked
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!1 &233476564
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 233476566}
-  - component: {fileID: 233476565}
-  - component: {fileID: 233476567}
-  - component: {fileID: 233476568}
-  m_Layer: 0
-  m_Name: PlayerBattleInput
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &233476565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 233476564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 188de10a626e428fa987e0d05aaa68ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerActions: {fileID: 1855225923}
-  playerTargetsUi: {fileID: 965902702}
-  activePlayerFighter: {fileID: 0}
-  selectedAction: {fileID: 0}
-  targetFighters: []
-  playerFighterActive: {fileID: 0}
---- !u!4 &233476566
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 233476564}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -734.6431, y: -94.83928, z: -0.68374634}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1343372972}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &233476567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 233476564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5f6284d8c644df3b8c757f8b22d24b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: b00a48008557dc5478a2f86cdbe7ddcc, type: 2}
-  onEventRaisedHandlers:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 233476565}
-        m_MethodName: EnqueuePlayerFighter
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &233476568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 233476564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5f6284d8c644df3b8c757f8b22d24b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 0}
-  onEventRaisedHandlers:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 233476565}
-        m_MethodName: ActivatePlayerFighter
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 233476565}
-        m_MethodName: SetActivePlayerFighterActions
-        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2228,7 +2112,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1343372972}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &630713729
 MonoBehaviour:
@@ -2844,7 +2728,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1343372972}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &797953555
 MonoBehaviour:
@@ -4585,13 +4469,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21964dd0b1745b840aca407ffd1d9e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  input: {fileID: 11400000, guid: d56a41fece2b5d3469c0f6df2c31f026, type: 2}
   activeFighterSet: {fileID: 11400000, guid: adeda8c06bea8be499fca7aa99fa2071, type: 2}
   possibleTargetList: {fileID: 11400000, guid: a6ca1aed5c208cb4390d9fe0b105cda4, type: 2}
-  submitPlayerInput: {fileID: 11400000, guid: ee1fd5f821c392c40a53e790781a2004, type: 2}
+  submitFighterInput: {fileID: 11400000, guid: ee1fd5f821c392c40a53e790781a2004, type: 2}
   currentState: {fileID: 11400000, guid: 5d36e7d353ac95f428b3eee7ad60c98d, type: 2}
-  activePlayerFighter: {fileID: 0}
-  activePlayerFighterAction: {fileID: 0}
-  activePlayerFighterTargets: []
 --- !u!4 &1209398287
 Transform:
   m_ObjectHideFlags: 0
@@ -4600,11 +4482,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1209398285}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -663.57275, y: -74.43872, z: 1.2713995}
+  m_LocalPosition: {x: 71.07037, y: 21.400558, z: -8.044854}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1343372972}
-  m_RootOrder: 9
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1209398288
 MonoBehaviour:
@@ -5093,7 +4975,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1343372972}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1324093691
 MonoBehaviour:
@@ -5245,7 +5127,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 221029190}
-  - {fileID: 233476566}
   - {fileID: 144357272}
   - {fileID: 1432037441}
   - {fileID: 630713728}
@@ -5253,7 +5134,6 @@ Transform:
   - {fileID: 1324093690}
   - {fileID: 797953554}
   - {fileID: 1530701226}
-  - {fileID: 1209398287}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5456,7 +5336,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1343372972}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1432037442
 MonoBehaviour:
@@ -5559,7 +5439,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1343372972}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1456390812
 MonoBehaviour:
@@ -5886,7 +5766,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1343372972}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1530701227
 MonoBehaviour:

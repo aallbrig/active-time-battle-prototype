@@ -2,7 +2,7 @@
 using Controllers.FiniteStateMachines;
 using UnityEngine;
 
-namespace ScriptableObjects.FiniteStateMachines.PlayerInput
+namespace ScriptableObjects.FiniteStateMachines.FighterInput
 {
     [CreateAssetMenu(fileName = "new state", menuName = "active time battle/FSM/player input/state", order = 0)]
     public class State : ScriptableObject
@@ -10,18 +10,18 @@ namespace ScriptableObjects.FiniteStateMachines.PlayerInput
         public List<Action> actions;
         public List<Transition> transitions;
 
-        public void UpdateState(PlayerInputStateController controller)
+        public void UpdateState(FighterInputStateController controller)
         {
             DoActions(controller);
             CheckTransitions(controller);
         }
 
-        private void DoActions(PlayerInputStateController controller)
+        private void DoActions(FighterInputStateController controller)
         {
             actions.ForEach(action => action.Act(controller));
         }
 
-        private void CheckTransitions(PlayerInputStateController controller)
+        private void CheckTransitions(FighterInputStateController controller)
         {
             transitions.ForEach(transition =>
             {

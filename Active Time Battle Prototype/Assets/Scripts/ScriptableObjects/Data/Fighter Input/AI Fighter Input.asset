@@ -9,6 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98fb34d71eee497482f087205e237d54, type: 3}
-  m_Name: Process Player Fighters Queue
+  m_Script: {fileID: 11500000, guid: 29f703af664c40aaab2290fa8e2726ca, type: 3}
+  m_Name: AI Fighter Input
   m_EditorClassIdentifier: 
+  fighter: {fileID: 0}
+  action: {fileID: 0}
+  targets: []

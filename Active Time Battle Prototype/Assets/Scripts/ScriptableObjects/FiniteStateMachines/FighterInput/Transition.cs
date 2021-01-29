@@ -1,4 +1,4 @@
-﻿namespace ScriptableObjects.FiniteStateMachines.PlayerInput
+﻿namespace ScriptableObjects.FiniteStateMachines.FighterInput
 {
     [System.Serializable]
     public class Transition
