@@ -279,6 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43bb51d79d25d264d822e3e372470b09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerFighters: {fileID: 11400000, guid: 6a97efd19ea822c419b3fb862c2c5502, type: 2}
   playerStatsUiContainer: {fileID: 561975893}
   playerFighterStatsPrefab: {fileID: 4814181898440382389, guid: 542fd8d1b5b6bda4d83bcf3b16a1e423,
     type: 3}
@@ -1100,6 +1101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c9d63c1aa914846a019ce2885f38c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerFighters: {fileID: 11400000, guid: 6a97efd19ea822c419b3fb862c2c5502, type: 2}
+  enemyFighters: {fileID: 11400000, guid: 02a19a9df91d58d4f83fdb6a2c17dd6a, type: 2}
   playerSpawnPositions:
   - {fileID: 1999363805}
   - {fileID: 640010082}
@@ -2127,6 +2130,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   submitAiInput: {fileID: 11400000, guid: ee1fd5f821c392c40a53e790781a2004, type: 2}
+  ownFighters: {fileID: 11400000, guid: 02a19a9df91d58d4f83fdb6a2c17dd6a, type: 2}
+  opposingFighters: {fileID: 11400000, guid: 6a97efd19ea822c419b3fb862c2c5502, type: 2}
 --- !u!114 &630713730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2742,6 +2747,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e06ff7cf5bd34cb08e0e19f788887a03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerFighters: {fileID: 11400000, guid: 6a97efd19ea822c419b3fb862c2c5502, type: 2}
+  enemyFighters: {fileID: 11400000, guid: 02a19a9df91d58d4f83fdb6a2c17dd6a, type: 2}
 --- !u!114 &797953556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4469,9 +4476,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21964dd0b1745b840aca407ffd1d9e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownFighters: {fileID: 11400000, guid: 6a97efd19ea822c419b3fb862c2c5502, type: 2}
+  opposingFighters: {fileID: 11400000, guid: 02a19a9df91d58d4f83fdb6a2c17dd6a, type: 2}
   input: {fileID: 11400000, guid: d56a41fece2b5d3469c0f6df2c31f026, type: 2}
   activeFighterSet: {fileID: 11400000, guid: adeda8c06bea8be499fca7aa99fa2071, type: 2}
-  possibleTargetList: {fileID: 11400000, guid: a6ca1aed5c208cb4390d9fe0b105cda4, type: 2}
+  availableTargets: {fileID: 11400000, guid: a6ca1aed5c208cb4390d9fe0b105cda4, type: 2}
   submitFighterInput: {fileID: 11400000, guid: ee1fd5f821c392c40a53e790781a2004, type: 2}
   currentState: {fileID: 11400000, guid: 5d36e7d353ac95f428b3eee7ad60c98d, type: 2}
 --- !u!4 &1209398287
@@ -4989,8 +4998,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65805d4c02fdae44682946aca78b7cc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerFighters: []
-  enemyFighters: []
+  playerFighters: {fileID: 11400000, guid: 6a97efd19ea822c419b3fb862c2c5502, type: 2}
+  enemyFighters: {fileID: 11400000, guid: 02a19a9df91d58d4f83fdb6a2c17dd6a, type: 2}
 --- !u!114 &1324093692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5419,7 +5428,6 @@ GameObject:
   - component: {fileID: 1456390811}
   - component: {fileID: 1456390813}
   - component: {fileID: 1456390812}
-  - component: {fileID: 1456390814}
   m_Layer: 0
   m_Name: GameEventSystem
   m_TagString: Untagged
@@ -5495,22 +5503,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1456390814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456390810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5f6284d8c644df3b8c757f8b22d24b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 0}
-  onEventRaisedHandlers:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1506937024
 GameObject:
   m_ObjectHideFlags: 0

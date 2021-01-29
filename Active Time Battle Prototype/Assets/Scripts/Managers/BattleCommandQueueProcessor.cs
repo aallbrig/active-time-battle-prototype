@@ -10,6 +10,9 @@ namespace Managers
 {
     public class BattleCommandQueueProcessor : Singleton<BattleCommandQueueProcessor>
     {
+        public FighterListRuntimeSet playerFighters;
+        public FighterListRuntimeSet enemyFighters;
+
         private bool _readyToProcessAnotherCommand = true;
         private readonly Queue<ICommand> _battleCommandQueue = new Queue<ICommand>();
         private IEnumerator _battleCommandQueueProcessor;
@@ -22,8 +25,8 @@ namespace Managers
                 {
                     _readyToProcessAnotherCommand = false;
 
-                    var cmd = _battleCommandQueue.Dequeue();
-                    cmd.Execute();
+                    var cmds = GetAllCommandsOfSameFighterFaction((BattleCommand) _battleCommandQueue.Dequeue());
+                    cmds.ForEach(cmd => cmd.Execute());
                 }
                 yield return new WaitForSeconds(0.25f);
             }
@@ -39,6 +42,36 @@ namespace Managers
         )
         {
             _readyToProcessAnotherCommand = true;
+        }
+
+        private List<BattleCommand> GetAllCommandsOfSameFighterFaction(BattleCommand cmd)
+        {
+            var cmds = new List<BattleCommand> {cmd};
+
+            var fighter = cmd.Fighter;
+            List<FighterController> fighterList = null;
+            if (playerFighters.fighters.Contains(fighter))
+            {
+                fighterList = playerFighters.fighters;
+            } else if (enemyFighters.fighters.Contains(fighter))
+            {
+                fighterList = enemyFighters.fighters;
+            }
+
+            while (_battleCommandQueue.Count > 0)
+            {
+                var nextCmd = (BattleCommand) _battleCommandQueue.Peek();
+                if (fighterList.Contains(nextCmd.Fighter))
+                {
+                    cmds.Add((BattleCommand) _battleCommandQueue.Dequeue());
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return cmds;
         }
 
         private void OnEnable()

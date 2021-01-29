@@ -1,11 +1,12 @@
 ﻿using Controllers;
-using Managers;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace UI
 {
     public class PlayerFightersStats : MonoBehaviour
     {
+        public FighterListRuntimeSet playerFighters;
         public Transform playerStatsUiContainer;
         public PlayerFighterStats playerFighterStatsPrefab;
 
@@ -23,7 +24,7 @@ namespace UI
         {
             ClearFighterStatsContainer();
 
-            FighterListsManager.Instance.playerFighters.ForEach(fighter =>
+            playerFighters.fighters.ForEach(fighter =>
             {
                 var fighterStats = Instantiate(playerFighterStatsPrefab, playerStatsUiContainer);
                 fighterStats.SetFighter(fighter);

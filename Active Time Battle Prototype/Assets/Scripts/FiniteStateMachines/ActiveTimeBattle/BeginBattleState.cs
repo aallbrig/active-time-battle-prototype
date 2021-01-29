@@ -37,8 +37,8 @@ namespace FiniteStateMachines.ActiveTimeBattle
             _battleAnnouncements = Context.BattleAnnouncementsUi.GetComponent<BattleAnnouncements>();
 
             // battle announcements
-            _messageQueue.Enqueue($"Enemy count: {FighterListsManager.Instance.enemyFighters.Count}");
-            _messageQueue.Enqueue($"Player count: {FighterListsManager.Instance.playerFighters.Count}");
+            _messageQueue.Enqueue($"Enemy count: {Context.enemyFighters.fighters.Count}");
+            _messageQueue.Enqueue($"Player count: {Context.playerFighters.fighters.Count}");
             _processMessageQueueCoroutine = ProcessMessageQueue(() =>
             {
                 // After last message, transition to battle state

@@ -5,6 +5,7 @@ using Controllers;
 using FiniteStateMachines;
 using FiniteStateMachines.ActiveTimeBattle;
 using GameEventSystem;
+using ScriptableObjects;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
@@ -17,6 +18,8 @@ namespace Managers
 
         #region Pool of player/enemy fighter spawn points
 
+        public FighterListRuntimeSet playerFighters;
+        public FighterListRuntimeSet enemyFighters;
         public List<Transform> playerSpawnPositions = new List<Transform>();
         public List<Transform> enemySpawnPositions = new List<Transform>();
 

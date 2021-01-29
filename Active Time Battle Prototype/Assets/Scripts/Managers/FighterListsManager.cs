@@ -1,37 +1,38 @@
 ﻿using System.Collections.Generic;
 using Controllers;
+using ScriptableObjects;
 using Utils;
 
 namespace Managers
 {
     public class FighterListsManager : Singleton<FighterListsManager>
     {
-        public List<FighterController> playerFighters = new List<FighterController>();
-        public List<FighterController> enemyFighters = new List<FighterController>();
+        public FighterListRuntimeSet playerFighters;
+        public FighterListRuntimeSet enemyFighters;
 
         public void AddPlayerFighter(FighterController fighter)
         {
-            if (!playerFighters.Contains(fighter)) playerFighters.Add(fighter);
+            if (!playerFighters.fighters.Contains(fighter)) playerFighters.fighters.Add(fighter);
         }
 
         public void RemovePlayerFighter(FighterController fighter)
         {
-            if (playerFighters.Contains(fighter)) playerFighters.Remove(fighter);
+            if (playerFighters.fighters.Contains(fighter)) playerFighters.fighters.Remove(fighter);
         }
 
-        public void ClearPlayerFighters() => ClearFighters(playerFighters);
+        public void ClearPlayerFighters() => ClearFighters(playerFighters.fighters);
         
 
         public void AddEnemyFighter(FighterController fighter)
         {
-            if (!enemyFighters.Contains(fighter)) enemyFighters.Add(fighter);
+            if (!enemyFighters.fighters.Contains(fighter)) enemyFighters.fighters.Add(fighter);
         }
 
         public void RemoveEnemyFighter(FighterController fighter)
         {
-            if (enemyFighters.Contains(fighter)) enemyFighters.Remove(fighter);
+            if (enemyFighters.fighters.Contains(fighter)) enemyFighters.fighters.Remove(fighter);
         }
-        public void ClearEnemyFighters() => ClearFighters(enemyFighters);
+        public void ClearEnemyFighters() => ClearFighters(enemyFighters.fighters);
         
 
         private void ClearFighters(List<FighterController> fighters)

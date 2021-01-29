@@ -1,7 +1,5 @@
 ﻿using System;
-using Controllers;
 using Managers;
-using UnityEngine;
 
 namespace FiniteStateMachines.ActiveTimeBattle
 {
@@ -17,7 +15,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Leave(Action callback)
         {
-            FighterListsManager.Instance.playerFighters.ForEach(fighter => fighter.RandomizeBattleMeter());
+            Context.playerFighters.fighters.ForEach(fighter => fighter.RandomizeBattleMeter());
             // Hide battle victory screen
             Context.ToggleVictoryScreenUI(false);
 

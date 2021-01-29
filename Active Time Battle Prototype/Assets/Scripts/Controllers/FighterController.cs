@@ -11,6 +11,7 @@ using Random = UnityEngine.Random;
 
 namespace Controllers
 {
+    [Serializable]
     public class FighterController : MonoBehaviour
     {
         public FighterActionExecuteGameEvent fighterActionStart;

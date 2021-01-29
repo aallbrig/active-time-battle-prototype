@@ -11,12 +11,16 @@ namespace Controllers.FiniteStateMachines
 {
     public class FighterInputStateController : MonoBehaviour
     {
+        [Header("Fighter List")]
+        public FighterListRuntimeSet ownFighters;
+        public FighterListRuntimeSet opposingFighters;
+
         [Header("Input Data Container")]
         public FighterInput input;
 
         [Header("Game Events")]
         public FighterGameEvent activeFighterSet;
-        public FighterTargetsGameEvent possibleTargetList;
+        public FighterTargetsGameEvent availableTargets;
         public FighterActionExecuteGameEvent submitFighterInput;
 
         [Header("Finite State Machine")]
@@ -27,7 +31,7 @@ namespace Controllers.FiniteStateMachines
         // Player Input
         public void EnqueuePlayerFighter(FighterController fighter)
         {
-            if (FighterListsManager.Instance.playerFighters.Contains(fighter))
+            if (ownFighters.fighters.Contains(fighter))
                 FighterReadyQueue.Enqueue(fighter);
         }
 
@@ -41,15 +45,13 @@ namespace Controllers.FiniteStateMachines
         {
             input.action = action;
 
-            var targets = action.actionType == ActionType.Healing
-                ? FighterListsManager.Instance.playerFighters
-                : FighterListsManager.Instance.enemyFighters;
+            var targets = action.actionType == ActionType.Healing ? ownFighters.fighters : opposingFighters.fighters;
 
             var deadOrAliveTargets = targets.Where(target => 
                 action.canBeUsedOnDead ? target.stats.currentHealth <= 0 : target.stats.currentHealth > 0
             ).ToList();
 
-            if (possibleTargetList != null) possibleTargetList.Broadcast(deadOrAliveTargets);
+            if (availableTargets != null) availableTargets.Broadcast(deadOrAliveTargets);
         }
 
         public void SetActiveFighterTargets(List<FighterController> targets) => input.targets = targets;
@@ -58,8 +60,6 @@ namespace Controllers.FiniteStateMachines
         {
             if (submitFighterInput != null) submitFighterInput.Broadcast(fighter, action, targets);
         }
-
-        public void ResetPlayerInput() => input.ResetInput();
 
         public void TransitionToState(State nextState)
         {

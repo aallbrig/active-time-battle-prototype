@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Commands;
 using Controllers;
 using Managers;
 using UnityEngine;
@@ -20,8 +19,8 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Enter()
         {
-            _fighters = _fighters.Concat(FighterListsManager.Instance.enemyFighters).ToList();
-            _fighters = _fighters.Concat(FighterListsManager.Instance.playerFighters).ToList();
+            _fighters = _fighters.Concat(Context.enemyFighters.fighters).ToList();
+            _fighters = _fighters.Concat(Context.playerFighters.fighters).ToList();
 
             // Show battle UI HUD
             Context.ToggleBattleHUDUI(true);
@@ -64,8 +63,8 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         private void CheckForBattleConclusionCondition()
         {
-            var enemiesCurrentHealth = SumHealth(FighterListsManager.Instance.enemyFighters);
-            var playersCurrentHealth = SumHealth(FighterListsManager.Instance.playerFighters);
+            var enemiesCurrentHealth = SumHealth(Context.enemyFighters.fighters);
+            var playersCurrentHealth = SumHealth(Context.playerFighters.fighters);
 
             if (enemiesCurrentHealth <= 0)
             {

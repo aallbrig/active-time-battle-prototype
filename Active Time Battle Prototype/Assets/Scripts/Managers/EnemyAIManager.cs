@@ -13,6 +13,8 @@ namespace Managers
     public class EnemyAIManager : Singleton<EnemyAIManager>
     {
         public FighterActionExecuteGameEvent submitAiInput;
+        public FighterListRuntimeSet ownFighters;
+        public FighterListRuntimeSet opposingFighters;
         
         private const float ArtificialWaitTimeMin = 0.25f;
         private const float ArtificialWaitTimeMax = 1.0f;
@@ -31,11 +33,11 @@ namespace Managers
             var targets = new List<FighterController>();
             if (randomAction.actionType == ActionType.Healing)
             {
-                targets.Add(RandomAliveFighter(FighterListsManager.Instance.enemyFighters));
+                targets.Add(RandomAliveFighter(ownFighters.fighters));
             }
             else
             {
-                targets.Add(RandomAliveFighter(FighterListsManager.Instance.playerFighters));
+                targets.Add(RandomAliveFighter(opposingFighters.fighters));
             }
             yield return new WaitForSeconds(Random.Range(ArtificialWaitTimeMin, ArtificialWaitTimeMax));
 
@@ -44,7 +46,7 @@ namespace Managers
 
         public void NotifyBattleMeterFull(FighterController fighter)
         {
-            if (FighterListsManager.Instance.enemyFighters.Contains(fighter)) StartCoroutine(HandleEnemyFighterInput(fighter));
+            if (FighterListsManager.Instance.enemyFighters.fighters.Contains(fighter)) StartCoroutine(HandleEnemyFighterInput(fighter));
         }
     }
 }
