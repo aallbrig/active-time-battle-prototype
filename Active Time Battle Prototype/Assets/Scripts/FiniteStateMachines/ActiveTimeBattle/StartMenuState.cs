@@ -1,11 +1,5 @@
 ﻿using System;
-using Controllers;
-using EventBroker;
-using EventBroker.SubscriberInterfaces;
 using Managers;
-using UnityEditor;
-using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace FiniteStateMachines.ActiveTimeBattle
 {
@@ -16,10 +10,6 @@ namespace FiniteStateMachines.ActiveTimeBattle
         public override void Enter()
         {
             Context.ToggleStartMenu(true);
-            // Play start menu on enter animation
-            // User is presented with start menu title
-            // User is presented with start fight button
-            // User is presented with quit game button
         }
 
         public override void Leave(Action callback)

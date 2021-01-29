@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using Commands;
 using Controllers;
-using Data;
-using EventBroker.SubscriberInterfaces;
 using ScriptableObjects;
 using UnityEngine;
 using Utils;
 
 namespace Managers
 {
-    public class BattleCommandQueueProcessor : Singleton<BattleCommandQueueProcessor>, IFighterActionEnqueueRequest
+    public class BattleCommandQueueProcessor : Singleton<BattleCommandQueueProcessor>
     {
         private bool _readyToProcessAnotherCommand = true;
         private readonly Queue<ICommand> _battleCommandQueue = new Queue<ICommand>();
@@ -31,9 +29,9 @@ namespace Managers
             }
         }
 
-        public void NotifyFighterCommand(ICommand fighterCommand)
+        public void EnqueueFighterAction(FighterController fighter, FighterAction action, List<FighterController> targets)
         {
-            _battleCommandQueue.Enqueue(fighterCommand);
+            _battleCommandQueue.Enqueue(new BattleCommand(fighter, action, targets));
         }
 
         public void ReadyToProcessAnotherBattleCommand(
@@ -45,7 +43,6 @@ namespace Managers
 
         private void OnEnable()
         {
-            EventBroker.EventBroker.Instance.Subscribe(this);
             _readyToProcessAnotherCommand = true;
             _battleCommandQueueProcessor = CommandQueueProcessorCoroutine();
             StartCoroutine(_battleCommandQueueProcessor);
@@ -53,8 +50,6 @@ namespace Managers
 
         protected void OnDisable()
         {
-            EventBroker.EventBroker.Instance.Unsubscribe(this);
-
             StopCoroutine(_battleCommandQueueProcessor);
             _battleCommandQueue.Clear();
         }

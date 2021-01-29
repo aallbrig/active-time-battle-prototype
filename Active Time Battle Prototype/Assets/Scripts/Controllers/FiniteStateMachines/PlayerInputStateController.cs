@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Data;
 using GameEventSystem;
@@ -12,19 +11,23 @@ namespace Controllers.FiniteStateMachines
 {
     public class PlayerInputStateController : MonoBehaviour
     {
+        [Header("Game Events")]
         public FighterGameEvent activeFighterSet;
         public FighterTargetsGameEvent possibleTargetList;
+        public FighterActionExecuteGameEvent submitPlayerInput;
+
+        [Header("Finite State Machine")]
         public State currentState;
         [HideInInspector] public FighterController activePlayerFighter;
         [HideInInspector] public FighterAction activePlayerFighterAction;
         [HideInInspector] public List<FighterController> activePlayerFighterTargets = new List<FighterController>();
-        [HideInInspector] public readonly Queue<FighterController> playerFighterQueue = new Queue<FighterController>();
+        public readonly Queue<FighterController> PlayerFighterQueue = new Queue<FighterController>();
 
         // Player Input
         public void EnqueuePlayerFighter(FighterController fighter)
         {
             if (FighterListsManager.Instance.playerFighters.Contains(fighter))
-                playerFighterQueue.Enqueue(fighter);
+                PlayerFighterQueue.Enqueue(fighter);
         }
 
         public void SetActiveFighter(FighterController fighter)
@@ -48,6 +51,11 @@ namespace Controllers.FiniteStateMachines
         }
 
         public void SetActiveFighterTargets(List<FighterController> targets) => activePlayerFighterTargets = targets;
+
+        public void SubmitPlayerInput(FighterController fighter, FighterAction action, List<FighterController> targets)
+        {
+            if (submitPlayerInput != null) submitPlayerInput.Broadcast(fighter, action, targets);
+        }
         public void ResetPlayerInput()
         {
             activePlayerFighter = null;

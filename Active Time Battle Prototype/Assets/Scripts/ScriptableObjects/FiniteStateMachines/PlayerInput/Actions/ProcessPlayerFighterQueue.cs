@@ -10,9 +10,9 @@ namespace ScriptableObjects.FiniteStateMachines.PlayerInput.Actions
         public static event System.Action<ICommand> OnPlayerFighterCommand;
         public override void Act(PlayerInputStateController controller)
         {
-            if (controller.playerFighterQueue.Count > 0)
+            if (controller.PlayerFighterQueue.Count > 0)
             {
-                var fighter = controller.playerFighterQueue.Dequeue();
+                var fighter = controller.PlayerFighterQueue.Dequeue();
                 controller.SetActiveFighter(fighter);
             }
         }

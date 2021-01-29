@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Commands;
 using Controllers;
 using Data;
+using GameEventSystem;
 using ScriptableObjects;
 using UnityEngine;
 using Utils;
-using Random = UnityEngine.Random;
 
 namespace Managers
 {
     public class EnemyAIManager : Singleton<EnemyAIManager>
     {
-        public static event Action<ICommand> OnEnemyAiFighterCommand;
+        public FighterActionExecuteGameEvent submitAiInput;
         
         private const float ArtificialWaitTimeMin = 0.25f;
         private const float ArtificialWaitTimeMax = 1.0f;
@@ -41,11 +39,7 @@ namespace Managers
             }
             yield return new WaitForSeconds(Random.Range(ArtificialWaitTimeMin, ArtificialWaitTimeMax));
 
-            OnEnemyAiFighterCommand?.Invoke(new BattleCommand(
-                fighter,
-                randomAction,
-                targets
-            ));
+            if (submitAiInput != null) submitAiInput.Broadcast(fighter, randomAction, targets);
         }
 
         public void NotifyBattleMeterFull(FighterController fighter)

@@ -1100,7 +1100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c9d63c1aa914846a019ce2885f38c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInputManager: {fileID: 233476565}
   playerSpawnPositions:
   - {fileID: 1999363805}
   - {fileID: 640010082}
@@ -2243,6 +2242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca33c618b89415082121d28686f3d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  submitAiInput: {fileID: 11400000, guid: ee1fd5f821c392c40a53e790781a2004, type: 2}
 --- !u!114 &630713730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2824,13 +2824,14 @@ GameObject:
   - component: {fileID: 797953554}
   - component: {fileID: 797953555}
   - component: {fileID: 797953556}
+  - component: {fileID: 797953557}
   m_Layer: 0
   m_Name: BattleCommandQueueProcessor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &797953554
 Transform:
   m_ObjectHideFlags: 0
@@ -2875,6 +2876,33 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 797953555}
         m_MethodName: ReadyToProcessAnotherBattleCommand
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &797953557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797953553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e43726c2d9646aa803e654bc1e54513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: ee1fd5f821c392c40a53e790781a2004, type: 2}
+  onEventRaisedHandlers:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 797953555}
+        m_MethodName: EnqueueFighterAction
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4559,6 +4587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeFighterSet: {fileID: 11400000, guid: adeda8c06bea8be499fca7aa99fa2071, type: 2}
   possibleTargetList: {fileID: 11400000, guid: a6ca1aed5c208cb4390d9fe0b105cda4, type: 2}
+  submitPlayerInput: {fileID: 11400000, guid: ee1fd5f821c392c40a53e790781a2004, type: 2}
   currentState: {fileID: 11400000, guid: 5d36e7d353ac95f428b3eee7ad60c98d, type: 2}
   activePlayerFighter: {fileID: 0}
   activePlayerFighterAction: {fileID: 0}
