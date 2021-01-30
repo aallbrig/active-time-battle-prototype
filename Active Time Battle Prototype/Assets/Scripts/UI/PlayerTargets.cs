@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Controllers;
-using Data;
 using GameEventSystem;
-using Managers;
 using TMPro;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI
 {
     public class PlayerTargets : DynamicButtonContainer<FighterController, Button>
     {
+        public FighterGameEvent onTargetHover;
         public FighterTargetsGameEvent playerFighterTargetsSelected;
         public Button playerTargetButtonPrefab;
 
@@ -21,6 +20,16 @@ namespace UI
             var button = Instantiate(playerTargetButtonPrefab, containerTransform);
             var text = button.GetComponentInChildren<TextMeshProUGUI>();
             text.text = element.stats.fighterName;
+            // I can't believe I can't just add button.onHover.AddListener!
+            var eventEntry = new EventTrigger.Entry();
+            eventEntry.eventID = EventTriggerType.PointerEnter;
+            eventEntry.callback.AddListener((eventData) =>
+            {
+                if (onTargetHover != null) onTargetHover.Broadcast(element);
+            });
+            button.gameObject.AddComponent<EventTrigger>();
+            button.gameObject.GetComponent<EventTrigger>().triggers.Add(eventEntry);
+
             button.onClick.AddListener(() =>
             {
                 DisableButtons();
