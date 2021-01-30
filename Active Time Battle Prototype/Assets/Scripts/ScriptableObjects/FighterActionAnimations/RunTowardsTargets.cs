@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Controllers;
 using Data;
+using ScriptableObjects.Data;
 using UnityEngine;
 
 namespace ScriptableObjects.FighterActionAnimations
@@ -24,7 +25,7 @@ namespace ScriptableObjects.FighterActionAnimations
             // End TODO
 
             playRunAnimation();
-            yield return fighter.agentController.SetDestination(centerPoint, action.range);
+            yield return fighter.agentController.SetDestination(centerPoint, action.ingressStoppingDistance);
         }
     }
 }

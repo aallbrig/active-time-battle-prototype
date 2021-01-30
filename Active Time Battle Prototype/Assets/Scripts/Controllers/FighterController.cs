@@ -6,7 +6,7 @@ using Data;
 using GameEventSystem;
 using ScriptableObjects;
 using UnityEngine;
-using static Data.ActionType;
+using static ScriptableObjects.Data.ActionType;
 using Random = UnityEngine.Random;
 
 namespace Controllers
@@ -47,14 +47,19 @@ namespace Controllers
             StartCoroutine(_actionExecutionCoroutine);
         }
 
-        private void TakeDamage(float damage)
+        public void TakeDamage(float damage)
         {
             StartCoroutine(TakeDamageCoroutine(damage));
         }
 
-        private void Heal(float heal)
+        public void Heal(float heal)
         {
+            if (stats.dead && heal > 0)
+                fighterAnimationController.UpdateAnimationTrigger(startingTrigger);
+
             stats.currentHealth = Mathf.Clamp(stats.currentHealth + heal, 0, stats.maxHealth);
+            stats.dead = stats.currentHealth == 0;
+
             if (fighterReceivesHeal != null) fighterReceivesHeal.Broadcast(this, heal);
         }
 
@@ -63,22 +68,19 @@ namespace Controllers
 
         private IEnumerator ExecuteActionCoroutine(FighterAction action, List<FighterController> targets)
         {
+            // INGRESS
             if (fighterActionStart != null) fighterActionStart.Broadcast(this, action, targets);
-
-
             yield return action.ingress.Play(this, action, targets);
 
-            yield return action.act.Play(this, action, targets);
-
-            // TODO: Handle Effects
-            var actionEffect = Random.Range(action.actionEffectMin, action.actionEffectMax);
-            if (action.actionType == Healing) targets.ForEach(target => target.Heal(actionEffect));
-            else targets.ForEach(target => target.TakeDamage(actionEffect));
+            // ACT
+            yield return action.actionSequence.Play(this, action, targets);
             if (fighterActionHandleEffects != null) fighterActionHandleEffects.Broadcast(this, action, targets);
-            // End TODO
 
+            // EGRESS
             yield return action.egress.Play(this, action, targets);
             if (fighterActionComplete != null) fighterActionComplete.Broadcast(this, action, targets);
+
+            // Action finished, reset battle meter
             ResetBattleMeter();
         }
 

@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: Heal Wounds (multi)
   m_EditorClassIdentifier: 
   actionName: Heal Wounds (multi)
-  range: 4
   actionEffectMin: 5
-  actionEffectMax: 17
+  actionEffectMax: 12
   multiple: 1
   canBeUsedOnDead: 0
   actionType: 0
-  actionAnimation: 4
+  ingressStoppingDistance: 2
   ingress: {fileID: 11400000, guid: 544b287cb401b514a9a11e8e1234af65, type: 2}
-  act: {fileID: 11400000, guid: 771494369c3272548941ec581c7854db, type: 2}
+  actionSequence: {fileID: 11400000, guid: 303e717addca7f44ba21aa233f426e97, type: 2}
   egress: {fileID: 11400000, guid: aa35547e7caf61a4e82601b18b4364fd, type: 2}

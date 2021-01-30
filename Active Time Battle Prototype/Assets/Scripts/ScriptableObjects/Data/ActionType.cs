@@ -1,4 +1,4 @@
-﻿namespace Data
+namespace ScriptableObjects.Data
 {
     public enum ActionType
     {

@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: Revive
   m_EditorClassIdentifier: 
   actionName: Revive
-  range: 4
-  actionEffectMin: 1
-  actionEffectMax: 11
+  actionEffectMin: 5
+  actionEffectMax: 12
   multiple: 0
   canBeUsedOnDead: 1
   actionType: 0
-  actionAnimation: 5
+  ingressStoppingDistance: 2
   ingress: {fileID: 11400000, guid: 544b287cb401b514a9a11e8e1234af65, type: 2}
-  act: {fileID: 11400000, guid: 771494369c3272548941ec581c7854db, type: 2}
+  actionSequence: {fileID: 11400000, guid: 303e717addca7f44ba21aa233f426e97, type: 2}
   egress: {fileID: 11400000, guid: aa35547e7caf61a4e82601b18b4364fd, type: 2}

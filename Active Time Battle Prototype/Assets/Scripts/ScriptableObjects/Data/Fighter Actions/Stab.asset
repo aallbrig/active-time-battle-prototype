@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: Stab
   m_EditorClassIdentifier: 
   actionName: Stab
-  range: 2
-  actionEffectMin: 6
-  actionEffectMax: 16
+  actionEffectMin: 5
+  actionEffectMax: 12
   multiple: 0
   canBeUsedOnDead: 0
   actionType: 1
-  actionAnimation: 2
+  ingressStoppingDistance: 2
   ingress: {fileID: 11400000, guid: 544b287cb401b514a9a11e8e1234af65, type: 2}
-  act: {fileID: 11400000, guid: c1de0e5b06ebb9846a2b683e32962e66, type: 2}
+  actionSequence: {fileID: 11400000, guid: 303e717addca7f44ba21aa233f426e97, type: 2}
   egress: {fileID: 11400000, guid: aa35547e7caf61a4e82601b18b4364fd, type: 2}

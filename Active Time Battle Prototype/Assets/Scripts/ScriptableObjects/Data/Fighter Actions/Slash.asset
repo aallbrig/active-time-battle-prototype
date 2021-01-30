@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: Slash
   m_EditorClassIdentifier: 
   actionName: Slash
-  range: 2
   actionEffectMin: 5
   actionEffectMax: 12
   multiple: 0
   canBeUsedOnDead: 0
   actionType: 1
-  actionAnimation: 1
+  ingressStoppingDistance: 2
   ingress: {fileID: 11400000, guid: 544b287cb401b514a9a11e8e1234af65, type: 2}
-  act: {fileID: 11400000, guid: 1129079715c73a642a60dc6c6099aa47, type: 2}
+  actionSequence: {fileID: 11400000, guid: 303e717addca7f44ba21aa233f426e97, type: 2}
   egress: {fileID: 11400000, guid: aa35547e7caf61a4e82601b18b4364fd, type: 2}

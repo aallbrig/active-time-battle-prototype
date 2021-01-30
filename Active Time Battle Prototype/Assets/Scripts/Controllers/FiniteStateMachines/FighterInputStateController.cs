@@ -4,6 +4,7 @@ using System.Linq;
 using Data;
 using GameEventSystem;
 using ScriptableObjects;
+using ScriptableObjects.Data;
 using ScriptableObjects.FiniteStateMachines.FighterInput;
 using UnityEngine;
 

@@ -6,5 +6,7 @@ namespace ScriptableObjects
     public class AnimatorTrigger : ScriptableObject
     {
         public string trigger;
+        [Range(0.1f, 3.0f)]
+        public float triggerDuration = 0.75f;
     }
 }

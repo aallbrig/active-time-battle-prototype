@@ -5,6 +5,7 @@ using Controllers;
 using Data;
 using GameEventSystem;
 using ScriptableObjects;
+using ScriptableObjects.Data;
 using UnityEngine;
 using Utils;
 
