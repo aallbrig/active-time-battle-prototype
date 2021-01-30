@@ -2,11 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Data;
 using GameEventSystem;
 using ScriptableObjects;
 using UnityEngine;
-using static ScriptableObjects.Data.ActionType;
 using Random = UnityEngine.Random;
 
 namespace Controllers

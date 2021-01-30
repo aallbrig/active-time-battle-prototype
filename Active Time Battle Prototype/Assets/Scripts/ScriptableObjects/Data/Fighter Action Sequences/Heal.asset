@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b30244c7814f559798bf751ad69afa, type: 3}
+  m_Name: Heal
+  m_EditorClassIdentifier: 
+  whenAreEffectsApplied: 0
+  actionAnimationTriggers:
+  - {fileID: 11400000, guid: 63d5909e80334d14794d13966363b3d3, type: 2}
+  delayBetweenAnimationTriggers: 3
+  effects:
+  - {fileID: 11400000, guid: a5235fb6e8b7602498aad4a7ba2a9555, type: 2}
+  - {fileID: 11400000, guid: ce4d760591037314abab799075ef2f43, type: 2}
