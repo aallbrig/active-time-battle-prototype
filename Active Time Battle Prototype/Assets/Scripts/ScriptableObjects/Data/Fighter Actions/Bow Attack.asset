@@ -18,7 +18,7 @@ MonoBehaviour:
   multiple: 0
   canBeUsedOnDead: 0
   actionType: 1
-  ingressStoppingDistance: 2
+  ingressStoppingDistance: 6
   ingress: {fileID: 11400000, guid: 544b287cb401b514a9a11e8e1234af65, type: 2}
-  actionSequence: {fileID: 11400000, guid: 22e8718e714301346a8c7f3f9737299f, type: 2}
+  actionSequence: {fileID: 11400000, guid: 712eac08a67da0b4eb36535c3b7734a9, type: 2}
   egress: {fileID: 11400000, guid: aa35547e7caf61a4e82601b18b4364fd, type: 2}

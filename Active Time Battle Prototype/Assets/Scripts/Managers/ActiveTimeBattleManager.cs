@@ -66,6 +66,8 @@ namespace Managers
         [Header("Game Events")]
         public GameEvent startGame;
         public GameEvent gameOver;
+        public GameEvent battleStart;
+        public GameEvent battleOver;
 
         public void OnStartBattleButtonClicked()
         {

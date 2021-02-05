@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b30244c7814f559798bf751ad69afa, type: 3}
+  m_Name: Bow
+  m_EditorClassIdentifier: 
+  whenAreEffectsApplied: 2
+  actionAnimationTriggers:
+  - {fileID: 11400000, guid: e69c258c60a94374ca4a4418b4dc4032, type: 2}
+  delayBetweenAnimationTriggers: 0.5
+  effects:
+  - {fileID: 11400000, guid: 2d1b8c7ff7922cb4b836d00f1e406eb7, type: 2}

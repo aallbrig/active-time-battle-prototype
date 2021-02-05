@@ -9,6 +9,7 @@ namespace FiniteStateMachines.ActiveTimeBattle
 
         public override void Enter()
         {
+            Context.battleOver.Broadcast();
             Context.GameOver();
             Context.ToggleLoseScreenUI(true);
         }

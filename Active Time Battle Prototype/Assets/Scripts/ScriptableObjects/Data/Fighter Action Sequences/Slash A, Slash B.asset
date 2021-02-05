@@ -18,4 +18,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a119ec14c1b1bc84ba63cf7e3132e48a, type: 2}
   delayBetweenAnimationTriggers: 0.5
   effects:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: fd88e157a41fc76409f64b38ab82e1a4, type: 2}
